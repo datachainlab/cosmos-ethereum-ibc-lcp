@@ -1,0 +1,18 @@
+ARG VERSION=latest
+FROM chainsafe/lodestar:${VERSION}
+
+# Install package of jq
+RUN apk update && \
+  apk upgrade && \
+  apk add --no-cache \
+  jq curl coreutils && \
+  rm -rf /var/cache/apk/*
+
+COPY ./scripts/lodestar_entrypoint.sh /lodestar_entrypoint.sh
+
+ARG GETH_HTTP_PORT
+ARG BEACON_HTTP_PORT
+ENV GETH_HTTP_PORT=$GETH_HTTP_PORT
+ENV BEACON_HTTP_PORT=$BEACON_HTTP_PORT
+
+ENTRYPOINT ["sh", "/lodestar_entrypoint.sh"]

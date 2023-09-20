@@ -1,0 +1,13 @@
+FROM node:16-alpine3.17
+
+WORKDIR /app
+COPY ./tools/deposit ./
+COPY ./consensus/validator_keys ./validator_keys
+
+RUN cp .env.docker .env
+RUN npm ci
+
+ARG GETH_HTTP_PORT
+ENV GETH_HTTP_PORT=$GETH_HTTP_PORT
+
+ENTRYPOINT ["npm", "run"]

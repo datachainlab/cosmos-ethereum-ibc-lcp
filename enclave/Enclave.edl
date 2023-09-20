@@ -1,0 +1,38 @@
+enclave
+{
+    from "sgx_backtrace.edl" import *;
+    from "sgx_tstd.edl" import *;
+    from "sgx_stdio.edl" import *;
+    from "sgx_backtrace.edl" import *;
+    from "sgx_tstdc.edl" import *;
+    from "sgx_tprotected_fs.edl" import *;
+    from "sgx_fs.edl" import *;
+    from "sgx_net.edl" import *;
+    from "sgx_time.edl" import *;
+    from "sgx_env.edl" import *;
+    from "sgx_thread.edl" import *;
+    from "sgx_pipe.edl" import *;
+
+    include "sgx_quote.h"
+
+    trusted
+    {
+        public sgx_status_t ecall_execute_command(
+            [in, count=command_len] const uint8_t* command,
+            uint32_t command_len,
+            [out, size=out_buf_maxlen] uint8_t* out_buf,
+            uint32_t out_buf_maxlen,
+            [out] uint32_t *out_buf_len
+        );
+    };
+    untrusted
+    {
+        sgx_status_t ocall_execute_command(
+            [in, count=command_len] const uint8_t* command,
+            uint32_t command_len,
+            [out, size=out_buf_maxlen] uint8_t* out_buf,
+            uint32_t out_buf_maxlen,
+            [out] uint32_t *out_buf_len
+        );
+    };
+};
