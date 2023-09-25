@@ -8,7 +8,7 @@
   },
   "license": "TBD",
   "dependencies": {
-    "@hyperledger-labs/yui-ibc-solidity": "git+https://github.com/hyperledger-labs/yui-ibc-solidity.git#v0.3.10",
+    "@hyperledger-labs/yui-ibc-solidity": "git+https://github.com/hyperledger-labs/yui-ibc-solidity.git#v0.3.13",
     "@datachainlab/lcp-solidity": "git+https://github.com/datachainlab/lcp-solidity.git#v0.1.0"
   },
   "devDependencies": {
