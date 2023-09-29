@@ -8,7 +8,7 @@ import (
 
 	"github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp"
 	"github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/simd/cmd"
-	"github.com/datachainlab/lcp/go/sgx/ias"
+	"github.com/datachainlab/lcp-go/sgx/ias"
 )
 
 func main() {

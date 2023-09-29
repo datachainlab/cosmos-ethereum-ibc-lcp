@@ -5,8 +5,8 @@ import (
 
 	"github.com/datachainlab/ethereum-ibc-relay-chain/pkg/relay/ethereum"
 	ethereumlc "github.com/datachainlab/ethereum-ibc-relay-prover/relay"
-	lcp "github.com/datachainlab/lcp/go/relay"
-	lcptm "github.com/datachainlab/lcp/go/relay/tendermint"
+	lcp "github.com/datachainlab/lcp-go/relay"
+	lcptm "github.com/datachainlab/lcp-go/relay/tendermint"
 	tendermint "github.com/hyperledger-labs/yui-relayer/chains/tendermint/module"
 	"github.com/hyperledger-labs/yui-relayer/cmd"
 )

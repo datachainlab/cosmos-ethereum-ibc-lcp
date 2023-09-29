@@ -14,7 +14,7 @@ import (
 	"github.com/cosmos/ibc-go/v7/modules/core/exported"
 	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
 	tenderminttypes "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
-	lcptypes "github.com/datachainlab/lcp/go/light-clients/lcp/types"
+	lcptypes "github.com/datachainlab/lcp-go/light-clients/lcp/types"
 )
 
 func overrideIBCClientKeeper(k ibckeeper.Keeper, cdc codec.BinaryCodec, key storetypes.StoreKey, paramSpace paramtypes.Subspace) *ibckeeper.Keeper {
