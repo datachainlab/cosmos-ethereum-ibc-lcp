@@ -1,10 +1,46 @@
 # cosmos-ethereum-ibc-lcp
 
-This repository contains multiple modules:
+![banner](./docs/images/banner.png)
 
+This is a cross-chain messaging demo between Cosmos and Ethereum using IBC and LCP (Light Client Proxy).
+
+High verification (or gas) costs on Ethereum make it challenging to implement IBC.
+For example, light client verification for Tendermint Consensus requires over 10 million gas costs on Ethereum[^1].
+To overcome this challenge, Datachain has developed [LCP (Light Client Proxy)](https://github.com/datachainlab/lcp), which is a middleware embedded with TEE.
+LCP can solve the gas cost problem while minimizing the trust assumption,
+by replacing light client verification in cryptographically secure areas on memory.
+
+To enable IBC on Ethereum using LCP, we primarily need the following modules:
+- ELC, a light client implemented within the LCP enclave, for Ethereum and Tendermint
+    - [ELC for Ethereum](https://github.com/datachainlab/ethereum-elc)
+    - [ELC for tendermint](https://github.com/datachainlab/lcp/tree/main/modules/tendermint-lc)
+- [IBC-Solidity](https://github.com/hyperledger-labs/yui-ibc-solidity), IBC implementation in Solidity
+- [yui-relayer](https://github.com/datachainlab/yui-relayer), a relayer that supports EVMs
+- LCP Clients for Ethereum and Tendermint, clients to verify proofs submitted from the LCP node.
+
+We have implemented the modules mentioned above and have built a demo, as described below.
+
+
+![architecture](./docs/images/architecture.png)
+
+
+The packet relaying flow from one of the Cosmos appchains to Ethereum proceeds as follows:
+1. The Cosmos appchain submits a packet, and the relayer queries it.
+2. The relayer sends it to the LCP node.
+3. The LCP node verifies the packet and creates a proof using the key generated in the enclave.
+4. The relayer submits the packet, along with the proof, to the LCP client on Ethereum.
+5. The LCP client on Ethereum then verifies the proof, incurring a reduced gas cost.
+
+This demo sets up a network in your local environment.
+Please read the instructions below to learn how to build and run the demo.
+
+
+This repository contains multiple modules:
 - An enclave contains ethereum and tendermint ELC
 - A relayer between ethereum and tendermint
 - MockApp(IBC-App) implementation in Go and Solidity
+
+[^1]: [Chorus One’s report](https://github.com/ChorusOne/tendermint-sol)
 
 ## Supported Versions
 
