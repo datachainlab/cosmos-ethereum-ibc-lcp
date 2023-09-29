@@ -123,8 +123,8 @@ import (
 	"github.com/cosmos/ibc-go/v7/testing/simapp/upgrades"
 	ibctestingtypes "github.com/cosmos/ibc-go/v7/testing/types"
 
-	lcp "github.com/datachainlab/lcp/go/light-clients/lcp"
-	lcptypes "github.com/datachainlab/lcp/go/light-clients/lcp/types"
+	lcp "github.com/datachainlab/lcp-go/light-clients/lcp"
+	lcptypes "github.com/datachainlab/lcp-go/light-clients/lcp/types"
 
 	"github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp"
 	mockappkeeper "github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp/keeper"
