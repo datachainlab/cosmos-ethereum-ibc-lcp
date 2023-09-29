@@ -6,7 +6,8 @@ This is a cross-chain messaging demo between Cosmos and Ethereum using IBC and L
 
 High verification (or gas) costs on Ethereum make it challenging to implement IBC.
 For example, light client verification for Tendermint Consensus requires over 10 million gas costs on Ethereum[^1].
-To overcome this challenge, Datachain has developed [LCP (Light Client Proxy)](https://github.com/datachainlab/lcp), which is a middleware embedded with TEE.
+
+Datachain has developed [LCP (Light Client Proxy)](https://github.com/datachainlab/lcp), a middleware embedded with TEE, to overcome this challenge.
 LCP can solve the gas cost problem while minimizing the trust assumption,
 by replacing light client verification in cryptographically secure areas on memory.
 
@@ -20,9 +21,7 @@ To enable IBC on Ethereum using LCP, we primarily need the following modules:
 
 We have implemented the modules mentioned above and have built a demo, as described below.
 
-
 ![architecture](./docs/images/architecture.png)
-
 
 The packet relaying flow from one of the Cosmos appchains to Ethereum proceeds as follows:
 1. The Cosmos appchain submits a packet, and the relayer queries it.
@@ -33,7 +32,6 @@ The packet relaying flow from one of the Cosmos appchains to Ethereum proceeds a
 
 This demo sets up a network in your local environment.
 Please read the instructions below to learn how to build and run the demo.
-
 
 This repository contains multiple modules:
 - An enclave contains ethereum and tendermint ELC
