@@ -4,18 +4,18 @@
     "client-id": "lcp-client-0",
     "connection-id": "connection-0",
     "channel-id": "channel-0",
-    "port-id": "mockapp",
+    "port-id": "transfer",
     "order": "unordered",
-    "version": "mockapp-1"
+    "version": "ics20-1"
   },
   "dst": {
     "chain-id": "ibc1",
     "client-id": "lcp-client-0",
     "connection-id": "connection-0",
     "channel-id": "channel-0",
-    "port-id": "mockapp",
+    "port-id": "transfer",
     "order": "unordered",
-    "version": "mockapp-1"
+    "version": "ics20-1"
   },
   "strategy": {
     "type": "naive"
