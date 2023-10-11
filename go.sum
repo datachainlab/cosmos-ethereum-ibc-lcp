@@ -835,8 +835,8 @@ github.com/huin/goupnp v1.0.0/go.mod h1:n9v9KO1tAxYH82qOn+UTIFQDmx5n1Zxd/ClZDMX7
 github.com/huin/goupnp v1.1.0 h1:gEe0Dp/lZmPZiDFzJJaOfUpOvv2MKUkoBX8lDrn9vKU=
 github.com/huin/goupnp v1.1.0/go.mod h1:gnGPsThkYa7bFi/KWmEysQRf48l2dvR5bxr2OFckNX8=
 github.com/huin/goutil v0.0.0-20170803182201-1ca381bf3150/go.mod h1:PpLOETDnJ0o3iZrZfqZzyLl6l7F3c6L1oWn7OICBi6o=
-github.com/hyperledger-labs/yui-relayer v0.4.5 h1:zHsDr3Bvg67TT6aN5T92BnG0QnjkdY/gam+xOXqVNXI=
-github.com/hyperledger-labs/yui-relayer v0.4.5/go.mod h1:SlZX1TxfN6d3OCKv7fdki1tmRQg0h/GArJL+QYDD+DY=
+github.com/hyperledger-labs/yui-relayer v0.4.6-0.20231009102815-b0552592fb73 h1:seLa+ij6bTr8MHNBW3hre4g7jX8RuqANmXMqYLYOlP8=
+github.com/hyperledger-labs/yui-relayer v0.4.6-0.20231009102815-b0552592fb73/go.mod h1:SlZX1TxfN6d3OCKv7fdki1tmRQg0h/GArJL+QYDD+DY=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/imdario/mergo v0.3.5/go.mod h1:2EnlNZ0deacrJVfApfmtdGgDfMuh/nq6Ok1EcJh5FfA=

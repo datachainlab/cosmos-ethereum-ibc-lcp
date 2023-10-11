@@ -27,7 +27,7 @@ retry() {
 
 echo "!!! ibc0 -> ibc1 !!!"
 
-${RLY} tx transfer ibc01 ibc0 ibc1 100samoleans ${TM_USER_ADDRESS}
+${RLY} tx transfer ibc01 ibc0 ibc1 100samoleans 0xa89f47c6b463f74d87572b058427da0a13ec5425
 sleep 5
 retry 10 ${RLY} tx relay ibc01
 sleep ${TX_INTERNAL}

@@ -6,7 +6,7 @@ require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.3
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.2.1
 	github.com/datachainlab/lcp-go v0.1.1
-	github.com/hyperledger-labs/yui-relayer v0.4.5
+	github.com/hyperledger-labs/yui-relayer v0.4.6-0.20231009102815-b0552592fb73
 )
 
 require (
