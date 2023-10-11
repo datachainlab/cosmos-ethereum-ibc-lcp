@@ -9,7 +9,9 @@
     "ibc_address": "0xff77D90D6aA12db33d3Ba50A34fB25401f6e4c4F",
     "initial_send_checkpoint": 0,
     "initial_recv_checkpoint": 0,
-    "enable_debug_trace": true
+    "enable_debug_trace": true,
+    "average_block_time_msec": 6000,
+    "max_retry_for_inclusion": 5
   },
   "prover": {
     "@type": "/relayer.provers.lcp.config.ProverConfig",

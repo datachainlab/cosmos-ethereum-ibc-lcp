@@ -3,10 +3,10 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 go 1.20
 
 require (
-	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.3
+	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.4
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.2.1
-	github.com/datachainlab/lcp-go v0.1.1
-	github.com/hyperledger-labs/yui-relayer v0.4.5
+	github.com/datachainlab/lcp-go v0.1.3
+	github.com/hyperledger-labs/yui-relayer v0.4.11
 )
 
 require (
@@ -44,6 +44,9 @@ require (
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/chzyer/readline v1.5.1 // indirect
+	github.com/cockroachdb/errors v1.9.1 // indirect
+	github.com/cockroachdb/logtags v0.0.0-20230118201751-21c54148d20b // indirect
+	github.com/cockroachdb/redact v1.1.3 // indirect
 	github.com/coinbase/rosetta-sdk-go/types v1.0.0 // indirect
 	github.com/cometbft/cometbft v0.37.2 // indirect
 	github.com/cometbft/cometbft-db v0.8.0 // indirect
@@ -81,10 +84,12 @@ require (
 	github.com/flynn/noise v1.0.0 // indirect
 	github.com/francoispqt/gojay v1.2.13 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/getsentry/sentry-go v0.18.0 // indirect
 	github.com/go-kit/kit v0.12.0 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/go-logr/logr v1.2.4 // indirect
+	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
@@ -257,6 +262,12 @@ require (
 	github.com/zondax/ledger-go v0.14.1 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
 	go.opencensus.io v0.24.0 // indirect
+	go.opentelemetry.io/otel v1.16.0 // indirect
+	go.opentelemetry.io/otel/exporters/prometheus v0.39.0 // indirect
+	go.opentelemetry.io/otel/metric v1.16.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.16.0 // indirect
+	go.opentelemetry.io/otel/sdk/metric v0.39.0 // indirect
+	go.opentelemetry.io/otel/trace v1.16.0 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/dig v1.16.1 // indirect
 	go.uber.org/fx v1.19.2 // indirect
