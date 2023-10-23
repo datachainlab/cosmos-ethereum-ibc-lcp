@@ -14,7 +14,11 @@
     "@type": "/relayer.provers.lcp.config.ProverConfig",
     "origin_prover": {
       "@type": "/relayer.chains.tendermint.config.ProverConfig",
-      "trusting_period": "336h"
+      "trusting_period": "336h",
+      "refresh_threshold_rate": {
+        "numerator": 2,
+	"denominator": 3
+      }
     },
     "lcp_service_address": "localhost:50051",
     "mrenclave": "$MRENCLAVE",

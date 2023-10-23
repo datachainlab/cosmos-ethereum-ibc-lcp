@@ -20,7 +20,11 @@
       "beacon_endpoint": "http://localhost:19596",
       "network": "minimal",
       "trusting_period": "168h",
-      "max_clock_drift": "0"
+      "max_clock_drift": "0",
+      "refresh_threshold_rate": {
+        "numerator": 2,
+	"denominator": 3
+      }
     },
     "lcp_service_address": "localhost:50051",
     "mrenclave": "$MRENCLAVE",
