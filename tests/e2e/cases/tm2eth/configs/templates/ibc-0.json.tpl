@@ -17,7 +17,7 @@
       "trusting_period": "336h",
       "refresh_threshold_rate": {
         "numerator": 2,
-	"denominator": 3
+        "denominator": 3
       }
     },
     "lcp_service_address": "localhost:50051",

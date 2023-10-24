@@ -23,7 +23,7 @@
       "max_clock_drift": "0",
       "refresh_threshold_rate": {
         "numerator": 2,
-	"denominator": 3
+        "denominator": 3
       }
     },
     "lcp_service_address": "localhost:50051",
