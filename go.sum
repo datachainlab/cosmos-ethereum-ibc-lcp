@@ -452,6 +452,10 @@ github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuA
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.2.6 h1:sVonmqqP+uIe8UAfIe778icn/el6xwUv3u7eboJDv2Y=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.2.6/go.mod h1:pSJ5MCqRsSERugEQtXMoKiznET4HbP81PE1Z0ZUfUv4=
+github.com/datachainlab/ethereum-ibc-relay-prover v0.2.2 h1:GCrCfy8Jq71bU91iAEtW7BoWe7cw1T2QQvERenbVjZU=
+github.com/datachainlab/ethereum-ibc-relay-prover v0.2.2/go.mod h1:AeNhAoBFMvCtVod5iPlfRsa6tLkoj98aMsCp+lHmTYA=
+github.com/datachainlab/lcp-go v0.1.4 h1:3GrKvwmxe+EuqWRBWF96ku62yl6GMAtSJxmAjfVqUKw=
+github.com/datachainlab/lcp-go v0.1.4/go.mod h1:lWEviog0eqNVR2ihII+rs88SxSJZ3e3jKdidN+5ipQw=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
@@ -1367,10 +1371,6 @@ github.com/shurcooL/sanitized_anchor_name v0.0.0-20170918181015-86672fcb3f95/go.
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
 github.com/shurcooL/users v0.0.0-20180125191416-49c67e49c537/go.mod h1:QJTqeLYEDaXHZDBsXlPCDqdhQuJkuw4NOtaxYe3xii4=
 github.com/shurcooL/webdavfs v0.0.0-20170829043945-18c3829fa133/go.mod h1:hKmq5kWdCj2z2KEozexVbfEZIWiTjhE0+UjmZgPqehw=
-github.com/siburu/ethereum-ibc-relay-prover v0.0.0-20231026020754-bd16cacc1f64 h1:AcwC6s8/9hkcrxhKW+rj8/PXMSRjlTb1ND8sWHD/evs=
-github.com/siburu/ethereum-ibc-relay-prover v0.0.0-20231026020754-bd16cacc1f64/go.mod h1:AeNhAoBFMvCtVod5iPlfRsa6tLkoj98aMsCp+lHmTYA=
-github.com/siburu/lcp-go v0.0.0-20231026021024-6f7cd0ed33c1 h1:GJdh4TuDPIMvzSuN6jMktAnTaXBgau72VBZonyLUUAI=
-github.com/siburu/lcp-go v0.0.0-20231026021024-6f7cd0ed33c1/go.mod h1:lWEviog0eqNVR2ihII+rs88SxSJZ3e3jKdidN+5ipQw=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
