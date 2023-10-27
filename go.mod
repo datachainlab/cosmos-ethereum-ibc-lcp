@@ -3,10 +3,10 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 go 1.20
 
 require (
-	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.4
-	github.com/datachainlab/ethereum-ibc-relay-prover v0.2.1
-	github.com/datachainlab/lcp-go v0.1.3
-	github.com/hyperledger-labs/yui-relayer v0.4.11
+	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.6
+	github.com/datachainlab/ethereum-ibc-relay-prover v0.2.2
+	github.com/datachainlab/lcp-go v0.1.4
+	github.com/hyperledger-labs/yui-relayer v0.4.15
 )
 
 require (
