@@ -47,9 +47,9 @@ This repository contains multiple modules:
 - [ethereum-elc v0.0.6](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.6)
 - [lcp-go v0.1.3](https://github.com/datachainlab/lcp-go/releases/tag/v0.1.3)
 - [lcp-solidity v0.1.0](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.0)
-- [yui-relayer v0.4.11](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.4.11)
-- [ethereum-ibc-relay-chain v0.2.4](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.2.4)
-- [ethereum-ibc-relay-prover v0.2.1](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.2.1)
+- [yui-relayer v0.4.17](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.4.17)
+- [ethereum-ibc-relay-chain v0.2.6](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.2.6)
+- [ethereum-ibc-relay-prover v0.2.3](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.2.3)
 
 ## Build enclave and run E2E test
 
