@@ -5,6 +5,8 @@ import "@hyperledger-labs/yui-ibc-solidity/contracts/core/25-handler/IBCHandler.
 import "@hyperledger-labs/yui-ibc-solidity/contracts/apps/commons/IBCAppBase.sol";
 
 contract MockApp is IBCAppBase {
+    string public constant MOCKAPP_VERSION = "mockapp-1";
+
     IBCHandler ibcHandler;
 
     constructor(IBCHandler ibcHandler_) {
@@ -48,5 +50,30 @@ contract MockApp is IBCAppBase {
         onlyIBC
     {
         require(keccak256(packet.data) == keccak256(acknowledgement), "message mismatch");
+    }
+
+    function onChanOpenInit(IIBCModule.MsgOnChanOpenInit calldata msg_)
+        external
+        virtual
+        override
+        onlyIBC
+        returns (string memory)
+    {
+        require(
+            bytes(msg_.version).length == 0 || keccak256(bytes(msg_.version)) == keccak256(bytes(MOCKAPP_VERSION)),
+            "version mismatch"
+        );
+        return MOCKAPP_VERSION;
+    }
+
+    function onChanOpenTry(IIBCModule.MsgOnChanOpenTry calldata msg_)
+        external
+        virtual
+        override
+        onlyIBC
+        returns (string memory)
+    {
+        require(keccak256(bytes(msg_.counterpartyVersion)) == keccak256(bytes(MOCKAPP_VERSION)), "version mismatch");
+        return MOCKAPP_VERSION;
     }
 }
