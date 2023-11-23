@@ -10,9 +10,19 @@ network-down:
 	$(MAKE) -C ../../chains/tendermint network-down
 	$(MAKE) -C ../../chains/ethereum network-down
 
-.PHONY: test
-test:
+.PHONY: setup
+setup:
 	./scripts/fixture
 	RLY_BIN=$(RLY_BIN) ./scripts/init-rly
+
+.PHONY: handshake
+handshake:
 	RLY_BIN=$(RLY_BIN) ./scripts/handshake
+
+.PHONY: test
+test:
 	RLY_BIN=$(RLY_BIN) ./scripts/test-tx
+
+.PHONY: restore
+restore:
+	RLY_BIN=$(RLY_BIN) ./scripts/restore
