@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.12;
 
-import "@hyperledger-labs/yui-ibc-solidity/contracts/core/25-handler/IBCHandler.sol";
-import "@hyperledger-labs/yui-ibc-solidity/contracts/apps/commons/IBCAppBase.sol";
+import {Height} from "@hyperledger-labs/yui-ibc-solidity/contracts/proto/Client.sol";
+import {Packet} from "@hyperledger-labs/yui-ibc-solidity/contracts/proto/Channel.sol";
+import {IIBCHandler} from "@hyperledger-labs/yui-ibc-solidity/contracts/core/25-handler/IIBCHandler.sol";
+import {IIBCModule} from "@hyperledger-labs/yui-ibc-solidity/contracts/core/26-router/IIBCModule.sol";
+import {IBCAppBase} from "@hyperledger-labs/yui-ibc-solidity/contracts/apps/commons/IBCAppBase.sol";
 
 contract MockApp is IBCAppBase {
     string public constant MOCKAPP_VERSION = "mockapp-1";
 
-    IBCHandler ibcHandler;
+    IIBCHandler immutable ibcHandler;
 
-    constructor(IBCHandler ibcHandler_) {
+    constructor(IIBCHandler ibcHandler_) {
         ibcHandler = ibcHandler_;
     }
 
