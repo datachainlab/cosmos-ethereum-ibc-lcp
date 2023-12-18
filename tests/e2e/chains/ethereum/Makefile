@@ -4,7 +4,7 @@ GETH_VERSION ?= v1.11.3
 LODESTAR_VERSION ?= v1.5.0
 DOCKER_COMPOSE ?= docker compose
 COMPOSE_UP_OPTS ?= -d
-TRUFFLE ?= npx truffle
+HARDHAT ?= npx hardhat
 
 STAKING-CLI=docker run -it --rm -v $(shell pwd)/consensus/validator_keys:/app/validator_keys ethereum/staking-deposit-cli
 
@@ -124,4 +124,4 @@ shchk:
 #------------------------------------------------------------------------------
 .PHONY:deploy
 deploy:
-	cd contracts && $(TRUFFLE) migrate --network=eth_local --reset
+	cd contracts && $(HARDHAT) run ./scripts/deploy.js --network eth_local

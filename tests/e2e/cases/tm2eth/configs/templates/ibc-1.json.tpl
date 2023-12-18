@@ -9,7 +9,7 @@
       "mnemonic": "math razor capable expose worth grape metal sunset metal sudden usage scheme",
       "path": "m/44'/60'/0'/0/0"
     },
-    "ibc_address": "0xff77D90D6aA12db33d3Ba50A34fB25401f6e4c4F",
+    "ibc_address": "0x2F5703804E29F4252FA9405B8D357220d11b3bd9",
     "initial_send_checkpoint": 0,
     "initial_recv_checkpoint": 0,
     "enable_debug_trace": true,
