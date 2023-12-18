@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.9
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.2.5
-	github.com/datachainlab/lcp-go v0.1.9
+	github.com/datachainlab/lcp-go v0.1.10
 	github.com/hyperledger-labs/yui-relayer v0.4.19
 )
 
