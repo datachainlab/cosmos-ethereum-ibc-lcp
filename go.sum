@@ -452,8 +452,8 @@ github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuA
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.2.10 h1:2bAUn9yYFQTFj0gRIbWWXgZY48FGIrAwA9gH0YQLrxM=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.2.10/go.mod h1:FDKiZNh2r8kz/KAXBG9tNDcoT6jyiUR1EfiE9W7Xjbc=
-github.com/datachainlab/ethereum-ibc-relay-prover v0.2.5 h1:5RXvqt3azTE9ZqRKbsyXZeweom6h9DwV8m7YWoNpsIo=
-github.com/datachainlab/ethereum-ibc-relay-prover v0.2.5/go.mod h1:G7Oa2qs1PLYeWym4+oiAFhH1Ro81r6wgChPXBVKTHXA=
+github.com/datachainlab/ethereum-ibc-relay-prover v0.2.6 h1:acS3aLKv8iTJaLxDAw+oJOVgLWuXFQfHoRYWLlmcdTE=
+github.com/datachainlab/ethereum-ibc-relay-prover v0.2.6/go.mod h1:G7Oa2qs1PLYeWym4+oiAFhH1Ro81r6wgChPXBVKTHXA=
 github.com/datachainlab/lcp-go v0.1.10 h1:rah4IDfqzzlS97y933++TEfHQkMCfHj0Fq7I2e7jetE=
 github.com/datachainlab/lcp-go v0.1.10/go.mod h1:hsNKkk5gWmvaLYUnvpk4dXb6zD64QSDaUpLtQ62IH8M=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
