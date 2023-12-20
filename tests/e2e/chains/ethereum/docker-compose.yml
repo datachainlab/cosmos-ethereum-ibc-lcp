@@ -13,10 +13,10 @@ services:
   # APIs to allow for proof-of-stake consensus via Lodestar.
   geth:
     image: "geth-localnet:${GETH_VERSION:-latest}"
-    build:                                                                                        
+    build:
       context: .
       dockerfile: ./Dockerfile.geth
-      args:    
+      args:
         - VERSION=${GETH_VERSION:-latest}
     container_name: geth
     ports:
@@ -50,20 +50,18 @@ services:
       - --syncmode=full
       - --nodiscover
       - --mine
-      - --miner.threads=1
       - --miner.etherbase=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --miner.gasprice=0
-      - --override.shanghai=0
     networks:
       eth-localnet:
 
   lodestar:
     # https://hub.docker.com/r/chainsafe/lodestar
     image: "lodestar-localnet:${LODESTAR_VERSION:-latest}"
-    build:                                                                                        
+    build:
       context: .
       dockerfile: ./Dockerfile.lodestar
-      args:    
+      args:
         - VERSION=${LODESTAR_VERSION:-latest}
         - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
         - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
@@ -104,6 +102,7 @@ services:
       - --params.BELLATRIX_FORK_EPOCH=0
       - --params.CAPELLA_FORK_EPOCH=0
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
+      - --params.SECONDS_PER_SLOT=6 # It is recommended that the value be reduced during development.
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --beaconNodes=http://127.0.0.1:$${BEACON_HTTP_PORT}
       - --reset
@@ -122,10 +121,10 @@ services:
   # Send deposit function tx
   deposit:
     image: "deposit"
-    build:                                                                                        
+    build:
       context: .
       dockerfile: ./Dockerfile.deposit
-      args:    
+      args:
         - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
     container_name: deposit
     command:
