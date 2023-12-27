@@ -102,7 +102,6 @@ services:
       - --params.BELLATRIX_FORK_EPOCH=0
       - --params.CAPELLA_FORK_EPOCH=0
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
-      - --params.SECONDS_PER_SLOT=6 # It is recommended that the value be reduced during development.
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --beaconNodes=http://127.0.0.1:$${BEACON_HTTP_PORT}
       - --reset
