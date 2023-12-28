@@ -21,9 +21,9 @@ sgx-sw = [
 log = { version = "0.4.8", default-features = false }
 simple_logger = { git = "https://github.com/bluele/rust-simple_logger", branch = "sgx", default-features = false, features = ["sgx"] }
 
-enclave-runtime = { git = "https://github.com/datachainlab/lcp", rev = "a9cc4caf68250517d9058509d8ff86e6c1b18f03" }
-tendermint-lc = { git = "https://github.com/datachainlab/lcp", rev = "a9cc4caf68250517d9058509d8ff86e6c1b18f03", default-features = false }
-ethereum-elc = { git = "https://github.com/datachainlab/ethereum-elc", rev = "e58f412552fc945c5d3de9618dec3a8831e2dfcc", default-features = false }
+enclave-runtime = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.4" }
+tendermint-lc = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.4", default-features = false }
+ethereum-elc = { git = "https://github.com/datachainlab/ethereum-elc", rev = "v0.0.7", default-features = false }
 
 [patch."https://github.com/apache/teaclave-sgx-sdk.git"]
 sgx_tstd = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
