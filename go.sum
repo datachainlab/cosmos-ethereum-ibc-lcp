@@ -454,8 +454,8 @@ github.com/datachainlab/ethereum-ibc-relay-chain v0.2.10 h1:2bAUn9yYFQTFj0gRIbWW
 github.com/datachainlab/ethereum-ibc-relay-chain v0.2.10/go.mod h1:FDKiZNh2r8kz/KAXBG9tNDcoT6jyiUR1EfiE9W7Xjbc=
 github.com/datachainlab/ethereum-ibc-relay-prover v0.2.7 h1:JZgJ4emYllnmcxgOEUUX+DLLlgi1nigI025Tzl8g7dc=
 github.com/datachainlab/ethereum-ibc-relay-prover v0.2.7/go.mod h1:G7Oa2qs1PLYeWym4+oiAFhH1Ro81r6wgChPXBVKTHXA=
-github.com/datachainlab/lcp-go v0.1.10 h1:rah4IDfqzzlS97y933++TEfHQkMCfHj0Fq7I2e7jetE=
-github.com/datachainlab/lcp-go v0.1.10/go.mod h1:hsNKkk5gWmvaLYUnvpk4dXb6zD64QSDaUpLtQ62IH8M=
+github.com/datachainlab/lcp-go v0.1.11-0.20231220005319-92a7a579b195 h1:EfzYaCXpxGibGXVylgbESDtW02au5OaL8yWRE43KDfU=
+github.com/datachainlab/lcp-go v0.1.11-0.20231220005319-92a7a579b195/go.mod h1:hsNKkk5gWmvaLYUnvpk4dXb6zD64QSDaUpLtQ62IH8M=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
