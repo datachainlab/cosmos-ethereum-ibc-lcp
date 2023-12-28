@@ -56,7 +56,7 @@ checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
 [[package]]
 name = "attestation-report"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "base64 0.21.2 (git+https://github.com/marshallpierce/rust-base64)",
  "chrono",
@@ -254,7 +254,7 @@ dependencies = [
 [[package]]
 name = "commitments"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "crypto",
  "ethabi",
@@ -269,7 +269,7 @@ dependencies = [
 [[package]]
 name = "context"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "crypto",
  "lcp-types",
@@ -295,7 +295,7 @@ checksum = "7a81dae078cea95a014a339291cec439d2f232ebe854a9d672b796c6afafa9b7"
 [[package]]
 name = "crypto"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "flex-error",
  "hex",
@@ -427,7 +427,7 @@ checksum = "bbfc4744c1b8f2a09adc0e55242f60b1af195d88596bd8700be74418c056c555"
 [[package]]
 name = "ecall-commands"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "attestation-report",
  "commitments",
@@ -441,7 +441,7 @@ dependencies = [
 [[package]]
 name = "ecall-handler"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "attestation-report",
  "context",
@@ -499,7 +499,7 @@ dependencies = [
 [[package]]
 name = "enclave-environment"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "enclave-store",
  "light-client",
@@ -509,7 +509,7 @@ dependencies = [
 [[package]]
 name = "enclave-remote-attestation"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "attestation-report",
  "base64 0.21.2 (git+https://github.com/marshallpierce/rust-base64)",
@@ -534,7 +534,7 @@ dependencies = [
 [[package]]
 name = "enclave-runtime"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "bincode",
  "ecall-commands",
@@ -551,7 +551,7 @@ dependencies = [
 [[package]]
 name = "enclave-store"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "host-api",
  "store",
@@ -560,7 +560,7 @@ dependencies = [
 [[package]]
 name = "enclave-utils"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "log 0.4.20",
  "sgx_trts",
@@ -612,7 +612,7 @@ dependencies = [
 [[package]]
 name = "ethereum-elc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.6#91909d7a582d8b81001ba9938a6046e70b008ea8"
+source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.7#55873f382a905ecc449c0dda95fb7bc0cdd4cbc9"
 dependencies = [
  "displaydoc",
  "ethereum-ibc",
@@ -876,7 +876,7 @@ dependencies = [
 [[package]]
 name = "host-api"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "bincode",
  "flex-error",
@@ -1035,7 +1035,7 @@ dependencies = [
 [[package]]
 name = "lcp-proto"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "ibc-proto",
  "prost",
@@ -1045,7 +1045,7 @@ dependencies = [
 [[package]]
 name = "lcp-types"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "flex-error",
  "hex",
@@ -1115,7 +1115,7 @@ dependencies = [
 [[package]]
 name = "light-client"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "bincode",
  "commitments",
@@ -1213,7 +1213,7 @@ dependencies = [
 [[package]]
 name = "ocall-commands"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "serde",
  "serde_with",
@@ -1869,7 +1869,7 @@ checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 [[package]]
 name = "store"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "flex-error",
  "log 0.4.20",
@@ -1975,7 +1975,7 @@ dependencies = [
 [[package]]
 name = "tendermint-lc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/lcp?rev=v0.2.2#c073f89517fcdc4f796c07ad420b0029bbc148db"
+source = "git+https://github.com/datachainlab/lcp?rev=v0.2.4#3bd77b94f0ad6012941e5de9cddc62696e6ffc0c"
 dependencies = [
  "crypto",
  "flex-error",

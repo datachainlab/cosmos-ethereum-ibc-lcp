@@ -25,6 +25,7 @@
     "allowed_quote_statuses": ["GROUP_OUT_OF_DATE"],
     "allowed_advisory_ids": ["INTEL-SA-00219","INTEL-SA-00289","INTEL-SA-00334","INTEL-SA-00477","INTEL-SA-00614","INTEL-SA-00615","INTEL-SA-00617", "INTEL-SA-00828"],
     "key_expiration": 604800,
-    "elc_client_id": "07-tendermint-1"
+    "elc_client_id": "07-tendermint-1",
+    "message_aggregation": true
   }
 }
