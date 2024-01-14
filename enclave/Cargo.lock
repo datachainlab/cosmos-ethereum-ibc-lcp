@@ -596,7 +596,7 @@ dependencies = [
 [[package]]
 name = "ethereum-consensus"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=aac304f27372e8a0fb950522ee9cd6f41e43f56f#aac304f27372e8a0fb950522ee9cd6f41e43f56f"
+source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=186c5b1d9935f15428ca8b209ad99ed20eaf81c6#186c5b1d9935f15428ca8b209ad99ed20eaf81c6"
 dependencies = [
  "displaydoc",
  "hex",
@@ -612,7 +612,7 @@ dependencies = [
 [[package]]
 name = "ethereum-elc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.7#55873f382a905ecc449c0dda95fb7bc0cdd4cbc9"
+source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.8#57e503fe4e0db0d33fcd77e596b5cd721a0c6e5e"
 dependencies = [
  "displaydoc",
  "ethereum-ibc",
@@ -625,7 +625,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.5#678f0d1efcdb06c5008fcc0a8785838708ee1a7d"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.6#91a290ef39576e949c0061c9ecd6d0668eea4a6d"
 dependencies = [
  "bytes",
  "displaydoc",
@@ -644,7 +644,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc-proto"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.5#678f0d1efcdb06c5008fcc0a8785838708ee1a7d"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.6#91a290ef39576e949c0061c9ecd6d0668eea4a6d"
 dependencies = [
  "prost",
  "serde",
@@ -653,7 +653,7 @@ dependencies = [
 [[package]]
 name = "ethereum-light-client-verifier"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=aac304f27372e8a0fb950522ee9cd6f41e43f56f#aac304f27372e8a0fb950522ee9cd6f41e43f56f"
+source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=186c5b1d9935f15428ca8b209ad99ed20eaf81c6#186c5b1d9935f15428ca8b209ad99ed20eaf81c6"
 dependencies = [
  "displaydoc",
  "ethereum-consensus",
