@@ -6,7 +6,7 @@ replace github.com/cosmos/cosmos-sdk => github.com/datachainlab/cosmos-sdk v0.47
 
 require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.10
-	github.com/datachainlab/ethereum-ibc-relay-prover v0.2.8-0.20240113091256-80005362ab38
+	github.com/datachainlab/ethereum-ibc-relay-prover v0.2.8-0.20240115050818-fef1a96bff2e
 	github.com/datachainlab/lcp-go v0.1.11
 	github.com/hyperledger-labs/yui-relayer v0.4.19
 )
