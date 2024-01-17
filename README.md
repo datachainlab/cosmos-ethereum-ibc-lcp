@@ -47,7 +47,7 @@ This repository contains multiple modules:
 - [ethereum-elc v0.0.8](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.8)
 - [lcp-go v0.1.12](https://github.com/datachainlab/lcp-go/releases/tag/v0.1.12)
 - [lcp-solidity v0.1.4](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.4)
-- [yui-relayer v0.4.21](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.4.21)
+- [yui-relayer v0.4.22](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.4.22)
 - [ethereum-ibc-relay-chain v0.2.11](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.2.11)
 - [ethereum-ibc-relay-prover v0.2.8](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.2.8)
 
