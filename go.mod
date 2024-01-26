@@ -5,7 +5,7 @@ go 1.20
 replace github.com/cosmos/cosmos-sdk => github.com/datachainlab/cosmos-sdk v0.47.4-0.20240110084139-cf28f5d7f2ac
 
 require (
-	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.10
+	github.com/datachainlab/ethereum-ibc-relay-chain v0.2.11-0.20240126060721-a52d5407846a
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.2.8-0.20240115050818-fef1a96bff2e
 	github.com/datachainlab/lcp-go v0.1.11
 	github.com/hyperledger-labs/yui-relayer v0.4.19
