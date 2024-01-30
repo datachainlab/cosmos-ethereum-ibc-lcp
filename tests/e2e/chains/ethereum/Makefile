@@ -125,3 +125,11 @@ shchk:
 .PHONY:deploy
 deploy:
 	cd contracts && $(HARDHAT) run ./scripts/deploy.js --network eth_local
+
+.PHONY: dep
+dep:
+	cd ./contracts && npm install
+
+.PHONY: clean
+clean:
+	cd ./contracts && $(HARDHAT) clean && rm -rf node_modules && rm -f package-lock.json

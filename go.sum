@@ -450,8 +450,8 @@ github.com/cucumber/common/messages/go/v17 v17.1.1 h1:RNqopvIFyLWnKv0LfATh34SWBh
 github.com/d4l3k/messagediff v1.2.1 h1:ZcAIMYsUg0EAp9X+tt8/enBE/Q8Yd5kzPynLyKptt9U=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
-github.com/datachainlab/ethereum-ibc-relay-chain v0.2.11 h1:Gt6hPFdZ8NnaqpqnlfFqTc5vubqa4wqi0z+ublHkvFA=
-github.com/datachainlab/ethereum-ibc-relay-chain v0.2.11/go.mod h1:FDKiZNh2r8kz/KAXBG9tNDcoT6jyiUR1EfiE9W7Xjbc=
+github.com/datachainlab/ethereum-ibc-relay-chain v0.2.13 h1:FNyFLkvDwz6vEVVb+1lERbGNBLzh14S0Gv5YnfPj6AY=
+github.com/datachainlab/ethereum-ibc-relay-chain v0.2.13/go.mod h1:FDKiZNh2r8kz/KAXBG9tNDcoT6jyiUR1EfiE9W7Xjbc=
 github.com/datachainlab/ethereum-ibc-relay-prover v0.2.8 h1:up3nRnsQqsVaBSV/IMzjoxrbUKuhCkPvuZySh48Tgsc=
 github.com/datachainlab/ethereum-ibc-relay-prover v0.2.8/go.mod h1:GewHRPqtyrQ1n1a19MuiZhU4dQzwIuqavNmbDnjGXO0=
 github.com/datachainlab/lcp-go v0.1.13 h1:/KLK9bMuDJHqLZNnE0LHs3os9DWEw4N3jp9wqrtrEKQ=
