@@ -42,13 +42,13 @@ This repository contains multiple modules:
 
 ## Supported Versions
 
-- [ibc-solidity v0.3.22](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.22)
+- [ibc-solidity v0.3.23](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.23)
 - [lcp v0.2.4](https://github.com/datachainlab/lcp/releases/tag/v0.2.4)
 - [ethereum-elc v0.0.8](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.8)
-- [lcp-go v0.1.12](https://github.com/datachainlab/lcp-go/releases/tag/v0.1.12)
+- [lcp-go v0.1.13](https://github.com/datachainlab/lcp-go/releases/tag/v0.1.13)
 - [lcp-solidity v0.1.4](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.4)
 - [yui-relayer v0.4.22](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.4.22)
-- [ethereum-ibc-relay-chain v0.2.11](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.2.11)
+- [ethereum-ibc-relay-chain v0.2.13](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.2.13)
 - [ethereum-ibc-relay-prover v0.2.8](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.2.8)
 
 ## Build enclave and run E2E test
