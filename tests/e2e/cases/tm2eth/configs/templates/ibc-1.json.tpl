@@ -18,7 +18,7 @@
     "allow_lc_functions": {
       "lc_address": "0x87d7778dbc81251D5A0D78DFD8a0C359887E98C9",
       "selectors": [
-        "0xd78fb0f4",
+        "0xba7da898",
         "0x8d11da78"
       ]
     }
