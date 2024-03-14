@@ -3,6 +3,8 @@ set -ex
 
 source $(cd $(dirname "$0"); pwd)/util
 
+export LCP_ENCLAVE_DEBUG=1
+
 ENCLAVE_PATH=./bin/enclave.signed.so
 LCP_BIN=${LCP_BIN:-lcp}
 CERTS_DIR=./tests/certs

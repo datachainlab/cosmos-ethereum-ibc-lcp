@@ -15,7 +15,7 @@ To enable IBC on Ethereum using LCP, we primarily need the following modules:
 - ELC, a light client implemented within the LCP enclave, for Ethereum and Tendermint
     - [ELC for Ethereum](https://github.com/datachainlab/ethereum-elc)
     - [ELC for tendermint](https://github.com/datachainlab/lcp/tree/main/modules/tendermint-lc)
-- [IBC-Solidity](https://github.com/hyperledger-labs/yui-ibc-solidity), IBC implementation in Solidity
+- [ibc-solidity](https://github.com/hyperledger-labs/yui-ibc-solidity), IBC implementation in Solidity
 - [yui-relayer](https://github.com/datachainlab/yui-relayer), a relayer that supports EVMs
 - LCP Clients for Ethereum and Tendermint, clients to verify proofs submitted from the LCP node.
 
@@ -42,14 +42,14 @@ This repository contains multiple modules:
 
 ## Supported Versions
 
-- [ibc-solidity v0.3.21](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.21)
-- [lcp v0.2.4](https://github.com/datachainlab/lcp/releases/tag/v0.2.4)
-- [ethereum-elc v0.0.8](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.8)
-- [lcp-go v0.1.11](https://github.com/datachainlab/lcp-go/releases/tag/v0.1.11)
-- [lcp-solidity v0.1.4](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.4)
-- [yui-relayer v0.4.19](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.4.19)
-- [ethereum-ibc-relay-chain v0.2.10](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.2.10)
-- [ethereum-ibc-relay-prover v0.2.7](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.2.7)
+- [ibc-solidity v0.3.23](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.23)
+- [lcp v0.2.7](https://github.com/datachainlab/lcp/releases/tag/v0.2.7)
+- [ethereum-elc v0.0.9](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.9)
+- [lcp-go v0.1.14](https://github.com/datachainlab/lcp-go/releases/tag/v0.1.14)
+- [lcp-solidity v0.1.7](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.7)
+- [yui-relayer v0.4.22](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.4.22)
+- [ethereum-ibc-relay-chain v0.2.13](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.2.13)
+- [ethereum-ibc-relay-prover v0.2.8](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.2.8)
 
 ## Build enclave and run E2E test
 

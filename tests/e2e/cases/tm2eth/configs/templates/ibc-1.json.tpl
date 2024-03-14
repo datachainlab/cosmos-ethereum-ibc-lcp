@@ -14,7 +14,14 @@
     "initial_recv_checkpoint": 0,
     "enable_debug_trace": true,
     "average_block_time_msec": 6000,
-    "max_retry_for_inclusion": 5
+    "max_retry_for_inclusion": 5,
+    "allow_lc_functions": {
+      "lc_address": "0x87d7778dbc81251D5A0D78DFD8a0C359887E98C9",
+      "selectors": [
+        "0xba7da898",
+        "0x8d11da78"
+      ]
+    }
   },
   "prover": {
     "@type": "/relayer.provers.lcp.config.ProverConfig",
