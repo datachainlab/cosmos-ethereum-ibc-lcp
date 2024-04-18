@@ -670,7 +670,7 @@ dependencies = [
 [[package]]
 name = "ethereum-elc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.10#45104855b0b20b1e42b21639bad20ae89b674103"
+source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.11#00d7e42b011caf0f70aa720837fa120a4d3d5d8b"
 dependencies = [
  "displaydoc",
  "ethereum-ibc",
@@ -683,7 +683,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.8#4e408c52196441a2d4dafb6edc28944e2f59c508"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.9#35ffc6944d892000d50e8be63e4e0d76f35f802b"
 dependencies = [
  "bytes",
  "displaydoc",
@@ -702,7 +702,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc-proto"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.8#4e408c52196441a2d4dafb6edc28944e2f59c508"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.9#35ffc6944d892000d50e8be63e4e0d76f35f802b"
 dependencies = [
  "prost",
  "serde",
