@@ -133,3 +133,7 @@ dep:
 .PHONY: clean
 clean:
 	$(DOCKER_COMPOSE) run contracts sh -c '$(HARDHAT) clean && rm -rf node_modules && rm -f package-lock.json'
+
+.PHONY: extract-abi
+extract-abi:
+	./scripts/extract-abi.sh

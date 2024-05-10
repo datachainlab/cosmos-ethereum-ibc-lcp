@@ -3,7 +3,7 @@ RLY_BIN ?= ../../../../bin/yrly
 .PHONY: network
 network:
 	$(MAKE) -C ../../chains/tendermint network
-	$(MAKE) -C ../../chains/ethereum network deploy
+	$(MAKE) -C ../../chains/ethereum network deploy extract-abi
 
 .PHONY: network-down
 network-down:

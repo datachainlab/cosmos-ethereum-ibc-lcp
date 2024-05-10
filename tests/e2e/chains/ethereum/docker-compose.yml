@@ -170,6 +170,8 @@ services:
       - "./contracts:/app/contracts"
       - "./config:/app/config"
     working_dir: "/app/contracts"
+    environment:
+      - SGX_MODE=${SGX_MODE}
     networks:
       eth-localnet:
 
