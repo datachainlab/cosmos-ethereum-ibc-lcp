@@ -1,4 +1,4 @@
-FROM golang:1.20.6-bookworm
+FROM golang:1.22.3-bookworm
 
 COPY . /root/
 WORKDIR /root

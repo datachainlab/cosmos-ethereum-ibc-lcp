@@ -3,17 +3,17 @@ package simapp
 import (
 	"fmt"
 
+	storetypes "cosmossdk.io/store/types"
 	"github.com/cosmos/cosmos-sdk/codec"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	clientkeeper "github.com/cosmos/ibc-go/v7/modules/core/02-client/keeper"
-	connectionkeeper "github.com/cosmos/ibc-go/v7/modules/core/03-connection/keeper"
-	connectiontypes "github.com/cosmos/ibc-go/v7/modules/core/03-connection/types"
-	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
-	"github.com/cosmos/ibc-go/v7/modules/core/exported"
-	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
-	tenderminttypes "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
+	clientkeeper "github.com/cosmos/ibc-go/v8/modules/core/02-client/keeper"
+	connectionkeeper "github.com/cosmos/ibc-go/v8/modules/core/03-connection/keeper"
+	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
+	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
+	"github.com/cosmos/ibc-go/v8/modules/core/exported"
+	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
+	tenderminttypes "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
 	lcptypes "github.com/datachainlab/lcp-go/light-clients/lcp/types"
 )
 
