@@ -1,5 +1,3 @@
-version: "3.9"
-
 networks:
   relayer-e2e:
     name: &network-common relayer-e2e
