@@ -23,7 +23,9 @@ async function deployIBC(deployer) {
     "IBCConnectionSelfStateNoValidation",
     "IBCChannelHandshake",
     "IBCChannelPacketSendRecv",
-    "IBCChannelPacketTimeout"
+    "IBCChannelPacketTimeout",
+    "IBCChannelUpgradeInitTryAck",
+    "IBCChannelUpgradeConfirmTimeoutCancel"
   ];
   const logics = [];
   for (const name of logicNames) {
@@ -71,7 +73,7 @@ async function main() {
   const lcpClient = await deployAndLink(deployer, "LCPClient", {
     LCPProtoMarshaler: lcpProtoMarshaler.target,
     AVRValidator: avrValidator.target
-  }, [ibcHandler.target, rootCert, true]);
+  }, [ibcHandler.target, true, rootCert]);
   console.log("LCPClient address:", lcpClient.target);
   await ibcHandler.registerClient(lcpClientType, lcpClient.target);
 

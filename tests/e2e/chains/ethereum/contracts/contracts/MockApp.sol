@@ -2,7 +2,7 @@
 pragma solidity ^0.8.12;
 
 import {Height} from "@hyperledger-labs/yui-ibc-solidity/contracts/proto/Client.sol";
-import {Packet} from "@hyperledger-labs/yui-ibc-solidity/contracts/proto/Channel.sol";
+import {Packet} from "@hyperledger-labs/yui-ibc-solidity/contracts/core/04-channel/IIBCChannel.sol";
 import {IIBCHandler} from "@hyperledger-labs/yui-ibc-solidity/contracts/core/25-handler/IIBCHandler.sol";
 import {IIBCModule} from "@hyperledger-labs/yui-ibc-solidity/contracts/core/26-router/IIBCModule.sol";
 import {IBCAppBase} from "@hyperledger-labs/yui-ibc-solidity/contracts/apps/commons/IBCAppBase.sol";
@@ -36,7 +36,7 @@ contract MockApp is IBCAppBase {
         );
     }
 
-    function onRecvPacket(Packet.Data calldata packet, address relayer)
+    function onRecvPacket(Packet calldata packet, address relayer)
         external
         virtual
         override
@@ -46,7 +46,7 @@ contract MockApp is IBCAppBase {
         return packet.data;
     }
 
-    function onAcknowledgementPacket(Packet.Data calldata packet, bytes calldata acknowledgement, address relayer)
+    function onAcknowledgementPacket(Packet calldata packet, bytes calldata acknowledgement, address relayer)
         external
         virtual
         override
