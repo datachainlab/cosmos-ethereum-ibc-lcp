@@ -3,6 +3,7 @@ name: buf.build/datachainlab/ethereum-lcp
 deps:
   - buf.build/cosmos/gogo-proto
   - buf.build/cosmos/ibc
+  - buf.build/cosmos/cosmos-sdk
 breaking:
   use:
     - FILE

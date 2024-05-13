@@ -1,11 +1,12 @@
 package types
 
 import (
+	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
-	host "github.com/cosmos/ibc-go/v7/modules/core/24-host"
+	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
+	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
 )
 
 // msg types
@@ -47,15 +48,15 @@ func (MsgSendPacket) Type() string {
 // the chain is not known to IBC.
 func (msg MsgSendPacket) ValidateBasic() error {
 	if err := host.PortIdentifierValidator(msg.SourcePort); err != nil {
-		return sdkerrors.Wrap(err, "invalid source port ID")
+		return errorsmod.Wrap(err, "invalid source port ID")
 	}
 	if err := host.ChannelIdentifierValidator(msg.SourceChannel); err != nil {
-		return sdkerrors.Wrap(err, "invalid source channel ID")
+		return errorsmod.Wrap(err, "invalid source channel ID")
 	}
 	// NOTE: sender format must be validated as it is required by the GetSigners function.
 	_, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "string could not be parsed as address: %v", err)
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "string could not be parsed as address: %v", err)
 	}
 	return nil
 }

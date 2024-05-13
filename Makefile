@@ -162,7 +162,7 @@ LCP_BIN ?= lcp
 
 .PHONY: prepare-contracts
 prepare-contracts:
-	cd ./tests/e2e/chains/ethereum/contracts && npm i
+	make -C ./tests/e2e/chains/ethereum dep
 
 .PHONY: build-images
 build-images:

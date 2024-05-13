@@ -1,6 +1,21 @@
 const portMock = "mockapp";
 const lcpClientType = "lcp-client";
 
+function saveAddress(contractName, contract) {
+  const fs = require("fs");
+  const path = require("path");
+
+  const dirpath = "addresses";
+  if (!fs.existsSync(dirpath)) {
+    fs.mkdirSync(dirpath, {recursive: true});
+  }
+
+  const filepath = path.join(dirpath, contractName);
+  fs.writeFileSync(filepath, contract.target);
+
+  console.log(`${contractName} address:`, contract.target);
+}
+
 async function deploy(deployer, contractName, args = []) {
   const factory = await hre.ethers.getContractFactory(contractName);
   const contract = await factory.connect(deployer).deploy(...args);
@@ -23,7 +38,9 @@ async function deployIBC(deployer) {
     "IBCConnectionSelfStateNoValidation",
     "IBCChannelHandshake",
     "IBCChannelPacketSendRecv",
-    "IBCChannelPacketTimeout"
+    "IBCChannelPacketTimeout",
+    "IBCChannelUpgradeInitTryAck",
+    "IBCChannelUpgradeConfirmTimeoutCancel"
   ];
   const logics = [];
   for (const name of logicNames) {
@@ -62,21 +79,21 @@ async function main() {
   console.log("Account balance:", (await hre.ethers.provider.getBalance(deployer.getAddress())).toString());
 
   const ibcHandler = await deployIBC(deployer);
-  console.log("IBCHandler address:", ibcHandler.target);
+  saveAddress("IBCHandler", ibcHandler)
 
   const lcpProtoMarshaler = await deploy(deployer, "LCPProtoMarshaler");
-  console.log("LCPProtoMarshaler address:", lcpProtoMarshaler.target);
+  saveAddress("LCPProtoMarshaler", lcpProtoMarshaler)
   const avrValidator = await deploy(deployer, "AVRValidator");
-  console.log("AVRValidator address:", avrValidator.target);
+  saveAddress("AVRValidator", avrValidator)
   const lcpClient = await deployAndLink(deployer, "LCPClient", {
     LCPProtoMarshaler: lcpProtoMarshaler.target,
     AVRValidator: avrValidator.target
-  }, [ibcHandler.target, rootCert, true]);
-  console.log("LCPClient address:", lcpClient.target);
+  }, [ibcHandler.target, true, rootCert]);
+  saveAddress("LCPClient", lcpClient)
   await ibcHandler.registerClient(lcpClientType, lcpClient.target);
 
   const mockApp = await deploy(deployer, "MockApp", [ibcHandler.target]);
-  console.log("MockApp address:", mockApp.target);
+  saveAddress("MockApp", mockApp)
 
   await ibcHandler.bindPort(portMock, mockApp.target);
 }

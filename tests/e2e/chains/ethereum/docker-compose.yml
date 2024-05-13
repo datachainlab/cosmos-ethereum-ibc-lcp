@@ -1,5 +1,3 @@
-version: "3.9"
-
 volumes:
   geth-storage: {}
   lodestar-storage: {}
@@ -164,6 +162,19 @@ services:
     depends_on:
       deposit:
         condition: service_completed_successfully
+
+  # Deploy contracts via hardhat
+  contracts:
+    image: "node:18"
+    volumes:
+      - "./contracts:/app/contracts"
+      - "./config:/app/config"
+    working_dir: "/app/contracts"
+    environment:
+      - SGX_MODE=${SGX_MODE}
+    networks:
+      eth-localnet:
+
 
 networks:
   eth-localnet:

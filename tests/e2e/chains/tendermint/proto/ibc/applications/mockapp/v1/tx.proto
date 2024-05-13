@@ -5,10 +5,13 @@ package ibc.applications.mockapp.v1;
 option go_package = "github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp/types";
 
 import "gogoproto/gogo.proto";
+import "cosmos/msg/v1/msg.proto";
 import "ibc/core/client/v1/client.proto";
 
 // Msg defines the ibc/transfer Msg service.
 service Msg {
+  option (cosmos.msg.v1.service) = true;
+
   // Transfer defines a rpc handler method for MsgTransfer.
   rpc SendPacket(MsgSendPacket) returns (MsgSendPacketResponse);
 }
@@ -17,6 +20,8 @@ service Msg {
 // ICS20 enabled chains. See ICS Spec here:
 // https://github.com/cosmos/ibc/tree/master/spec/app/ics-020-fungible-token-transfer#data-structures
 message MsgSendPacket {
+  option (cosmos.msg.v1.signer) = "sender";
+
   option (gogoproto.equal)           = false;
   option (gogoproto.goproto_getters) = false;
 
