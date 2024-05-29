@@ -48,7 +48,7 @@ This repository contains multiple modules:
 - [lcp-go v0.2.0](https://github.com/datachainlab/lcp-go/releases/tag/v0.2.0)
 - [lcp-solidity v0.1.9](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.9)
 - [yui-relayer v0.5.3](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.5.3)
-- [ethereum-ibc-relay-chain v0.3.2](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.3.2)
+- [ethereum-ibc-relay-chain v0.3.4](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.3.4)
 - [ethereum-ibc-relay-prover v0.3.0](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.3.0)
 
 ## Build enclave and run E2E test
@@ -97,7 +97,7 @@ $ make -C ./tests/e2e/chains/tendermint image
 
 ### Prerequisite
 
-- `lcp` command(from [lcp v0.2.2](https://github.com/datachainlab/lcp/releases/tag/v0.2.2)) is installed
+- `lcp` command(from [lcp v0.2.7](https://github.com/datachainlab/lcp/releases/tag/v0.2.7)) is installed
 
 ### Launch local networks
 
