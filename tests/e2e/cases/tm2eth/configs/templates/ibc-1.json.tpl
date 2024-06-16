@@ -18,8 +18,8 @@
     "allow_lc_functions": {
       "lc_address": $LC_ADDRESS,
       "selectors": [
-        "0xba7da898",
-        "0x8d11da78"
+        "0xa97c61d6",
+        "0x6ac73aa0"
       ]
     },
     "gas_estimate_rate": {
@@ -51,6 +51,17 @@
     "key_expiration": 604800,
     "elc_client_id": "ethereum-0",
     "message_aggregation": true,
-    "is_debug_enclave": true
+    "is_debug_enclave": true,
+    "operators": [
+      "0x9722414d09f43fb02235d739B50F4C027F43e657"
+    ],
+    "operator_signer": {
+      "@type": "/relayer.provers.lcp.signers.raw.SignerConfig",
+      "private_key": "0x8a94e9f944a297c402a997aa9a60026ce47a6e018192d111c1703176bbc26651"
+    },
+    "operators_eip712_cosmos_chain_params": {
+      "chain_id": "ibc0",
+      "prefix": "ibc"
+    }
   }
 }

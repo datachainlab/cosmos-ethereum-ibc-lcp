@@ -3,7 +3,9 @@ RLY_BIN ?= ../../../../bin/yrly
 .PHONY: network
 network:
 	$(MAKE) -C ../../chains/tendermint network
-	$(MAKE) -C ../../chains/ethereum network deploy extract-abi
+	$(MAKE) -C ../../chains/ethereum network
+	sleep 30
+	$(MAKE) -C ../../chains/ethereum deploy extract-abi
 
 .PHONY: network-down
 network-down:
@@ -26,3 +28,7 @@ test:
 .PHONY: restore
 restore:
 	RLY_BIN=$(RLY_BIN) ./scripts/restore
+
+.PHONY: test-operators
+test-operators:
+	RLY_BIN=$(RLY_BIN) ./scripts/test-operators

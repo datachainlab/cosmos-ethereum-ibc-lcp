@@ -5,8 +5,8 @@ go 1.21
 require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.4
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.0
-	github.com/datachainlab/lcp-go v0.2.4
-	github.com/hyperledger-labs/yui-relayer v0.5.3
+	github.com/datachainlab/lcp-go v0.2.5
+	github.com/hyperledger-labs/yui-relayer v0.5.4
 )
 
 require (

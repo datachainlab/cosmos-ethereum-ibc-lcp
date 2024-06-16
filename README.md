@@ -42,12 +42,12 @@ This repository contains multiple modules:
 
 ## Supported Versions
 
-- [ibc-solidity v0.3.28](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.28)
-- [lcp v0.2.8](https://github.com/datachainlab/lcp/releases/tag/v0.2.8)
-- [ethereum-elc v0.0.12](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.12)
-- [lcp-go v0.2.4](https://github.com/datachainlab/lcp-go/releases/tag/v0.2.4)
-- [lcp-solidity v0.1.9](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.9)
-- [yui-relayer v0.5.3](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.5.3)
+- [ibc-solidity v0.3.29](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.29)
+- [lcp v0.2.9](https://github.com/datachainlab/lcp/releases/tag/v0.2.9)
+- [ethereum-elc v0.0.13](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.13)
+- [lcp-go v0.2.5](https://github.com/datachainlab/lcp-go/releases/tag/v0.2.5)
+- [lcp-solidity v0.1.12](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.12)
+- [yui-relayer v0.5.4](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.5.4)
 - [ethereum-ibc-relay-chain v0.3.4](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.3.4)
 - [ethereum-ibc-relay-prover v0.3.0](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.3.0)
 
@@ -97,7 +97,7 @@ $ make -C ./tests/e2e/chains/tendermint image
 
 ### Prerequisite
 
-- `lcp` command(from [lcp v0.2.7](https://github.com/datachainlab/lcp/releases/tag/v0.2.7)) is installed
+- `lcp` command(from [lcp v0.2.9](https://github.com/datachainlab/lcp/releases/tag/v0.2.9)) is installed
 
 ### Launch local networks
 
