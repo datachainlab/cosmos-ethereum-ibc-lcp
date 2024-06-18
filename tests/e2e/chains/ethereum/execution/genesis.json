@@ -17,11 +17,9 @@
     "mergeNetsplitBlock": 0,
     "shanghaiTime": 0,
     "cancunTime": 0,
-    "terminalTotalDifficulty": 0,
-    "clique": {
-      "period": 1,
-      "epoch": 30000
-    }
+    "terminalTotalDifficulty": 1,
+    "terminalTotalDifficultyPassed": true,
+    "ethash": {}
   },
   "difficulty": "0x1",
   "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
