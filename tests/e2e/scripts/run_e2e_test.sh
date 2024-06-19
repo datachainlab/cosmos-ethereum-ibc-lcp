@@ -34,5 +34,6 @@ LCP_PID=$!
 make -C tests/e2e/cases/tm2eth restore
 
 make -C tests/e2e/cases/tm2eth test
+make -C tests/e2e/cases/tm2eth test-operators
 make -C tests/e2e/cases/tm2eth network-down
 kill $LCP_PID

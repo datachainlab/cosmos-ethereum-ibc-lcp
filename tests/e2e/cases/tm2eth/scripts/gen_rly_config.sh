@@ -8,5 +8,5 @@ mkdir -p $CONFIG_DIR
 MRENCLAVE=$(${LCP_BIN} enclave metadata --enclave=./bin/enclave.signed.so | jq -r .mrenclave)
 IBC_ADDRESS=`cat $ADDRESSES_DIR/IBCHandler`
 LC_ADDRESS=`cat $ADDRESSES_DIR/LCPClient`
-jq -n -f ${TEMPLATE_DIR}/ibc-0.json.tpl --arg MRENCLAVE ${MRENCLAVE} > ${CONFIG_DIR}/ibc-0.json
+jq -n -f ${TEMPLATE_DIR}/ibc-0.json.tpl --arg MRENCLAVE ${MRENCLAVE} --arg LC_ADDRESS $LC_ADDRESS > ${CONFIG_DIR}/ibc-0.json
 jq -n -f ${TEMPLATE_DIR}/ibc-1.json.tpl --arg MRENCLAVE ${MRENCLAVE} --arg IBC_ADDRESS ${IBC_ADDRESS} --arg LC_ADDRESS $LC_ADDRESS > ${CONFIG_DIR}/ibc-1.json

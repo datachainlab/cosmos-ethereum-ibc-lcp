@@ -1,0 +1,40 @@
+#!/bin/bash
+
+RLY="${RLY_BIN} --debug"
+
+UPDATE_CMD="${RLY} lcp update-operators ibc01"
+
+for IS_SRC in true false; do
+  echo "src=${IS_SRC}"
+  if [ "${IS_SRC}" = true ]; then
+    NEW_OPERATOR=0xcb96F8d6C2d543102184d679D7829b39434E4EEc
+  else
+    NEW_OPERATOR=0x9722414d09f43fb02235d739B50F4C027F43e657
+  fi
+
+  # should fail because nonce is 2
+  ${UPDATE_CMD} --src=${IS_SRC} --nonce 2 --new_operators ${NEW_OPERATOR} --threshold_denominator 1 --threshold_numerator 1
+  status=$?
+  if [ $status -eq 0 ]; then
+      echo "expected failure"
+      exit 1
+  fi
+  echo "01: OK"
+
+  # should be successful
+  ${UPDATE_CMD} --src=${IS_SRC} --nonce 1 --new_operators ${NEW_OPERATOR} --threshold_denominator 1 --threshold_numerator 1
+  status=$?
+  if [ $status -ne 0 ]; then
+      echo "unexpected failure"
+      exit 1
+  fi
+  echo "02: OK"
+
+  ${UPDATE_CMD} --src=${IS_SRC} --nonce 2 --new_operators ${NEW_OPERATOR} --threshold_denominator 1 --threshold_numerator 1
+  status=$?
+  if [ $status -ne 0 ]; then
+      echo "unexpected failure"
+      exit 1
+  fi
+  echo "03: OK"
+done
