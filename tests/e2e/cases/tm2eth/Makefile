@@ -4,7 +4,7 @@ RLY_BIN ?= ../../../../bin/yrly
 network:
 	$(MAKE) -C ../../chains/tendermint network
 	$(MAKE) -C ../../chains/ethereum network
-	sleep 30
+	sleep 10
 	$(MAKE) -C ../../chains/ethereum deploy extract-abi
 
 .PHONY: network-down
