@@ -388,8 +388,8 @@ github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7Do
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
-github.com/datachainlab/lcp-go v0.2.5 h1:mZrQ+iRDP98vClx/T9VyakKf3fxqSZYiatU73vzKr7M=
-github.com/datachainlab/lcp-go v0.2.5/go.mod h1:XlbzEmc2BPBckuSLVZENQTYyJ/zrsK1269o9RZUpJHk=
+github.com/datachainlab/lcp-go v0.2.6 h1:9W4oWC2yM91FisIA/3VR8Qf50V6UAZ0nXrfRCkLcVfA=
+github.com/datachainlab/lcp-go v0.2.6/go.mod h1:XlbzEmc2BPBckuSLVZENQTYyJ/zrsK1269o9RZUpJHk=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
