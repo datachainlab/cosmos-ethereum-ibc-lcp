@@ -40,7 +40,7 @@ async function deployIBC(deployer) {
     "IBCChannelPacketSendRecv",
     "IBCChannelPacketTimeout",
     "IBCChannelUpgradeInitTryAck",
-    "IBCChannelUpgradeConfirmTimeoutCancel"
+    "IBCChannelUpgradeConfirmOpenTimeoutCancel"
   ];
   const logics = [];
   for (const name of logicNames) {
@@ -92,8 +92,8 @@ async function main() {
   saveAddress("LCPClient", lcpClient)
   await ibcHandler.registerClient(lcpClientType, lcpClient.target);
 
-  const mockApp = await deploy(deployer, "MockApp", [ibcHandler.target]);
-  saveAddress("MockApp", mockApp)
+  const mockApp = await deploy(deployer, "IBCChannelUpgradableMockApp", [ibcHandler.target]);
+  saveAddress("IBCChannelUpgradableMockApp", mockApp);
 
   await ibcHandler.bindPort(portMock, mockApp.target);
 }
