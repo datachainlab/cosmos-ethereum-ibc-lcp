@@ -420,8 +420,13 @@ func NewSimApp(
 	// set the governance module account as the authority for conducting upgrades
 	app.UpgradeKeeper = upgradekeeper.NewKeeper(skipUpgradeHeights, runtime.NewKVStoreService(keys[upgradetypes.StoreKey]), appCodec, homePath, app.BaseApp, authtypes.NewModuleAddress(govtypes.ModuleName).String())
 
+	ibcAuthority := authtypes.NewModuleAddress(govtypes.ModuleName).String()
+	if authority, found := os.LookupEnv("IBC_AUTHORITY"); found && len(authority) > 0 {
+		ibcAuthority = authority
+	}
+
 	ibcKeeper := ibckeeper.NewKeeper(
-		appCodec, keys[ibcexported.StoreKey], app.GetSubspace(ibcexported.ModuleName), app.StakingKeeper, app.UpgradeKeeper, scopedIBCKeeper, authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		appCodec, keys[ibcexported.StoreKey], app.GetSubspace(ibcexported.ModuleName), app.StakingKeeper, app.UpgradeKeeper, scopedIBCKeeper, ibcAuthority,
 	)
 	// this is a workaround in case the counterparty chain uses mock-client
 	app.IBCKeeper = overrideIBCClientKeeper(*ibcKeeper, appCodec, keys[ibcexported.StoreKey], app.GetSubspace(ibcexported.ModuleName))
