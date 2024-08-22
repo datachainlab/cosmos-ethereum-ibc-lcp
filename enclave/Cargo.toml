@@ -46,6 +46,7 @@ getrandom = { git = "https://github.com/datachainlab/getrandom-sgx", branch = "v
 # TODO these patches would be better as optional
 sha2-0106 = { git = "https://github.com/bluele/hashes", branch = "0.10.6-sha256-hwa-disabled", package = "sha2" }
 sha2-098 = { git = "https://github.com/bluele/hashes", branch = "0.9.8-sha256-hwa-disabled", package = "sha2" }
+ibc = { git = "https://github.com/datachainlab/ibc-rs", rev = "v0.29.0-channel-upgrade-path" }
 
 [profile.release]
 opt-level = 3
