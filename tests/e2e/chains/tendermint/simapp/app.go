@@ -136,9 +136,9 @@ import (
 	lcp "github.com/datachainlab/lcp-go/light-clients/lcp"
 	lcptypes "github.com/datachainlab/lcp-go/light-clients/lcp/types"
 
-	"github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp"
-	mockappkeeper "github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp/keeper"
-	mockapptypes "github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp/types"
+	mockapp "github.com/datachainlab/ibc-mock-app"
+	mockappkeeper "github.com/datachainlab/ibc-mock-app/keeper"
+	mockapptypes "github.com/datachainlab/ibc-mock-app/types"
 )
 
 const appName = "SimApp"
