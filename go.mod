@@ -2,11 +2,17 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 
 go 1.21
 
+replace (
+	github.com/datachainlab/ethereum-ibc-relay-chain => github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240822152719-5e429c822e3f
+	github.com/hyperledger-labs/yui-relayer => github.com/siburu/yui-relayer v0.0.0-20240822151440-037b0be3d0f0
+)
+
 require (
-	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.4
+	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.9
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.1
+	github.com/datachainlab/ibc-hd-signer v0.1.0
 	github.com/datachainlab/lcp-go v0.2.10
-	github.com/hyperledger-labs/yui-relayer v0.5.4
+	github.com/hyperledger-labs/yui-relayer v0.5.7
 )
 
 require (
