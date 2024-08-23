@@ -26,6 +26,8 @@ retry 20 curl -fsL http://localhost:19596/eth/v1/beacon/light_client/finality_up
 
 make -C tests/e2e/cases/tm2eth setup handshake
 
+make -C tests/e2e/cases/tm2eth test-channel-upgrade
+
 # test for restore ELC state
 kill $LCP_PID
 ./tests/e2e/scripts/init_lcp.sh
