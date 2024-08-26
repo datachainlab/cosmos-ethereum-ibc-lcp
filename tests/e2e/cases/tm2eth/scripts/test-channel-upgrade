@@ -14,27 +14,29 @@ PATH_NAME=ibc01
 srcOrigConnectionId=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."connection-id"')
 dstOrigConnectionId=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."connection-id"')
 
-# # back up the original config.json and make connection identifiers empty
-# origconfig=`mktemp`
-# cp "$RELAYER_CONF/config/config.json" $origconfig
-# $RLY paths edit $PATH_NAME src connection-id ''
-# $RLY paths edit $PATH_NAME dst connection-id ''
+# back up the original config.json and make connection identifiers empty
+origconfig=`mktemp`
+cp "$RELAYER_CONF/config/config.json" $origconfig
+$RLY paths edit $PATH_NAME src connection-id ''
+$RLY paths edit $PATH_NAME dst connection-id ''
 
-# # create a new connection and save the new connection identifiers
-# retry 20 $RLY tx connection $PATH_NAME -o 20s
-# srcAltConnectionId=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."connection-id"')
-# dstAltConnectionId=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."connection-id"')
+# create a new connection and save the new connection identifiers
+retry 5 $RLY tx update-clients $PATH_NAME
+sleep 60
+retry 20 $RLY tx connection $PATH_NAME -o 20s
+srcAltConnectionId=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."connection-id"')
+dstAltConnectionId=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."connection-id"')
 
-# # resume the original config.json
-# mv $origconfig "$RELAYER_CONF/config/config.json"
+# resume the original config.json
+mv $origconfig "$RELAYER_CONF/config/config.json"
 
 # constant variables
 #TIMEOUT_FLAGS="--timeout-height 0-0 --timeout-timestamp `date -d 2030/01/01 +%s`"
 TIMEOUT_FLAGS="--timeout-height 0-100000000"
 
 # test channel upgrade (crossing-hello)
-UPGRADE_FIELDS_FLAGS_A="--ordering UnOrdered --connection-hops $srcOrigConnectionId --version mockapp-999"
-UPGRADE_FIELDS_FLAGS_B="--ordering UnOrdered --connection-hops $dstOrigConnectionId --version mockapp-999"
+UPGRADE_FIELDS_FLAGS_A="--ordering UnOrdered --connection-hops $srcAltConnectionId --version mockapp-999"
+UPGRADE_FIELDS_FLAGS_B="--ordering UnOrdered --connection-hops $dstAltConnectionId --version mockapp-999"
 $RLY tx channel-upgrade init ibc01 ibc0 $UPGRADE_FIELDS_FLAGS_A
 $RLY eth upgrade propose ibc01 ibc1 $UPGRADE_FIELDS_FLAGS_B $TIMEOUT_FLAGS
 $RLY tx channel-upgrade init ibc01 ibc1 $UPGRADE_FIELDS_FLAGS_B
@@ -54,8 +56,8 @@ $RLY eth upgrade allow ibc01 ibc1 --upgrade-sequence 3
 retry 10 $RLY tx channel-upgrade execute ibc01
 
 # test channel upgrade cancel
-UPGRADE_FIELDS_FLAGS_A="--ordering UnOrdered --connection-hops $srcOrigConnectionId --version mockapp-999"
-UPGRADE_FIELDS_FLAGS_B="--ordering UnOrdered --connection-hops $dstOrigConnectionId --version mockapp-999"
+UPGRADE_FIELDS_FLAGS_A="--ordering UnOrdered --connection-hops $srcAltConnectionId --version mockapp-999"
+UPGRADE_FIELDS_FLAGS_B="--ordering UnOrdered --connection-hops $dstAltConnectionId --version mockapp-999"
 $RLY tx channel-upgrade init ibc01 ibc0 $UPGRADE_FIELDS_FLAGS_A
 $RLY eth upgrade propose ibc01 ibc1 $UPGRADE_FIELDS_FLAGS_B $TIMEOUT_FLAGS
 $RLY tx channel-upgrade init ibc01 ibc1 $UPGRADE_FIELDS_FLAGS_B
