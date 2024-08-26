@@ -1121,8 +1121,8 @@ github.com/shirou/gopsutil v3.21.11+incompatible/go.mod h1:5b4v6he4MtMOwMlS0TUMT
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
 github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240822152719-5e429c822e3f h1:0PTp8f+GvCU16So12OQF7TNOCsUTorBjpoMxIwXLFaU=
 github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240822152719-5e429c822e3f/go.mod h1:ORdrGzyiPkrfKTznHKBkMixsJ5wjJ1I/EjQyptLaMC0=
-github.com/siburu/yui-relayer v0.0.0-20240825060226-c5668a88bba4 h1:XwnSWUlcV0xQwFHftZufPmv3cT0Jtc7fBfBPxIEPtFA=
-github.com/siburu/yui-relayer v0.0.0-20240825060226-c5668a88bba4/go.mod h1:GeCb1dtZjtQdkBNw1L9+LAUHzNQQhQK+kkoOnZYffw0=
+github.com/siburu/yui-relayer v0.0.0-20240826060352-784718d61aaf h1:/PHGAeTz5amGNfnTpP66Gnsl1lIqh9oYLDImIc4Jaag=
+github.com/siburu/yui-relayer v0.0.0-20240826060352-784718d61aaf/go.mod h1:GeCb1dtZjtQdkBNw1L9+LAUHzNQQhQK+kkoOnZYffw0=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
