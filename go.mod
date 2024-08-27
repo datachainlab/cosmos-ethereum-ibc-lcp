@@ -4,7 +4,7 @@ go 1.21
 
 replace (
 	github.com/datachainlab/ethereum-ibc-relay-chain => github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240827044302-67a9c4c65f06
-	github.com/hyperledger-labs/yui-relayer => github.com/siburu/yui-relayer v0.0.0-20240826155600-a9f0af686251
+	github.com/hyperledger-labs/yui-relayer => github.com/siburu/yui-relayer v0.0.0-20240827224319-b0f9cc9d8e5e
 )
 
 require (
