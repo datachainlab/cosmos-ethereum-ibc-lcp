@@ -430,8 +430,8 @@ github.com/d4l3k/messagediff v1.2.1 h1:ZcAIMYsUg0EAp9X+tt8/enBE/Q8Yd5kzPynLyKptt
 github.com/d4l3k/messagediff v1.2.1/go.mod h1:Oozbb1TVXFac9FtSIxHBMnBCq2qeH/2KkEQxENCrlLo=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
-github.com/datachainlab/ethereum-ibc-relay-prover v0.3.1 h1:/a4O7oFDs3Crlm8VkOY8HCM+2eLCCSvTbGLHnFttlLY=
-github.com/datachainlab/ethereum-ibc-relay-prover v0.3.1/go.mod h1:OfuufukSThjjZXQtFyZqwY9csQNrJ/wIm0VLAUw3l4g=
+github.com/datachainlab/ethereum-ibc-relay-prover v0.3.2 h1:E1gWclbzDoPMkZNSq7p0ifWrOTfv+p2RZ+CsZjUOPD0=
+github.com/datachainlab/ethereum-ibc-relay-prover v0.3.2/go.mod h1:OfuufukSThjjZXQtFyZqwY9csQNrJ/wIm0VLAUw3l4g=
 github.com/datachainlab/ibc-hd-signer v0.1.0 h1:dmnFTAwFpl0m7Lx6+b+N/rrNpHQnXpyJAYnM25GhDi0=
 github.com/datachainlab/ibc-hd-signer v0.1.0/go.mod h1:wUbLb2EryMCY+GfEsziU0T032Gch04jmrN0D4XGAfOI=
 github.com/datachainlab/lcp-go v0.2.10 h1:1c8C+HR+tC/4NjCjpuz+Nkk3I/uIQ3PNRcvJKsSU948=
