@@ -8,7 +8,7 @@ services:
     image: tendermint-chain:latest
     environment:
       - LCP_RA_ROOT_CERT_HEX=${LCP_RA_ROOT_CERT_HEX}
-      - IBC_CHANNEL_UPGRADE_TIMEOUT=180000000000
+      - IBC_CHANNEL_UPGRADE_TIMEOUT=480000000000
     ports:
       - 26656:26656
       - 26657:26657
