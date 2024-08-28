@@ -3,7 +3,7 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 go 1.21
 
 replace (
-	github.com/datachainlab/ethereum-ibc-relay-chain => github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240827044302-67a9c4c65f06
+	github.com/datachainlab/ethereum-ibc-relay-chain => github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240827142719-4f8e060ac93b
 	github.com/hyperledger-labs/yui-relayer => github.com/siburu/yui-relayer v0.0.0-20240827224319-b0f9cc9d8e5e
 )
 
