@@ -18,8 +18,10 @@ import {IIBCHandler} from "@hyperledger-labs/yui-ibc-solidity/contracts/core/25-
 import {OwnableIBCHandler} from "@hyperledger-labs/yui-ibc-solidity/contracts/core/25-handler/OwnableIBCHandler.sol";
 import {MockClient} from "@hyperledger-labs/yui-ibc-solidity/contracts/clients/mock/MockClient.sol";
 
-import {IBCChannelUpgradableMockApp} from "@hyperledger-labs/yui-ibc-solidity/contracts/apps/mock/IBCChannelUpgradableMockApp.sol";
-
 import {LCPProtoMarshaler} from "@datachainlab/lcp-solidity/contracts/LCPProtoMarshaler.sol";
 import {AVRValidator} from "@datachainlab/lcp-solidity/contracts/AVRValidator.sol";
 import {LCPClient} from "@datachainlab/lcp-solidity/contracts/LCPClient.sol";
+
+import {IBCContractUpgradableUUPSMockApp} from "@datachainlab/ethereum-ibc-relay-chain/contracts/IBCContractUpgradableUUPSMockApp.sol";
+
+import {AppV1, AppV2, AppV3, AppV4, AppV5, AppV6, AppV7} from "./App.sol";
