@@ -1119,10 +1119,10 @@ github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529/go.mod h1:DxrIzT+xaE7yg
 github.com/shirou/gopsutil v3.21.11+incompatible h1:+1+c1VGhc88SSonWP6foOcLhvnKlUeu/erjjvaPEYiI=
 github.com/shirou/gopsutil v3.21.11+incompatible/go.mod h1:5b4v6he4MtMOwMlS0TUMTu2PcXUg8+E1lC7eC3UO/RA=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
-github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240827142719-4f8e060ac93b h1:hDh9EjZxzcP7DIP4gnqXm01hfrq1X0V5wrhim4iQxGs=
-github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240827142719-4f8e060ac93b/go.mod h1:ORdrGzyiPkrfKTznHKBkMixsJ5wjJ1I/EjQyptLaMC0=
-github.com/siburu/yui-relayer v0.0.0-20240829004813-a84eea13c598 h1:O6EQ6n0EFGQfTUpOk3Xi0Cda8mG63/RfG8EakK8scbA=
-github.com/siburu/yui-relayer v0.0.0-20240829004813-a84eea13c598/go.mod h1:GeCb1dtZjtQdkBNw1L9+LAUHzNQQhQK+kkoOnZYffw0=
+github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240829213923-07839756c5ca h1:7lylzkPhdnLJj52A2RKDILz4CjiF9xbHmw/KmUrrm0g=
+github.com/siburu/ethereum-ibc-relay-chain v0.0.0-20240829213923-07839756c5ca/go.mod h1:ORdrGzyiPkrfKTznHKBkMixsJ5wjJ1I/EjQyptLaMC0=
+github.com/siburu/yui-relayer v0.0.0-20240829224136-86ade3af6ef3 h1:J8rm1vXZbgUEu/rY6MY1PuPqGPNtxps5B7etQ2NfAYQ=
+github.com/siburu/yui-relayer v0.0.0-20240829224136-86ade3af6ef3/go.mod h1:GeCb1dtZjtQdkBNw1L9+LAUHzNQQhQK+kkoOnZYffw0=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
