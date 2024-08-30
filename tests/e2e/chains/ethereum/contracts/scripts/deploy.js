@@ -152,7 +152,7 @@ async function main() {
 
   const app = await deployApp(deployer, ibcHandler);
 
-  await ibcHandler.bindPort(portMock, app.target);
+  await ibcHandler.bindPort(portMock, app.target).then(tx => tx.wait());
 }
 
 if (require.main === module) {
