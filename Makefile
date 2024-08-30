@@ -142,7 +142,7 @@ enclave:
 .PHONY: clean
 clean:
 	@rm -f $(RustEnclave_Name) $(Signed_RustEnclave_Name) enclave/*_t.* lib/*.a
-	@cd enclave && cargo clean && rm -f Cargo.lock
+	@cd enclave && cargo clean
 
 .PHONY: fmt
 fmt:
