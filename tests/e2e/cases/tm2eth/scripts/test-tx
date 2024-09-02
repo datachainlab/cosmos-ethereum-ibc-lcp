@@ -27,7 +27,7 @@ retry() {
 
 echo "!!! ibc0 -> ibc1 !!!"
 
-docker exec -it tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send mockapp channel-0 msg0 --yes"
+docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes"
 sleep 5
 retry 10 ${RLY} tx relay --do-refresh ibc01
 sleep ${TX_INTERNAL}

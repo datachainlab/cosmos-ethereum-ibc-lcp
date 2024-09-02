@@ -6,14 +6,12 @@ ABIS=contracts/abis
 
 mkdir -p $ABIS
 
-for f in `find $ARTIFACTS -type d -name '*.sol'`
+for soldir in `find $ARTIFACTS -type d -name '*.sol'`
 do
-    contract=`basename $f | sed s/\.sol$//`
-    jsonfile=$f/$contract.json
-    if [ -e $jsonfile ]
-    then
-	abifile=`echo $f | sed "s#^$ARTIFACTS#$ABIS#" | sed s/\.sol$/.json/`
+    for jsonfile in `find $soldir -type f -name '*.json' ! -name '*.dbg.json'`
+    do
+	abifile=`echo $jsonfile | sed "s#^$ARTIFACTS#$ABIS#"`
 	mkdir -p `dirname $abifile`
 	jq .abi $jsonfile > $abifile
-    fi
+    done
 done

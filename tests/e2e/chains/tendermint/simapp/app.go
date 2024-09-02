@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/gogoproto/proto"
@@ -136,9 +137,9 @@ import (
 	lcp "github.com/datachainlab/lcp-go/light-clients/lcp"
 	lcptypes "github.com/datachainlab/lcp-go/light-clients/lcp/types"
 
-	"github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp"
-	mockappkeeper "github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp/keeper"
-	mockapptypes "github.com/datachainlab/cosmos-ethereum-ibc-lcp/tests/e2e/chains/tendermint/simapp/mockapp/types"
+	mockapp "github.com/datachainlab/ibc-mock-app"
+	mockappkeeper "github.com/datachainlab/ibc-mock-app/keeper"
+	mockapptypes "github.com/datachainlab/ibc-mock-app/types"
 )
 
 const appName = "SimApp"
@@ -420,8 +421,13 @@ func NewSimApp(
 	// set the governance module account as the authority for conducting upgrades
 	app.UpgradeKeeper = upgradekeeper.NewKeeper(skipUpgradeHeights, runtime.NewKVStoreService(keys[upgradetypes.StoreKey]), appCodec, homePath, app.BaseApp, authtypes.NewModuleAddress(govtypes.ModuleName).String())
 
+	ibcAuthority := authtypes.NewModuleAddress(govtypes.ModuleName).String()
+	if authority, found := os.LookupEnv("IBC_AUTHORITY"); found && len(authority) > 0 {
+		ibcAuthority = authority
+	}
+
 	ibcKeeper := ibckeeper.NewKeeper(
-		appCodec, keys[ibcexported.StoreKey], app.GetSubspace(ibcexported.ModuleName), app.StakingKeeper, app.UpgradeKeeper, scopedIBCKeeper, authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		appCodec, keys[ibcexported.StoreKey], app.GetSubspace(ibcexported.ModuleName), app.StakingKeeper, app.UpgradeKeeper, scopedIBCKeeper, ibcAuthority,
 	)
 	// this is a workaround in case the counterparty chain uses mock-client
 	app.IBCKeeper = overrideIBCClientKeeper(*ibcKeeper, appCodec, keys[ibcexported.StoreKey], app.GetSubspace(ibcexported.ModuleName))
@@ -891,8 +897,16 @@ func (app *SimApp) InitChainer(ctx sdk.Context, req *abci.RequestInitChain) (*ab
 			ibcGenesisState.ClientGenesis.Params.AllowedClients = append(
 				ibcGenesisState.ClientGenesis.Params.AllowedClients,
 				lcptypes.ClientTypeLCP)
-			genesisState[ibcexported.ModuleName] = app.appCodec.MustMarshalJSON(&ibcGenesisState)
+
 		}
+		if upgTimeout, found := os.LookupEnv("IBC_CHANNEL_UPGRADE_TIMEOUT"); found && len(upgTimeout) > 0 {
+			upgTimeoutTimestampNsec, err := strconv.ParseInt(upgTimeout, 10, 64)
+			if err != nil {
+				panic(err)
+			}
+			ibcGenesisState.ChannelGenesis.Params.UpgradeTimeout.Timestamp = uint64(upgTimeoutTimestampNsec)
+		}
+		genesisState[ibcexported.ModuleName] = app.appCodec.MustMarshalJSON(&ibcGenesisState)
 	}
 
 	if err := app.UpgradeKeeper.SetModuleVersionMap(ctx, app.ModuleManager.GetVersionMap()); err != nil {

@@ -42,14 +42,14 @@ This repository contains multiple modules:
 
 ## Supported Versions
 
-- [ibc-solidity v0.3.29](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.29)
+- [ibc-solidity v0.3.35](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.35)
 - [lcp v0.2.9](https://github.com/datachainlab/lcp/releases/tag/v0.2.9)
 - [ethereum-elc v0.0.16](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.16)
 - [lcp-go v0.2.10](https://github.com/datachainlab/lcp-go/releases/tag/v0.2.10)
 - [lcp-solidity v0.1.14](https://github.com/datachainlab/lcp-solidity/releases/tag/v0.1.14)
-- [yui-relayer v0.5.4](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.5.4)
-- [ethereum-ibc-relay-chain v0.3.4](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.3.4)
-- [ethereum-ibc-relay-prover v0.3.1](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.3.1)
+- [yui-relayer v0.5.8](https://github.com/hyperledger-labs/yui-relayer/releases/tag/v0.5.8)
+- [ethereum-ibc-relay-chain v0.3.10](https://github.com/datachainlab/ethereum-ibc-relay-chain/releases/tag/v0.3.10)
+- [ethereum-ibc-relay-prover v0.3.2](https://github.com/datachainlab/ethereum-ibc-relay-prover/releases/tag/v0.3.2)
 
 ## Build enclave and run E2E test
 
