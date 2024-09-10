@@ -8,44 +8,16 @@ resolver = "2"
 name = "proxy_enclave"
 crate-type = ["staticlib"]
 
-[features]
-default = []
-production = [
-    "enclave-runtime/production"
-]
-sgx-sw = [
-    "enclave-runtime/sgx-sw"
-]
-
 [dependencies]
-log = { version = "0.4.8", default-features = false }
-simple_logger = { git = "https://github.com/bluele/rust-simple_logger", branch = "sgx", default-features = false, features = ["sgx"] }
-
-enclave-runtime = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.9" }
-tendermint-lc = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.9", default-features = false }
-ethereum-elc = { git = "https://github.com/datachainlab/ethereum-elc", rev = "v0.0.16", default-features = false }
-
-[patch."https://github.com/apache/teaclave-sgx-sdk.git"]
-sgx_tstd = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_urts = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_tse = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_alloc = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_libc = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_serialize = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_serialize_derive = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_serialize_derive_internals = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_trts = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_types = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_tcrypto = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_tcrypto_helper = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_crypto_helper = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
-sgx_rand = { rev = "v1.1.6", git = "https://github.com/apache/incubator-teaclave-sgx-sdk" }
+enclave-runtime = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.10" }
+tendermint-lc = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.10", default-features = false }
+ethereum-elc = { git = "https://github.com/datachainlab/ethereum-elc", rev = "v0.0.17", default-features = false }
 
 [patch."crates-io"]
-getrandom = { git = "https://github.com/datachainlab/getrandom-sgx", branch = "v0.2.8" }
+getrandom = { git = "https://github.com/datachainlab/getrandom-sgx-lite" }
 # TODO these patches would be better as optional
 sha2-0106 = { git = "https://github.com/bluele/hashes", branch = "0.10.6-sha256-hwa-disabled", package = "sha2" }
-sha2-098 = { git = "https://github.com/bluele/hashes", branch = "0.9.8-sha256-hwa-disabled", package = "sha2" }
+sha2-099 = { git = "https://github.com/bluele/hashes", branch = "0.9.9-sha256-hwa-disabled", package = "sha2" }
 ibc = { git = "https://github.com/datachainlab/ibc-rs", rev = "v0.29.0-channel-upgrade-path" }
 
 [profile.release]
