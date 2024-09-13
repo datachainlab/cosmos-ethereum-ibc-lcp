@@ -53,18 +53,30 @@ This repository contains multiple modules:
 
 ## Build enclave and run E2E test
 
+### Prerequisites
+
+You need to install the Intel SGX SDK for your environment:
+```bash
+$ curl -LO https://download.01.org/intel-sgx/sgx-linux/2.19/distro/ubuntu22.04-server/sgx_linux_x64_sdk_2.19.100.3.bin
+$ chmod +x ./sgx_linux_x64_sdk_2.19.100.3.bin
+$ echo -e 'no\n/opt' | ./sgx_linux_x64_sdk_2.19.100.3.bin
+$ source /opt/sgxsdk/environment
+```
+
 ### SGX HW mode(default)
 
 ```
-$ make all yrly prepare-contracts build-images
+$ make yrly prepare-contracts build-images
 $ make e2e-test
 ```
 
-### SGX SW mode
+### SGX SW mode(for non-SGX supported environment)
+
+This mode is for non-SGX supported environment. This doesn't require SGX hardware and driver, but the enclave is not secure.
 
 ```
 $ export SGX_MODE=SW
-$ make all yrly prepare-contracts build-images
+$ make yrly prepare-contracts build-images
 $ make e2e-test
 ```
 
@@ -94,10 +106,6 @@ $ make -C ./tests/e2e/chains/tendermint image
 ```
 
 ## Run E2E test (Manually)
-
-### Prerequisite
-
-- `lcp` command(from [lcp v0.2.9](https://github.com/datachainlab/lcp/releases/tag/v0.2.9)) is installed
 
 ### Launch local networks
 
