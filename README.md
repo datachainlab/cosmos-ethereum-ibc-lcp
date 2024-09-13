@@ -95,10 +95,6 @@ $ make -C ./tests/e2e/chains/tendermint image
 
 ## Run E2E test (Manually)
 
-### Prerequisite
-
-- `lcp` command(from [lcp v0.2.9](https://github.com/datachainlab/lcp/releases/tag/v0.2.9)) is installed
-
 ### Launch local networks
 
 The following command launches both tendermint and ethereum chains. It also deploys the solidity contract on the ethereum's execution chain.

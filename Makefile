@@ -143,26 +143,27 @@ clean:
 fmt:
 	@cargo fmt --all && cd ./enclave && cargo fmt --all
 
-.PHONY: docker
-docker:
-	@cd rust-sgx-sdk/dockerfile && docker build --no-cache -t datachainlab/sgx-rust:2004-1.1.5 -f Dockerfile.2004.nightly .
-
 .PHONY: yrly
 yrly:
 	go build -o ./bin/yrly -tags customcert ./relayer
 
 ######## E2E test ########
 
-LCP_BIN ?= lcp
+LCP_REPO=./lcp
+LCP_BIN=$(LCP_REPO)/bin/lcp
+
+$(LCP_BIN):
+	$(MAKE) -C $(LCP_REPO)
 
 .PHONY: prepare-contracts
 prepare-contracts:
-	make -C ./tests/e2e/chains/ethereum dep
+	$(MAKE) -C ./tests/e2e/chains/ethereum dep
 
 .PHONY: build-images
 build-images:
-	make -C ./tests/e2e/chains/tendermint image
+	$(MAKE) -C ./tests/e2e/chains/tendermint image
+	$(MAKE) -C ./tests/e2e/chains/ethereum build-images
 
 .PHONY: e2e-test
-e2e-test: $(Signed_RustEnclave_Name) yrly
+e2e-test: $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
 	LCP_BIN=$(LCP_BIN) ./tests/e2e/scripts/run_e2e_test.sh
