@@ -6,10 +6,6 @@ use enclave_runtime::{setup_runtime, Environment, MapLightClientRegistry};
 use ethereum_elc::ibc::consensus::preset::minimal::PRESET;
 
 setup_runtime!({
-    simple_logger::SimpleLogger::new()
-        .with_level(log::LevelFilter::Info)
-        .init()
-        .unwrap();
     Environment::new(build_lc_registry())
 });
 
