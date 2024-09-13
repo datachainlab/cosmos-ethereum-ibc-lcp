@@ -134,6 +134,10 @@ dep:
 clean:
 	$(DOCKER_COMPOSE) run contracts sh -c '$(HARDHAT) clean && rm -rf node_modules && rm -f package-lock.json'
 
+.PHONY: rm-oz-upgrades
+rm-oz-upgrades:
+	$(DOCKER_COMPOSE) run contracts sh -c 'rm -rf .openzeppelin'
+
 .PHONY: extract-abi
 extract-abi:
 	./scripts/extract-abi.sh

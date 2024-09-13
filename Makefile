@@ -165,5 +165,9 @@ build-images:
 	$(MAKE) -C ./tests/e2e/chains/ethereum build-images
 
 .PHONY: e2e-test
-e2e-test: $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
+e2e-test: e2e-clean $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
 	LCP_BIN=$(LCP_BIN) ./tests/e2e/scripts/run_e2e_test.sh
+
+.PHONY: e2e-clean
+e2e-clean:
+	$(MAKE) -C ./tests/e2e/chains/ethereum rm-oz-upgrades
