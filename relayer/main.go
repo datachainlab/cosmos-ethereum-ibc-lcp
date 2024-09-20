@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/datachainlab/ethereum-ibc-relay-chain/pkg/relay/ethereum"
-	"github.com/datachainlab/ethereum-ibc-relay-chain/pkg/relay/ethereum/signers/hd"
 	ethereumlc "github.com/datachainlab/ethereum-ibc-relay-prover/relay"
+	"github.com/datachainlab/ibc-hd-signer/pkg/hd"
 	lcp "github.com/datachainlab/lcp-go/relay"
 	rawsigner "github.com/datachainlab/lcp-go/relay/signers/raw"
 	lcptm "github.com/datachainlab/lcp-go/relay/tendermint"
