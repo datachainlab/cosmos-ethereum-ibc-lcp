@@ -42,7 +42,7 @@ This repository contains multiple modules:
 
 ## Supported Versions
 
-- [ibc-solidity v0.3.37](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.37)
+- [ibc-solidity v0.3.38](https://github.com/hyperledger-labs/yui-ibc-solidity/releases/tag/v0.3.38)
 - [lcp v0.2.11](https://github.com/datachainlab/lcp/releases/tag/v0.2.11)
 - [ethereum-elc v0.0.18](https://github.com/datachainlab/ethereum-elc/releases/tag/v0.0.18)
 - [lcp-go v0.2.10](https://github.com/datachainlab/lcp-go/releases/tag/v0.2.10)
