@@ -10,9 +10,4 @@ RUN apt-get update && \
 
 COPY ./scripts/lodestar_entrypoint.sh /lodestar_entrypoint.sh
 
-ARG GETH_HTTP_PORT
-ARG BEACON_HTTP_PORT
-ENV GETH_HTTP_PORT=$GETH_HTTP_PORT
-ENV BEACON_HTTP_PORT=$BEACON_HTTP_PORT
-
 ENTRYPOINT ["bash", "/lodestar_entrypoint.sh"]
