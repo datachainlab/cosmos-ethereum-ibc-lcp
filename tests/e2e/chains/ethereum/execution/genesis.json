@@ -17,8 +17,9 @@
     "mergeNetsplitBlock": 0,
     "shanghaiTime": 0,
     "cancunTime": 0,
-    "terminalTotalDifficulty": 1,
+    "terminalTotalDifficulty": 0,
     "terminalTotalDifficultyPassed": true,
+    "depositContractAddress": "0x4242424242424242424242424242424242424242",
     "ethash": {}
   },
   "difficulty": "0x1",
