@@ -587,13 +587,12 @@ dependencies = [
 [[package]]
 name = "ethereum-consensus"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=186c5b1d9935f15428ca8b209ad99ed20eaf81c6#186c5b1d9935f15428ca8b209ad99ed20eaf81c6"
+source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=v0.1.4#8ef10cf5982d28cb9d71b126ca41d364dda18788"
 dependencies = [
  "displaydoc",
  "hex",
  "milagro_bls",
  "primitive-types",
- "rs_merkle",
  "serde",
  "sha2 0.10.6",
  "ssz-rs",
@@ -603,7 +602,7 @@ dependencies = [
 [[package]]
 name = "ethereum-elc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.18#7ca39c0a5b7a4bf97aa193aa94cd00bb06c98d92"
+source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.19#8136ce801b30b391a6d4cd319f6c5a30bcea2527"
 dependencies = [
  "displaydoc",
  "ethereum-ibc",
@@ -616,7 +615,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.12#50790b532a0abb8d2310c03ff24c217ba27e103d"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.15#d652f330f24d638720cbed03099f3df7ae2d5b30"
 dependencies = [
  "bytes",
  "displaydoc",
@@ -636,7 +635,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc-proto"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.12#50790b532a0abb8d2310c03ff24c217ba27e103d"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.15#d652f330f24d638720cbed03099f3df7ae2d5b30"
 dependencies = [
  "prost",
  "serde",
@@ -645,11 +644,10 @@ dependencies = [
 [[package]]
 name = "ethereum-light-client-verifier"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=186c5b1d9935f15428ca8b209ad99ed20eaf81c6#186c5b1d9935f15428ca8b209ad99ed20eaf81c6"
+source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=v0.1.4#8ef10cf5982d28cb9d71b126ca41d364dda18788"
 dependencies = [
  "displaydoc",
  "ethereum-consensus",
- "log",
  "patricia-merkle-trie",
  "primitive-types",
  "rlp",
@@ -1481,15 +1479,6 @@ checksum = "bb919243f34364b6bd2fc10ef797edbfa75f33c252e7998527479c6d6b47e1ec"
 dependencies = [
  "bytes",
  "rustc-hex",
-]
-
-[[package]]
-name = "rs_merkle"
-version = "1.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b241d2e59b74ef9e98d94c78c47623d04c8392abaf82014dfd372a16041128f"
-dependencies = [
- "sha2 0.10.6",
 ]
 
 [[package]]
