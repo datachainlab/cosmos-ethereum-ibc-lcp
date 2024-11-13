@@ -1,9 +1,9 @@
 import { Command } from 'commander'
+import { ethers } from 'ethers'
 import * as fs from 'fs'
-import Web3 from 'web3'
-import { AbiItem } from 'web3-utils'
+import * as process from 'node:process'
 import * as dotenv from 'dotenv'
-import DepositABI from '../json/deposit.json'
+import { Deposit, Deposit__factory } from '../types/ethers-contracts'
 
 dotenv.config()
 const program = new Command()
@@ -13,10 +13,7 @@ interface callParams {
   privateKey: string
   depositContractAddr: string
   keyDir: string
-  mode: string
 }
-
-const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 const checkArgs = (): callParams | undefined => {
   program.option('-m, --mode <string>', 'deposit').parse(process.argv)
@@ -51,7 +48,6 @@ const checkArgs = (): callParams | undefined => {
     privateKey: process.env.PRIVATE_KEY || '',
     depositContractAddr: process.env.DEPOSIT_CONTRACT_ADDRESS || '',
     keyDir: process.env.KEY_DIR || '',
-    mode: opts.mode,
   }
   return callParams
 }
@@ -59,55 +55,90 @@ const checkArgs = (): callParams | undefined => {
 const main = async (): Promise<void> => {
   const args = checkArgs()
   if (args === undefined) throw 'args is invalid'
-  console.log(`command: ${args.mode}`)
 
-  try {
-    const web3 = new Web3(args.nodeURL)
+  const provider = new ethers.JsonRpcProvider(args.nodeURL)
+  const signingKey = args.privateKey.startsWith('0x')
+    ? args.privateKey
+    : `0x${args.privateKey}`
+  const signer = new ethers.BaseWallet(
+    new ethers.SigningKey(signingKey),
+    provider,
+  )
+  const deposit = Deposit__factory.connect(args.depositContractAddr, signer)
 
-    // PRIVATE_KEY variable defined
-    web3.eth.accounts.wallet.add(args.privateKey)
-    const account = web3.eth.accounts.wallet[0].address
+  // Read deposit_data-*.json from ${KEY_DIR}
+  const path = `${process.cwd()}/${args.keyDir}`
+  const jsons = fs.readdirSync(path)
+  const target = jsons.filter((json) => json.includes('deposit_data-'))
+  if (target.length !== 1)
+    throw new Error('deposit_data json file is not found')
 
-    switch (args.mode) {
-      case 'deposit': {
-        const contractAbi: AbiItem[] = DepositABI as AbiItem[]
-        const deposit = new web3.eth.Contract(
-          contractAbi,
-          args.depositContractAddr
-        )
+  const depositData = JSON.parse(
+    fs.readFileSync(`${path}/${target[0]}`, 'utf8'),
+  )
 
-        const callDeposit = async (
-          pubkey: string,
-          withdrawalCredentials: string,
-          signature: string,
-          depositDataRoot: string
-        ) => {
-          console.log(`call deposit function: pubkey: ${pubkey}`)
+  // call deposit
+  for (const data of depositData) {
+    const params = {
+      pubKey: `0x${data.pubkey}`,
+      credentials: `0x${data.withdrawal_credentials}`,
+      signature: `0x${data.signature}`,
+      depositDataRoot: `0x${data.deposit_data_root}`,
+    }
+    console.log(`${JSON.stringify(params, null, 2)}`)
 
-          const result = await deposit.methods
-            .deposit(pubkey, withdrawalCredentials, signature, depositDataRoot)
-            .send({ from: account, gasLimit: 90000, value: 32000000000000000000 });
-          console.log(result)
-        }
+    const resp = await callDeposit(
+      deposit,
+      params.pubKey,
+      params.credentials,
+      params.signature,
+      params.depositDataRoot,
+    )
 
-        // Read deposit_data-*.json from ${KEY_DIR}
-        const path = `${process.cwd()}/${args.keyDir}`
-        const jsons = fs.readdirSync(path)
-        const target = jsons.filter(json => json.includes('deposit_data-'))
-        if (target.length !== 1) throw new Error('deposit_data json file is not found');
-
-        const depositData = JSON.parse(fs.readFileSync(`${path}/${target[0]}`, 'utf8'))
-
-        // call deposit        
-        for (const data of depositData) {
-          await callDeposit(`0x${data.pubkey}`, `0x${data.withdrawal_credentials}`, `0x${data.signature}`, `0x${data.deposit_data_root}`)
-        }        
+    const maxRetryCount = 30;
+    let retryCount = 0;
+    let receipt;
+    while (true) {
+      try {
+        receipt = await resp.wait()
         break
+      } catch (err: any) {
+        console.error(err);
+        if (err.error.data == "transaction indexing is in progress" && retryCount < maxRetryCount) {
+          await sleep(1000)
+          console.log(`retry:${retryCount++}`)
+        } else {
+          throw err;
+        }
       }
     }
-  } catch (e) {
-    console.error(e)
+    console.log(JSON.stringify(receipt, null, 2))
   }
 }
 
-void main()
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms))
+
+const callDeposit = async (
+  depositContract: Deposit,
+  pubkey: string,
+  withdrawalCredentials: string,
+  signature: string,
+  depositDataRoot: string,
+) => {
+  console.log(`call deposit function: pubkey: ${pubkey}`)
+
+  const result = await depositContract.deposit(
+    pubkey,
+    withdrawalCredentials,
+    signature,
+    depositDataRoot,
+    { value: ethers.parseEther('32') },
+  )
+  console.log(result)
+  return result
+}
+
+main().catch((err) => {
+  console.error(err)
+  process.exit(1)
+})

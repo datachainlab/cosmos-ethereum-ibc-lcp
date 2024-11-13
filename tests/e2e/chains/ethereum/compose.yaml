@@ -3,8 +3,6 @@ volumes:
   lodestar-storage: {}
   validator-storage: {}
   logs:
-  prometheus:
-  grafana:
 
 services:
   # Runs the go-ethereum execution client with the specified, unlocked account and necessary
@@ -54,23 +52,23 @@ services:
       eth-localnet:
 
   lodestar:
-    # https://hub.docker.com/r/chainsafe/lodestar
     image: "lodestar-localnet:${LODESTAR_VERSION:-latest}"
     build:
       context: .
       dockerfile: ./Dockerfile.lodestar
       args:
         - VERSION=${LODESTAR_VERSION:-latest}
-        - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
-        - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
     container_name: lodestar
     volumes:
       - lodestar-storage:/data
+      - ./scripts/lodestar_entrypoint.sh:/scripts/lodestar_entrypoint.sh
       - ./config/jwtsecret:/secret/jwtsecret
       - ./consensus:/validator-data
       - logs:/logs
     environment:
-      - NODE_OPTIONS=--max-old-space-size=4096
+      - NODE_OPTIONS=--max-old-space-size=8192
+      - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
+      - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
     ports:
       - "8008:8008" # Metrics port
       - ${BEACON_HTTP_PORT:-9596}:${BEACON_HTTP_PORT:-9596} # REST API port
@@ -79,6 +77,7 @@ services:
       interval: "5s"
       timeout: "10s"
       retries: 10
+    entrypoint: /scripts/lodestar_entrypoint.sh
     command:
       - dev
       - --dataDir=/data
@@ -89,11 +88,11 @@ services:
       - --genesisEth1Hash=$${genesisHash}  # If present it will create genesis with this eth1 hash
       - --enr.ip=127.0.0.1
       - --rest
-      - --rest.port=$${BEACON_HTTP_PORT}
+      - --rest.port=${BEACON_HTTP_PORT}
       - --rest.address=0.0.0.0
       - --rest.namespace="*"
       - --eth1=true
-      - --eth1.providerUrls=http://geth:$${GETH_HTTP_PORT}
+      - --eth1.providerUrls=http://geth:${GETH_HTTP_PORT}
       - --execution.urls=http://geth:8551
       - --terminal-total-difficulty-override=0
       - --params.ALTAIR_FORK_EPOCH=0
@@ -102,11 +101,11 @@ services:
       - --params.DENEB_FORK_EPOCH=0
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
-      - --beaconNodes=http://127.0.0.1:$${BEACON_HTTP_PORT}
+      - --beaconNodes=http://127.0.0.1:${BEACON_HTTP_PORT}
       - --reset
       - --metrics
       - --metrics.address=0.0.0.0
-      - --logLevel=debug
+      - --logLevel=info
       - --logFile=/logs/beacon.log
       - --logFileLevel=debug
       - --logFileDailyRotate=5
@@ -115,7 +114,6 @@ services:
         condition: service_healthy
     networks:
       eth-localnet:
-
   # Send deposit function tx
   deposit:
     image: "deposit"
@@ -139,10 +137,13 @@ services:
     container_name: lodestar-validator
     volumes:
       - validator-storage:/data
+      - ./scripts/lodestar_entrypoint.sh:/scripts/lodestar_entrypoint.sh
       - ./consensus:/validator-data
       - logs:/logs
     environment:
-      - NODE_OPTIONS=--max-old-space-size=4096
+      - NODE_OPTIONS=--max-old-space-size=8192
+      - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
+      - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
     command:
       - validator
       - --network=dev
@@ -174,7 +175,6 @@ services:
       - SGX_MODE=${SGX_MODE}
     networks:
       eth-localnet:
-
 
 networks:
   eth-localnet:
