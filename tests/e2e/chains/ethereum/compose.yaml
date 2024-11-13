@@ -19,7 +19,11 @@ services:
       - ${GETH_HTTP_PORT:-8545}:${GETH_HTTP_PORT:-8545} # RPC Port
     volumes:
       - geth-storage:/execution/geth
+      - ./scripts/geth_entrypoint.sh:/geth_entrypoint.sh
       - ./config/jwtsecret:/secret/jwtsecret
+    environment:
+      - GENESIS_TIMESTAMP=${GENESIS_TIMESTAMP}
+      - EPOCH_DENCUN=${EPOCH_DENCUN}
     healthcheck:
       test: [ "CMD", "curl", "-X", "POST", "-H", "'Content-Type: application/json'", "--data", '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["0x0", false]}', "http://127.0.0.1:${GETH_HTTP_PORT:-8545}" ]
       interval: "5s"
@@ -61,7 +65,7 @@ services:
     container_name: lodestar
     volumes:
       - lodestar-storage:/data
-      - ./scripts/lodestar_entrypoint.sh:/scripts/lodestar_entrypoint.sh
+      - ./scripts/lodestar_entrypoint.sh:/lodestar_entrypoint.sh
       - ./config/jwtsecret:/secret/jwtsecret
       - ./consensus:/validator-data
       - logs:/logs
@@ -69,6 +73,8 @@ services:
       - NODE_OPTIONS=--max-old-space-size=8192
       - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
       - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
+      - GENESIS_TIMESTAMP=${GENESIS_TIMESTAMP}
+      - EPOCH_DENCUN=${EPOCH_DENCUN}
     ports:
       - "8008:8008" # Metrics port
       - ${BEACON_HTTP_PORT:-9596}:${BEACON_HTTP_PORT:-9596} # REST API port
@@ -77,7 +83,6 @@ services:
       interval: "5s"
       timeout: "10s"
       retries: 10
-    entrypoint: /scripts/lodestar_entrypoint.sh
     command:
       - dev
       - --dataDir=/data
@@ -98,7 +103,7 @@ services:
       - --params.ALTAIR_FORK_EPOCH=0
       - --params.BELLATRIX_FORK_EPOCH=0
       - --params.CAPELLA_FORK_EPOCH=0
-      - --params.DENEB_FORK_EPOCH=0
+      - --params.DENEB_FORK_EPOCH=$${deneb_fork_epoch}
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --beaconNodes=http://127.0.0.1:${BEACON_HTTP_PORT}
@@ -151,7 +156,7 @@ services:
       - --params.ALTAIR_FORK_EPOCH=0
       - --params.BELLATRIX_FORK_EPOCH=0
       - --params.CAPELLA_FORK_EPOCH=0
-      - --params.DENEB_FORK_EPOCH=0
+      - --params.DENEB_FORK_EPOCH=$${deneb_fork_epoch}
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --beaconNodes=http://lodestar:$${BEACON_HTTP_PORT}
