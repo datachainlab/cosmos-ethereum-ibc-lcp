@@ -587,7 +587,7 @@ dependencies = [
 [[package]]
 name = "ethereum-consensus"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=v0.1.6#e2026b51afde85d4bcf48633e22c7d7510d4ae69"
+source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=v0.1.7#4645ecd3cd2d5e1515826ecb6f81f7801888e51a"
 dependencies = [
  "displaydoc",
  "hex",
@@ -602,19 +602,19 @@ dependencies = [
 [[package]]
 name = "ethereum-elc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.22#e8d6e575fb84bf98efc90aec9489606e0c6ec4a1"
+source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.23#7a40e6a73b1fc08874aa33b7fa4c07daad9141af"
 dependencies = [
  "displaydoc",
  "ethereum-ibc",
  "ibc",
  "light-client",
- "tiny-keccak 1.5.0",
+ "tiny-keccak 2.0.2",
 ]
 
 [[package]]
 name = "ethereum-ibc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.18#80ea9cc3fb55a8231d0de952df42bffd35d30c90"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.19#06864ca06431906fdad149839cda52ba43da48d2"
 dependencies = [
  "bytes",
  "displaydoc",
@@ -634,7 +634,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc-proto"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.18#80ea9cc3fb55a8231d0de952df42bffd35d30c90"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.19#06864ca06431906fdad149839cda52ba43da48d2"
 dependencies = [
  "prost",
  "serde",
@@ -643,7 +643,7 @@ dependencies = [
 [[package]]
 name = "ethereum-light-client-verifier"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=v0.1.6#e2026b51afde85d4bcf48633e22c7d7510d4ae69"
+source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=v0.1.7#4645ecd3cd2d5e1515826ecb6f81f7801888e51a"
 dependencies = [
  "displaydoc",
  "ethereum-consensus",
