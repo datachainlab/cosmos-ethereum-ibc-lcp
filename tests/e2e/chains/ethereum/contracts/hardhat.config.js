@@ -6,8 +6,9 @@ require("@openzeppelin/hardhat-upgrades");
  */
 module.exports = {
   solidity: {
-    version: "0.8.20",
+    version: "0.8.28",
     settings: {
+      evmVersion: "cancun",
       optimizer: {
         enabled: true,
         runs: 9_999_999
