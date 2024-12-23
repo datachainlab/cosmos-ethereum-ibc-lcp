@@ -619,7 +619,7 @@ dependencies = [
 [[package]]
 name = "ethereum-consensus"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=v0.1.7#4645ecd3cd2d5e1515826ecb6f81f7801888e51a"
+source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=86510d8cb41186ec67506a5a16abf495580deecc#86510d8cb41186ec67506a5a16abf495580deecc"
 dependencies = [
  "displaydoc",
  "hex",
@@ -634,7 +634,7 @@ dependencies = [
 [[package]]
 name = "ethereum-elc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-elc?rev=v0.0.24#ff8fbede25faa173b75d270457ddcc6476b92ee0"
+source = "git+https://github.com/datachainlab/ethereum-elc?rev=9c67cb231061f3ef70f3445b832a88ed87a7e678#9c67cb231061f3ef70f3445b832a88ed87a7e678"
 dependencies = [
  "displaydoc",
  "ethereum-ibc",
@@ -646,7 +646,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.19#06864ca06431906fdad149839cda52ba43da48d2"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=17605c3ec9b585ef61abf185ae324291e3a4f11f#17605c3ec9b585ef61abf185ae324291e3a4f11f"
 dependencies = [
  "bytes",
  "displaydoc",
@@ -666,7 +666,7 @@ dependencies = [
 [[package]]
 name = "ethereum-ibc-proto"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=v0.0.19#06864ca06431906fdad149839cda52ba43da48d2"
+source = "git+https://github.com/datachainlab/ethereum-ibc-rs?rev=17605c3ec9b585ef61abf185ae324291e3a4f11f#17605c3ec9b585ef61abf185ae324291e3a4f11f"
 dependencies = [
  "prost",
  "serde",
@@ -675,7 +675,7 @@ dependencies = [
 [[package]]
 name = "ethereum-light-client-verifier"
 version = "0.1.0"
-source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=v0.1.7#4645ecd3cd2d5e1515826ecb6f81f7801888e51a"
+source = "git+https://github.com/datachainlab/ethereum-light-client-rs?rev=86510d8cb41186ec67506a5a16abf495580deecc#86510d8cb41186ec67506a5a16abf495580deecc"
 dependencies = [
  "displaydoc",
  "ethereum-consensus",
