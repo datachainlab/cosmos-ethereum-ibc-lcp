@@ -29,7 +29,8 @@
     "max_gas_limit": 10000000,
     "tx_type": "auto",
     "blocks_per_event_query": 1000,
-    "abi_paths": ["../../chains/ethereum/contracts/abis"]
+    "abi_paths": ["../../chains/ethereum/contracts/abis"],
+    "price_bump": 10
   },
   "prover": {
     "@type": "/relayer.provers.lcp.config.ProverConfig",
