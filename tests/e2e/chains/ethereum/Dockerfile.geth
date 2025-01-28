@@ -2,18 +2,10 @@ ARG VERSION=latest
 FROM ethereum/client-go:${VERSION}
 
 # For health check
-RUN apk add --no-cache curl
+RUN apk add --no-cache bash curl jq sed
 
 RUN mkdir -p /execution /config
 COPY ./execution/genesis.json /execution/
 COPY ./config /config
 
-# Init
-RUN geth --datadir=/execution init --state.scheme hash --db.engine=leveldb /execution/genesis.json
-
-# Import keys
-RUN geth --datadir=/execution account import --password /dev/null /config/dev-key0.prv
-RUN geth --datadir=/execution account import --password /dev/null /config/dev-key1.prv
-
-
-ENTRYPOINT ["geth"]
+ENTRYPOINT ["bash", "/geth_entrypoint.sh"]
