@@ -167,6 +167,9 @@ services:
   # Deploy contracts via hardhat
   contracts:
     image: "node:18"
+    build:
+      context: .
+      dockerfile: ./Dockerfile.npm
     volumes:
       - "./contracts:/app/contracts"
       - "./config:/app/config"
