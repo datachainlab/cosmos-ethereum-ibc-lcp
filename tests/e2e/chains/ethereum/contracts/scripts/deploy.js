@@ -46,9 +46,13 @@ async function deployLCPClientIAS(deployer, ibcHandler, developMode, rootCert) {
 }
 
 async function deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert) {
+  // CONTROL_ROOT and BN254_CONTROL_ROOT must match the version of risc0 utilized by the LCP
+  // ref. https://github.com/risc0/risc0-ethereum/blob/b9b22c396a0d5ef97bf02702da9415d5bb79a85a/contracts/src/groth16/ControlID.sol#L22 (v1.2)
   const riscZeroVerifier = await deploy(deployer, "RiscZeroGroth16Verifier", [
-    "0x8b6dcf11d463ac455361b41fb3ed053febb817491bdea00fdb340e45013b852e",
-    "0x05a022e1db38457fb510bc347b30eb8f8cf3eda95587653d0eac19e1f10d164e"
+    // CONTROL_ROOT
+    "0x8cdad9242664be3112aba377c5425a4df735eb1c6966472b561d2855932c0469",
+    // BN254_CONTROL_ROOT
+    "0x04446e66d300eb7fb45c9726bb53c793dda407a62e9601618bb43c5c14657ac0"
   ]);
   const lcpProtoMarshaler = await deploy(deployer, "LCPProtoMarshaler");
   saveAddress("LCPProtoMarshaler", lcpProtoMarshaler);
