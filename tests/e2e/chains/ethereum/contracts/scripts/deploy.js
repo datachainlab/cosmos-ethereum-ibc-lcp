@@ -32,6 +32,40 @@ async function deployAndLink(deployer, contractName, libraries, args = []) {
   return contract;
 }
 
+async function deployLCPClientIAS(deployer, ibcHandler, developMode, rootCert) {
+  const lcpProtoMarshaler = await deploy(deployer, "LCPProtoMarshaler");
+  saveAddress("LCPProtoMarshaler", lcpProtoMarshaler);
+  const avrValidator = await deploy(deployer, "AVRValidator");
+  saveAddress("AVRValidator", avrValidator);
+  const lcpClient = await deployAndLink(deployer, "LCPClientIAS", {
+    LCPProtoMarshaler: lcpProtoMarshaler.target,
+    AVRValidator: avrValidator.target
+  }, [ibcHandler.target, developMode, rootCert]);
+  saveAddress("LCPClient", lcpClient);
+  return lcpClient;
+}
+
+async function deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert) {
+  // CONTROL_ROOT and BN254_CONTROL_ROOT must match the version of risc0 utilized by the LCP
+  // ref. https://github.com/risc0/risc0-ethereum/blob/b9b22c396a0d5ef97bf02702da9415d5bb79a85a/contracts/src/groth16/ControlID.sol#L22 (v1.2)
+  const riscZeroVerifier = await deploy(deployer, "RiscZeroGroth16Verifier", [
+    // CONTROL_ROOT
+    "0x8cdad9242664be3112aba377c5425a4df735eb1c6966472b561d2855932c0469",
+    // BN254_CONTROL_ROOT
+    "0x04446e66d300eb7fb45c9726bb53c793dda407a62e9601618bb43c5c14657ac0"
+  ]);
+  const lcpProtoMarshaler = await deploy(deployer, "LCPProtoMarshaler");
+  saveAddress("LCPProtoMarshaler", lcpProtoMarshaler);
+  const dcapValidator = await deploy(deployer, "DCAPValidator");
+  saveAddress("DCAPValidator", dcapValidator);
+  const lcpClient = await deployAndLink(deployer, "LCPClientZKDCAP", {
+    LCPProtoMarshaler: lcpProtoMarshaler.target,
+    DCAPValidator: dcapValidator.target
+  }, [ibcHandler.target, developMode, rootCert, riscZeroVerifier.target]);
+  saveAddress("LCPClient", lcpClient);
+  return lcpClient;
+}
+
 async function deployIBC(deployer) {
   const logicNames = [
     "IBCClient",
@@ -124,12 +158,18 @@ async function main() {
 
   const fs = require('fs');
   let rootCert;
+  let developMode = false;
   if (process.env.SGX_MODE === "SW") {
     console.log("RA simulation is enabled");
+    developMode = true;
     rootCert = fs.readFileSync("../config/simulation_rootca.der");
   } else {
     console.log("RA simulation is disabled");
     rootCert = fs.readFileSync("../config/Intel_SGX_Attestation_RootCA.der");
+  }
+  if (process.env.ZKDCAP === "true") {
+    console.log("ZKDCAP is enabled");
+    rootCert = fs.readFileSync("../config/Intel_SGX_Provisioning_Certification_RootCA.der");
   }
 
   // ethers is available in the global scope
@@ -143,16 +183,15 @@ async function main() {
   const ibcHandler = await deployIBC(deployer);
   saveAddress("IBCHandler", ibcHandler)
 
-  const lcpProtoMarshaler = await deploy(deployer, "LCPProtoMarshaler");
-  saveAddress("LCPProtoMarshaler", lcpProtoMarshaler)
-  const avrValidator = await deploy(deployer, "AVRValidator");
-  saveAddress("AVRValidator", avrValidator)
-  const lcpClient = await deployAndLink(deployer, "LCPClient", {
-    LCPProtoMarshaler: lcpProtoMarshaler.target,
-    AVRValidator: avrValidator.target
-  }, [ibcHandler.target, true, rootCert]);
-  saveAddress("LCPClient", lcpClient)
-  await ibcHandler.registerClient(lcpClientType, lcpClient.target);
+  if (process.env.ZKDCAP === "true") {
+    console.log("Deploying LCPClientZKDCAP");
+    const lcpClient = await deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert);
+    await ibcHandler.registerClient(lcpClientType, lcpClient.target);
+  } else {
+    console.log("Deploying LCPClientIAS");
+    const lcpClient = await deployLCPClientIAS(deployer, ibcHandler, developMode, rootCert);
+    await ibcHandler.registerClient(lcpClientType, lcpClient.target);
+  }
 
   const app = await deployApp(deployer, ibcHandler);
 
