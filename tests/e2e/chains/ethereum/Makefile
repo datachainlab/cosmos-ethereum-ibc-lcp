@@ -26,7 +26,7 @@ network-down:
 # Build Docker Images
 #------------------------------------------------------------------------------
 .PHONY:build-images
-build-images: build-geth-image build-lodestar-image build-deposit-image
+build-images: build-geth-image build-lodestar-image build-deposit-image build-contract-image
 
 .PHONY:build-geth-image
 build-geth-image:
@@ -43,6 +43,9 @@ build-deposit-image:
 	GETH_HTTP_PORT=$(GETH_HTTP_PORT) \
 	docker compose build --no-cache deposit
 
+.PHONY:build-contract-image
+build-contract-image:
+	docker compose build --no-cache contracts
 
 #------------------------------------------------------------------------------
 # staking-deposit-cli / validator operation
