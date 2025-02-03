@@ -64,9 +64,10 @@ else
     fi
 fi
 
+ZKDCAP=${ZKDCAP} make -C ${E2E_TEST_DIR} network
+
 ZKDCAP=${ZKDCAP} E2E_TEST_DIR=${E2E_TEST_DIR} ${E2E_TEST_DIR}/scripts/gen_rly_config.sh
 
-ZKDCAP=${ZKDCAP} make -C ${E2E_TEST_DIR} network
 # wait until first finality_update is built
 retry 20 curl -fsL http://localhost:19596/eth/v1/beacon/light_client/finality_update -o /dev/null -w '%{http_code}\n'
 make -C ${E2E_TEST_DIR} setup handshake
