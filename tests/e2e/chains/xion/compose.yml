@@ -1,0 +1,39 @@
+networks:
+  relayer-e2e:
+    name: &network-common relayer-e2e
+
+services:
+  xion-chain0:
+    container_name: xion-chain0
+    image: xion-chain0:latest
+    environment:
+      - LCP_RA_ROOT_CERT_HEX=${LCP_RA_ROOT_CERT_HEX}
+    ports:
+      - 26656:26656
+      - 26657:26657
+      - 6060:6060
+      - 9090:9090
+    healthcheck:
+      test: "wget -q -O - http://localhost:26657/health || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - *network-common
+  xion-chain1:
+    container_name: xion-chain1
+    image: xion-chain1:latest
+    environment:
+      - LCP_RA_ROOT_CERT_HEX=${LCP_RA_ROOT_CERT_HEX}
+    ports:
+      - 26556:26656
+      - 26557:26657
+      - 6061:6060
+      - 9091:9090
+    healthcheck:
+      test: "wget -q -O - http://localhost:26657/health || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - *network-common

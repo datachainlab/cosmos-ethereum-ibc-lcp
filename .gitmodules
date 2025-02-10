@@ -1,3 +1,9 @@
 [submodule "lcp"]
 	path = lcp
 	url = https://github.com/datachainlab/lcp
+[submodule "tests/e2e/chains/xion/xion"]
+	path = tests/e2e/chains/xion/xion
+	url = https://github.com/datachainlab/xion.git
+[submodule "cosmwasm-ibc"]
+	path = cosmwasm-ibc
+	url = https://github.com/informalsystems/cosmwasm-ibc.git

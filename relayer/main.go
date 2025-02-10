@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	cw "github.com/datachainlab/cosmwasm-ibc-relay-prover/relay"
+	cwtm "github.com/datachainlab/cosmwasm-ibc-relay-prover/relay/tendermint"
 	"github.com/datachainlab/ethereum-ibc-relay-chain/pkg/relay/ethereum"
 	ethereumlc "github.com/datachainlab/ethereum-ibc-relay-prover/relay"
 	"github.com/datachainlab/ibc-hd-signer/pkg/hd"
@@ -22,6 +24,8 @@ func main() {
 		hd.Module{},
 		lcp.Module{},
 		lcptm.Module{},
+		cw.Module{},
+		cwtm.Module{},
 		rawsigner.Module{},
 	); err != nil {
 		fmt.Fprintln(os.Stderr, "Error:", err)

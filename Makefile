@@ -152,10 +152,15 @@ yrly:
 LCP_REPO=./lcp
 LCP_BIN=$(LCP_REPO)/bin/lcp
 
+WASM_CODE=./cosmwasm-ibc/target/wasm32-unknown-unknown/release/ibc_client_tendermint_cw.wasm
+
 USE_UPGRADE_TEST ?= no
 
 $(LCP_BIN):
 	$(MAKE) -C $(LCP_REPO)
+
+$(WASM_CODE):
+	cd ./cosmwasm-ibc && cargo +1.81-x86_64-unknown-linux-gnu build -p ibc-client-tendermint-cw --target wasm32-unknown-unknown --release
 
 .PHONY: prepare-contracts
 prepare-contracts:
@@ -164,6 +169,7 @@ prepare-contracts:
 .PHONY: build-images
 build-images:
 	$(MAKE) -C ./tests/e2e/chains/tendermint image
+	$(MAKE) -C ./tests/e2e/chains/xion image
 	$(MAKE) -C ./tests/e2e/chains/ethereum build-images
 
 .PHONY: e2e-test
@@ -173,3 +179,7 @@ e2e-test: e2e-clean $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
 .PHONY: e2e-clean
 e2e-clean:
 	$(MAKE) -C ./tests/e2e/chains/ethereum rm-oz-upgrades
+
+.PHONY: xion2xion-test
+xion2xion-test: $(WASM_CODE) $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
+	LCP_BIN=$(LCP_BIN) WASM_CODE=$(WASM_CODE) USE_UPGRADE_TEST=$(USE_UPGRADE_TEST) ./tests/e2e/scripts/run_xion2xion_test.sh

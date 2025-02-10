@@ -1,0 +1,35 @@
+#!/bin/bash
+set -eux
+
+RLY="${RLY_BIN} --debug"
+
+# XXX set proper value
+TX_INTERNAL=120
+#TM_USER_ADDRESS=$(${RLY} tendermint keys show ibc0 testkey)
+TM_USER_ADDRESS=user
+
+retry() {
+    local -r -i max_attempts="$1"; shift
+    local -r cmd="$@"
+    local -i attempt_num=1
+
+    until $cmd
+    do
+        if (( attempt_num == max_attempts ))
+        then
+            echo "Attempt $attempt_num failed and there are no more attempts left!"
+            return 1
+        else
+            echo "Attempt $attempt_num failed! Trying again in $attempt_num seconds..."
+            sleep $(( attempt_num++ ))
+        fi
+    done
+}
+
+echo "!!! ibc0 -> ibc1 !!!"
+
+docker exec xion-chain0 sh -c "xiond --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes"
+sleep 5
+retry 10 ${RLY} tx relay --do-refresh ibc01
+sleep ${TX_INTERNAL}
+retry 10 ${RLY} tx acks --do-refresh ibc01
