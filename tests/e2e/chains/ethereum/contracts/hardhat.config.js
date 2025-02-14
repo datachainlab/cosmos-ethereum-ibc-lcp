@@ -17,7 +17,14 @@ module.exports = {
   },
   networks: {
     eth_local: {
-      url: 'http://geth:8546'
+      url: 'http://geth:8546',
+      accounts: {
+        mnemonic: "math razor capable expose worth grape metal sunset metal sudden usage scheme",
+        path: "m/44'/60'/0'/0",
+        initialIndex: 0,
+        count: 1,
+        passphrase: "",
+      }
     }
   }
 }
