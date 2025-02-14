@@ -3,7 +3,7 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 go 1.22.2
 
 require (
-	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.16
+	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.17
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.9
 	github.com/datachainlab/ibc-hd-signer v0.1.2
 	github.com/datachainlab/lcp-go v0.2.16-0.20250314093437-61fba9b7a4be
@@ -73,7 +73,6 @@ require (
 	github.com/crate-crypto/go-ipa v0.0.0-20240223125850-b1e8a79f509c // indirect
 	github.com/crate-crypto/go-kzg-4844 v1.0.0 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
-	github.com/datachainlab/go-risc0-verifier v0.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/deckarep/golang-set/v2 v2.6.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.3.0 // indirect
@@ -140,7 +139,6 @@ require (
 	github.com/holiman/uint256 v1.3.1 // indirect
 	github.com/huandu/skiplist v1.2.0 // indirect
 	github.com/iancoleman/strcase v0.3.0 // indirect
-	github.com/iden3/go-rapidsnark/verifier v0.0.5 // indirect
 	github.com/improbable-eng/grpc-web v0.15.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/ipfs/go-log/v2 v2.5.1 // indirect
@@ -255,3 +253,10 @@ require (
 
 // See https://github.com/prysmaticlabs/grpc-gateway/issues/2
 replace github.com/grpc-ecosystem/grpc-gateway/v2 => github.com/prysmaticlabs/grpc-gateway/v2 v2.3.1-0.20230315201114-09284ba20446
+
+// TODO: Delete the follwoing lines before requesting review
+replace (
+	github.com/datachainlab/ethereum-ibc-relay-prover => github.com/datachainlab/ethereum-ibc-relay-prover v0.3.10-0.20250314052616-979a08ffc2e1
+	github.com/datachainlab/lcp-go => github.com/datachainlab/lcp-go v0.2.16-0.20250227231558-a9c1fc04e252
+	github.com/hyperledger-labs/yui-relayer => github.com/abicky/yui-relayer v0.0.0-20250227235826-c4bc26f833cd
+)
