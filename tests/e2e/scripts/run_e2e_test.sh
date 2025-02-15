@@ -26,6 +26,8 @@ while true; do
         --zkdcap)
             echo "ZKDCAP enabled"
             ZKDCAP=true
+            # TODO: Fetch the RISC0_IMAGE_ID from the LCP service
+            export LCP_RISC0_IMAGE_ID=0x44bc1f4eb9588657fc753805dfd3a04a353d96d3ced37b4ad44932544d7efe36
             shift
             ;;
         --)
@@ -45,11 +47,12 @@ if [ "$NO_RUN_LCP" = "false" ]; then
     LCP_ENCLAVE_PATH=${LCP_ENCLAVE_PATH:-./bin/enclave.signed.so}
     export LCP_ENCLAVE_DEBUG=1
     export LCP_MRENCLAVE=$(${LCP_BIN} enclave metadata --enclave=${LCP_ENCLAVE_PATH} | jq -r .mrenclave)
-    LCP_BIN=${LCP_BIN} LCP_ENCLAVE_PATH=${LCP_ENCLAVE_PATH} ./tests/e2e/scripts/init_lcp.sh
+    LCP_BIN=${LCP_BIN} LCP_ENCLAVE_PATH=${LCP_ENCLAVE_PATH} ZKDCAP=${ZKDCAP} ./tests/e2e/scripts/init_lcp.sh
     ${LCP_BIN} --log_level=info service start --enclave=${LCP_ENCLAVE_PATH} --address=127.0.0.1:50051 --threads=2 &
     LCP_PID=$!
     if [ "$SGX_MODE" = "SW" ]; then
         export LCP_RA_ROOT_CERT_HEX=$(cat ${CERTS_DIR}/root.crt | xxd -p -c 1000000)
+        export LCP_DCAP_RA_ROOT_CERT_HEX=$(cat ${CERTS_DIR}/simulate_dcap_root_cert.pem | xxd -p -c 1000000)
     fi
 else
     echo "Skip running LCP"
@@ -77,10 +80,10 @@ then
     make -C ${E2E_TEST_DIR} test-channel-upgrade
 fi
 
-if [ "$ZKDCAP" = "false" ] && [ "$NO_RUN_LCP" = "false" ]; then
+if [ "$NO_RUN_LCP" = "false" ]; then
     echo "Shutdown LCP for testing restore ELC state"
     kill $LCP_PID
-    ./tests/e2e/scripts/init_lcp.sh
+    ZKDCAP=${ZKDCAP} ./tests/e2e/scripts/init_lcp.sh
     ${LCP_BIN} --log_level=info service start --enclave=${LCP_ENCLAVE_PATH} --address=127.0.0.1:50051 --threads=2 &
     LCP_PID=$!
     echo "Restore ELC state"
