@@ -160,16 +160,22 @@ async function main() {
   let rootCert;
   let developMode = false;
   if (process.env.SGX_MODE === "SW") {
-    console.log("RA simulation is enabled");
     developMode = true;
-    rootCert = fs.readFileSync("../config/simulation_rootca.der");
+    if (process.env.ZKDCAP === "true") {
+      console.log("zkDCAP RA simulation is enabled");
+      rootCert = fs.readFileSync("../config/simulation_dcap_rootca.der");
+    } else {
+      console.log("RA simulation is enabled");
+      rootCert = fs.readFileSync("../config/simulation_rootca.der");
+    }
   } else {
-    console.log("RA simulation is disabled");
-    rootCert = fs.readFileSync("../config/Intel_SGX_Attestation_RootCA.der");
-  }
-  if (process.env.ZKDCAP === "true") {
-    console.log("ZKDCAP is enabled");
-    rootCert = fs.readFileSync("../config/Intel_SGX_Provisioning_Certification_RootCA.der");
+    if (process.env.ZKDCAP === "true") {
+      console.log("ZKDCAP is enabled");
+      rootCert = fs.readFileSync("../config/Intel_SGX_Provisioning_Certification_RootCA.der");
+    } else {
+      console.log("RA simulation is disabled");
+      rootCert = fs.readFileSync("../config/Intel_SGX_Attestation_RootCA.der");
+    }
   }
 
   // ethers is available in the global scope
