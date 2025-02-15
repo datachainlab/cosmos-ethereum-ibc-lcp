@@ -8,9 +8,12 @@ source $(cd $(dirname "$0"); pwd)/util
 E2E_TEST_DIR=./tests/e2e/cases/tm2eth
 OPERATORS_ENABLED=false
 NO_RUN_LCP=false
-ZKDCAP=false
+export ZKDCAP=false
+export LCP_ZKDCAP_RISC0_MOCK=false
+# TODO: Fetch the RISC0_IMAGE_ID from the LCP service
+export LCP_RISC0_IMAGE_ID=0x44bc1f4eb9588657fc753805dfd3a04a353d96d3ced37b4ad44932544d7efe36
 CERTS_DIR=./tests/certs
-ARGS=$(getopt -o '' --long no_run_lcp,zkdcap -n 'parse-options' -- "$@")
+ARGS=$(getopt -o '' --long no_run_lcp,zkdcap,mock_zkdcap -n 'parse-options' -- "$@")
 eval set -- "$ARGS"
 while true; do
     case "$1" in
@@ -26,8 +29,13 @@ while true; do
         --zkdcap)
             echo "ZKDCAP enabled"
             ZKDCAP=true
-            # TODO: Fetch the RISC0_IMAGE_ID from the LCP service
-            export LCP_RISC0_IMAGE_ID=0x44bc1f4eb9588657fc753805dfd3a04a353d96d3ced37b4ad44932544d7efe36
+            LCP_ZKDCAP_RISC0_MOCK=false
+            shift
+            ;;
+        --mock_zkdcap)
+            echo "Mock ZKDCAP enabled"
+            ZKDCAP=true
+            LCP_ZKDCAP_RISC0_MOCK=true
             shift
             ;;
         --)
@@ -64,12 +72,12 @@ else
     if [ "$SGX_MODE" = "SW" ]; then
         echo "Override the SGX_MODE to HW"
         export SGX_MODE=HW
-    fi
+fi
 fi
 
-ZKDCAP=${ZKDCAP} make -C ${E2E_TEST_DIR} network
+make -C ${E2E_TEST_DIR} network
 
-ZKDCAP=${ZKDCAP} E2E_TEST_DIR=${E2E_TEST_DIR} ${E2E_TEST_DIR}/scripts/gen_rly_config.sh
+E2E_TEST_DIR=${E2E_TEST_DIR} ${E2E_TEST_DIR}/scripts/gen_rly_config.sh
 
 # wait until first finality_update is built
 retry 20 curl -fsL http://localhost:19596/eth/v1/beacon/light_client/finality_update -o /dev/null -w '%{http_code}\n'

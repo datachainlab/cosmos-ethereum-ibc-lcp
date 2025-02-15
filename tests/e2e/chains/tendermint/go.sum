@@ -395,12 +395,12 @@ github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7Do
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
-github.com/datachainlab/go-risc0-verifier v0.0.0-20250115104412-b6fee0d6f256 h1:ypiUbEoFZBdqt1AjILJex2xrS/Ce5EXDhOOlDycq4zc=
-github.com/datachainlab/go-risc0-verifier v0.0.0-20250115104412-b6fee0d6f256/go.mod h1:O+uLSIdkN9rvqDXuZCnAOSPf/IT5SVjK/PxxJP3sPPU=
+github.com/datachainlab/go-risc0-verifier v0.1.1 h1:M+GjE4tcbLAxJGX8oCC70yWv5gSXSgPJpBHZuyFB9kk=
+github.com/datachainlab/go-risc0-verifier v0.1.1/go.mod h1:O+uLSIdkN9rvqDXuZCnAOSPf/IT5SVjK/PxxJP3sPPU=
 github.com/datachainlab/ibc-mock-app v0.1.1 h1:ylaFuuC7iQP4QH0Tvlt2ibQCBYvXP22S3KvUOXmMRlk=
 github.com/datachainlab/ibc-mock-app v0.1.1/go.mod h1:mxOiHsKNduLy9FAa5MsAv7qun9WkWww4DmYuLlLqVG8=
-github.com/datachainlab/lcp-go v0.2.14-0.20250214103310-5be96e190b59 h1:3pHEXLEpARtqhuzxdxFSHVK8TSdex0znVgv0jiQoeXM=
-github.com/datachainlab/lcp-go v0.2.14-0.20250214103310-5be96e190b59/go.mod h1:wzX0Snv/FDeZTjUNdt3X6UP2QLWlMmNI7acD9v4J1Zo=
+github.com/datachainlab/lcp-go v0.2.14-0.20250215025342-cc4ce32d59c8 h1:iuilnVjuuR6MmiW62Q65kjOpG3vpi3oV0SW0ajwsOIM=
+github.com/datachainlab/lcp-go v0.2.14-0.20250215025342-cc4ce32d59c8/go.mod h1:X/Kj+0bJS1kxZk37M06227XD4IIUJYamcDmhtHUwl2s=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=

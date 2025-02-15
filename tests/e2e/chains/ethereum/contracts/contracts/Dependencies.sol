@@ -29,3 +29,4 @@ import {IBCContractUpgradableUUPSMockApp} from "@datachainlab/ethereum-ibc-relay
 import {AppV1, AppV2, AppV3, AppV4, AppV5, AppV6, AppV7} from "./App.sol";
 
 import {RiscZeroGroth16Verifier} from "risc0-ethereum/contracts/src/groth16/RiscZeroGroth16Verifier.sol";
+import {RiscZeroMockVerifier} from "risc0-ethereum/contracts/src/test/RiscZeroMockVerifier.sol";

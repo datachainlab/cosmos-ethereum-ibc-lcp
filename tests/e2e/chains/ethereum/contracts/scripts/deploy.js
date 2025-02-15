@@ -45,15 +45,25 @@ async function deployLCPClientIAS(deployer, ibcHandler, developMode, rootCert) {
   return lcpClient;
 }
 
-async function deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert) {
-  // CONTROL_ROOT and BN254_CONTROL_ROOT must match the version of risc0 utilized by the LCP
-  // ref. https://github.com/risc0/risc0-ethereum/blob/b9b22c396a0d5ef97bf02702da9415d5bb79a85a/contracts/src/groth16/ControlID.sol#L22 (v1.2)
-  const riscZeroVerifier = await deploy(deployer, "RiscZeroGroth16Verifier", [
-    // CONTROL_ROOT
-    "0x8cdad9242664be3112aba377c5425a4df735eb1c6966472b561d2855932c0469",
-    // BN254_CONTROL_ROOT
-    "0x04446e66d300eb7fb45c9726bb53c793dda407a62e9601618bb43c5c14657ac0"
-  ]);
+async function deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert, isMock) {
+  var riscZeroVerifier;
+  if (isMock) {
+    console.log("Deploying RiscZeroMockVerifier");
+    riscZeroVerifier = await deploy(deployer, "RiscZeroMockVerifier", [
+      // Selector
+      "0x00000000"
+    ]);
+  } else {
+    console.log("Deploying RiscZeroGroth16Verifier");
+    // CONTROL_ROOT and BN254_CONTROL_ROOT must match the version of risc0 utilized by the LCP
+    // ref. https://github.com/risc0/risc0-ethereum/blob/b9b22c396a0d5ef97bf02702da9415d5bb79a85a/contracts/src/groth16/ControlID.sol#L22 (v1.2)
+    riscZeroVerifier = await deploy(deployer, "RiscZeroGroth16Verifier", [
+      // CONTROL_ROOT
+      "0x8cdad9242664be3112aba377c5425a4df735eb1c6966472b561d2855932c0469",
+      // BN254_CONTROL_ROOT
+      "0x04446e66d300eb7fb45c9726bb53c793dda407a62e9601618bb43c5c14657ac0"
+    ]);
+  }
   const lcpProtoMarshaler = await deploy(deployer, "LCPProtoMarshaler");
   saveAddress("LCPProtoMarshaler", lcpProtoMarshaler);
   const dcapValidator = await deploy(deployer, "DCAPValidator");
@@ -191,7 +201,7 @@ async function main() {
 
   if (process.env.ZKDCAP === "true") {
     console.log("Deploying LCPClientZKDCAP");
-    const lcpClient = await deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert);
+    const lcpClient = await deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert, process.env.LCP_ZKDCAP_RISC0_MOCK === "true");
     await ibcHandler.registerClient(lcpClientType, lcpClient.target);
   } else {
     console.log("Deploying LCPClientIAS");

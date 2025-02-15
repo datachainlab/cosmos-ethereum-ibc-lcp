@@ -21,6 +21,7 @@ if [ "$ZKDCAP" = true ]; then
         --argjson IS_DEBUG_ENCLAVE ${IS_DEBUG_ENCLAVE} \
         --arg LC_ADDRESS ${LC_ADDRESS} \
         --arg RISC0_IMAGE_ID ${LCP_RISC0_IMAGE_ID} \
+        --argjson LCP_ZKDCAP_RISC0_MOCK ${LCP_ZKDCAP_RISC0_MOCK} \
         -f ${TEMPLATE_DIR}/ibc-0-zkdcap.json.tpl > ${CONFIG_DIR}/ibc-0.json
 
     jq -n \
@@ -29,6 +30,7 @@ if [ "$ZKDCAP" = true ]; then
         --arg IBC_ADDRESS ${IBC_ADDRESS} \
         --arg LC_ADDRESS ${LC_ADDRESS} \
         --arg RISC0_IMAGE_ID ${LCP_RISC0_IMAGE_ID} \
+        --argjson LCP_ZKDCAP_RISC0_MOCK ${LCP_ZKDCAP_RISC0_MOCK} \
         -f ${TEMPLATE_DIR}/ibc-1-zkdcap.json.tpl > ${CONFIG_DIR}/ibc-1.json
 else
     jq -n \

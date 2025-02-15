@@ -127,7 +127,7 @@ shchk:
 #------------------------------------------------------------------------------
 .PHONY:deploy
 deploy:
-	$(DOCKER_COMPOSE) run -e USE_UPGRADE_TEST=$(USE_UPGRADE_TEST) -e ZKDCAP=$(ZKDCAP) contracts $(HARDHAT) run ./scripts/deploy.js --network eth_local
+	$(DOCKER_COMPOSE) run -e USE_UPGRADE_TEST=$(USE_UPGRADE_TEST) -e ZKDCAP=$(ZKDCAP) -e LCP_ZKDCAP_RISC0_MOCK=$(LCP_ZKDCAP_RISC0_MOCK) contracts $(HARDHAT) run ./scripts/deploy.js --network eth_local
 
 .PHONY: dep
 dep:
