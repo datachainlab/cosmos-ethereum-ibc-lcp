@@ -21,7 +21,7 @@ require (
 	github.com/cosmos/ibc-go/modules/capability v1.0.0
 	github.com/cosmos/ibc-go/v8 v8.2.1
 	github.com/datachainlab/ibc-mock-app v0.1.1
-	github.com/datachainlab/lcp-go v0.2.14-0.20250214103310-5be96e190b59
+	github.com/datachainlab/lcp-go v0.2.14-0.20250215025342-cc4ce32d59c8
 	github.com/spf13/cast v1.6.0
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
@@ -74,7 +74,7 @@ require (
 	github.com/creachadair/atomicfile v0.3.1 // indirect
 	github.com/creachadair/tomledit v0.0.24 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
-	github.com/datachainlab/go-risc0-verifier v0.0.0-20250115104412-b6fee0d6f256 // indirect
+	github.com/datachainlab/go-risc0-verifier v0.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/deckarep/golang-set/v2 v2.6.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.3.0 // indirect

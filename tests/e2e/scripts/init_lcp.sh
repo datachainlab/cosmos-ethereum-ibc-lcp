@@ -16,9 +16,12 @@ if [ "$ZKDCAP" = "true" ] && [ "$SGX_MODE" != "SW" ]; then
     ${LCP_BIN} attestation zkdcap --enclave=${LCP_ENCLAVE_PATH} --prove_mode=local \
         --enclave_key=$(${LCP_BIN} --log_level=off enclave generate-key --enclave=${LCP_ENCLAVE_PATH} --target_qe=qe3)
 elif [ "$ZKDCAP" = "true" ]; then
-    prove_mode=local
-    if [ -n "$BONSAI_API_KEY" ]; then
+    if [ "$LCP_ZKDCAP_RISC0_MOCK" = "true" ]; then
+        prove_mode=dev
+    elif [ -n "$BONSAI_API_KEY" ]; then
         prove_mode=bonsai
+    else
+        prove_mode=local
     fi
     ${LCP_BIN} attestation zkdcap-sim --enclave=${LCP_ENCLAVE_PATH} --prove_mode=${prove_mode} \
         --enclave_key=$(${LCP_BIN} --log_level=off enclave generate-key --enclave=${LCP_ENCLAVE_PATH} --target_qe=qe3sim)
