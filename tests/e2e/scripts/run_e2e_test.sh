@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-# Usage: run_e2e_test.sh <--no_run_lcp> <--zkdcap>
+# Usage: run_e2e_test.sh <--no_run_lcp> <--upgrade_test> <--zkdcap|--mock_zkdcap>
 
 source $(cd $(dirname "$0"); pwd)/util
 
@@ -12,8 +12,9 @@ export ZKDCAP=false
 export LCP_ZKDCAP_RISC0_MOCK=false
 # TODO: Fetch the RISC0_IMAGE_ID from the LCP service
 export LCP_RISC0_IMAGE_ID=0x44bc1f4eb9588657fc753805dfd3a04a353d96d3ced37b4ad44932544d7efe36
+export USE_UPGRADE_TEST=no
 CERTS_DIR=./tests/certs
-ARGS=$(getopt -o '' --long no_run_lcp,zkdcap,mock_zkdcap -n 'parse-options' -- "$@")
+ARGS=$(getopt -o '' --long no_run_lcp,upgrade_test,zkdcap,mock_zkdcap -n 'parse-options' -- "$@")
 eval set -- "$ARGS"
 while true; do
     case "$1" in
@@ -24,6 +25,11 @@ while true; do
                 exit 1
             fi
             NO_RUN_LCP=true
+            shift
+            ;;
+        --upgrade_test)
+            echo "Enable upgrade test"
+            USE_UPGRADE_TEST=yes
             shift
             ;;
         --zkdcap)
