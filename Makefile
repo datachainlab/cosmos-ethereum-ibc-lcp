@@ -152,7 +152,6 @@ yrly:
 LCP_REPO=./lcp
 LCP_BIN=$(LCP_REPO)/bin/lcp
 
-USE_UPGRADE_TEST ?= no
 E2E_OPTIONS=""
 
 $(LCP_BIN):
@@ -169,7 +168,7 @@ build-images:
 
 .PHONY: e2e-test
 e2e-test: e2e-clean $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
-	LCP_BIN=$(LCP_BIN) USE_UPGRADE_TEST=$(USE_UPGRADE_TEST) ./tests/e2e/scripts/run_e2e_test.sh $(E2E_OPTIONS)
+	LCP_BIN=$(LCP_BIN) ./tests/e2e/scripts/run_e2e_test.sh $(E2E_OPTIONS)
 
 .PHONY: e2e-clean
 e2e-clean:
