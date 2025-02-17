@@ -5,6 +5,10 @@ IS_DEBUG_ENCLAVE=false
 if [ "$LCP_ENCLAVE_DEBUG" = "1" ]; then
     IS_DEBUG_ENCLAVE=true
 fi
+# set LCP_ZKDCAP_RISC0_MOCK as false if not set
+if [ -z "$LCP_ZKDCAP_RISC0_MOCK" ]; then
+    LCP_ZKDCAP_RISC0_MOCK=false
+fi
 
 TEMPLATE_DIR=${E2E_TEST_DIR}/configs/templates
 CONFIG_DIR=${E2E_TEST_DIR}/configs/demo
@@ -16,6 +20,11 @@ LC_ADDRESS=$(cat $ADDRESSES_DIR/LCPClient)
 
 mkdir -p $CONFIG_DIR
 if [ "$ZKDCAP" = true ]; then
+    if [ -z "$LCP_RISC0_IMAGE_ID" ]; then
+        echo "LCP_RISC0_IMAGE_ID is not set"
+        exit 1
+    fi
+
     jq -n \
         --arg MRENCLAVE ${LCP_MRENCLAVE} \
         --argjson IS_DEBUG_ENCLAVE ${IS_DEBUG_ENCLAVE} \

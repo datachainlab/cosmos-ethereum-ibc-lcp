@@ -431,8 +431,8 @@ github.com/datachainlab/go-risc0-verifier v0.1.1 h1:M+GjE4tcbLAxJGX8oCC70yWv5gSX
 github.com/datachainlab/go-risc0-verifier v0.1.1/go.mod h1:O+uLSIdkN9rvqDXuZCnAOSPf/IT5SVjK/PxxJP3sPPU=
 github.com/datachainlab/ibc-hd-signer v0.1.1 h1:ws90eXVjjLcx2i6iPJu2bJ2w06tIeuSyIBfYbOIEv68=
 github.com/datachainlab/ibc-hd-signer v0.1.1/go.mod h1:I1pas5LB8QupngqT05/h3u1nqhHww9OOnAwliuPEd3c=
-github.com/datachainlab/lcp-go v0.2.14-0.20250215025342-cc4ce32d59c8 h1:iuilnVjuuR6MmiW62Q65kjOpG3vpi3oV0SW0ajwsOIM=
-github.com/datachainlab/lcp-go v0.2.14-0.20250215025342-cc4ce32d59c8/go.mod h1:X/Kj+0bJS1kxZk37M06227XD4IIUJYamcDmhtHUwl2s=
+github.com/datachainlab/lcp-go v0.2.14-0.20250216155239-a410f641c69c h1:36aQYFSbzyrk7WIIXcxxDtcEyZ7ssKEfBuFtXUTsGWc=
+github.com/datachainlab/lcp-go v0.2.14-0.20250216155239-a410f641c69c/go.mod h1:X/Kj+0bJS1kxZk37M06227XD4IIUJYamcDmhtHUwl2s=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

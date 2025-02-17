@@ -168,9 +168,7 @@ async function main() {
 
   const fs = require('fs');
   let rootCert;
-  let developMode = false;
   if (process.env.SGX_MODE === "SW") {
-    developMode = true;
     if (process.env.ZKDCAP === "true") {
       console.log("zkDCAP RA simulation is enabled");
       rootCert = fs.readFileSync("../config/simulation_dcap_rootca.der");
@@ -187,6 +185,9 @@ async function main() {
       rootCert = fs.readFileSync("../config/Intel_SGX_Attestation_RootCA.der");
     }
   }
+
+  let developMode = process.env.LCP_ENCLAVE_DEBUG === "1";
+  console.log("Develop mode:", developMode);
 
   // ethers is available in the global scope
   const [deployer] = await hre.ethers.getSigners();
