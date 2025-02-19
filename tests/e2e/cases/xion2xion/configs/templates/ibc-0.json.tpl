@@ -5,7 +5,7 @@
     "chain_id": "ibc0",
     "rpc_addr": "http://localhost:26657",
     "account_prefix": "xion",
-    "gas_adjustment": 1.5,
+    "gas_adjustment": 2.0,
     "gas_prices": "0.025stake",
     "average_block_time_msec": 1000,
     "max_retry_for_commit": 5
