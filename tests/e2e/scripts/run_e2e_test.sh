@@ -1,22 +1,21 @@
 #!/usr/bin/env bash
 set -ex
 
-# Usage: run_e2e_test.sh <--no_run_lcp> <--zkdcap|--mock_zkdcap> <--operators_enabled> <--enclave_debug> <--upgrade_test>
+# Usage: run_e2e_test.sh <--no_run_lcp> <--zkdcap|--mock_zkdcap> <--enclave_debug> <--upgrade_test>
 
 source $(cd $(dirname "$0"); pwd)/util
 
 E2E_TEST_DIR=./tests/e2e/cases/tm2eth
-OPERATORS_ENABLED=false
 NO_RUN_LCP=false
 export LCP_ENCLAVE_DEBUG=0
 # LCP_RISC0_IMAGE_ID must be set to the same value as in the LCP service
-LCP_RISC0_IMAGE_ID=${LCP_RISC0_IMAGE_ID:-0x891259557f89c1e011fafcb5adcb611a469d8a965b0964c36748b8adf81bb4f3}
+LCP_RISC0_IMAGE_ID=${LCP_RISC0_IMAGE_ID:-0x41cf3c7114bc781c19732588e2709e08af0dfe578d621947bf510b7e335086f0}
 export ZKDCAP=false
 export LCP_ZKDCAP_RISC0_MOCK=false
 export LCP_RISC0_IMAGE_ID
 export USE_UPGRADE_TEST=no
 CERTS_DIR=./tests/certs
-ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,operators_enabled,zkdcap,mock_zkdcap,upgrade_test -- "$@")
+ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test -- "$@")
 eval set -- "$ARGS"
 while true; do
     case "$1" in
@@ -28,11 +27,6 @@ while true; do
         --enclave_debug)
             echo "Enclave debug enabled"
             LCP_ENCLAVE_DEBUG=1
-            shift
-            ;;
-        --operators_enabled)
-            echo "Operators enabled"
-            OPERATORS_ENABLED=true
             shift
             ;;
         --zkdcap)
