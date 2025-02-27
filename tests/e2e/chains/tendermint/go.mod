@@ -21,7 +21,7 @@ require (
 	github.com/cosmos/ibc-go/modules/capability v1.0.0
 	github.com/cosmos/ibc-go/v8 v8.2.1
 	github.com/datachainlab/ibc-mock-app v0.1.1
-	github.com/datachainlab/lcp-go v0.2.14-0.20250218120456-fc5038fd8d5f
+	github.com/datachainlab/lcp-go v0.2.16-0.20250227134321-4826b6c955a6
 	github.com/spf13/cast v1.6.0
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0

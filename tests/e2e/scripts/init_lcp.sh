@@ -24,7 +24,7 @@ if [ "$ZKDCAP" = "true" ]; then
         ${LCP_BIN} attestation zkdcap --enclave=${LCP_ENCLAVE_PATH} --prove_mode=${prove_mode} \
             --enclave_key=$(${LCP_BIN} --log_level=off enclave generate-key --enclave=${LCP_ENCLAVE_PATH} --target_qe=qe3)
     else
-        ${LCP_BIN} attestation zkdcap-sim --enclave=${LCP_ENCLAVE_PATH} --prove_mode=${prove_mode} \
+        ${LCP_BIN} attestation zkdcap-sim --enclave=${LCP_ENCLAVE_PATH} --prove_mode=${prove_mode} --tcb_eval_data_num=1 \
             --enclave_key=$(${LCP_BIN} --log_level=off enclave generate-key --enclave=${LCP_ENCLAVE_PATH} --target_qe=qe3sim)
     fi
 elif [ -z "$SGX_MODE" ] || [ "$SGX_MODE" = "HW" ]; then

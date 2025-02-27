@@ -27,6 +27,8 @@
     "key_expiration": 604800,
     "elc_client_id": "07-tendermint-1",
     "is_debug_enclave": $IS_DEBUG_ENCLAVE,
+    "current_tcb_evaluation_data_number": 1,
+    "tcb_evaluation_data_number_update_grace_period": 0,
     "risc0_zkvm_config": {
       "image_id": $RISC0_IMAGE_ID,
       "mock": $LCP_ZKDCAP_RISC0_MOCK
