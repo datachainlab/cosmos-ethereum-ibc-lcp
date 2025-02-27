@@ -9,7 +9,7 @@
   "license": "TBD",
   "devDependencies": {
     "@datachainlab/ethereum-ibc-relay-chain": "git+https://github.com/datachainlab/ethereum-ibc-relay-chain.git#semver:v0.3.10",
-    "@datachainlab/lcp-solidity": "git+https://github.com/datachainlab/lcp-solidity.git#c2e7084153e96d53b48ae880c74ac32f5fe7668a",
+    "@datachainlab/lcp-solidity": "git+https://github.com/datachainlab/lcp-solidity.git#1fb2aef1ea0829a6a4a419a4ac3435e2c939ac4f",
     "@hyperledger-labs/yui-ibc-solidity": "git+https://github.com/hyperledger-labs/yui-ibc-solidity.git#semver:v0.3.40",
     "@nomicfoundation/hardhat-foundry": "^1.1.3",
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
