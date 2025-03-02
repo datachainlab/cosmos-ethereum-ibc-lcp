@@ -1,0 +1,198 @@
+#!/bin/bash
+
+set -eux
+
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+source "$SCRIPT_DIR/../../../scripts/util"
+
+RELAYER_CONF="$HOME/.yui-relayer"
+RLY="${RLY_BIN} --debug"
+
+PATH_NAME=ibc01
+
+checkEq() {
+    typ=$1
+    a=$2
+    b=$3
+    if [ $a != $b ]
+    then
+	echo "${typ} mismatch: ${a} != ${b}"
+	exit 1
+    fi
+    echo $a
+}
+
+# back up the original channel fields
+a=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."connection-id"')
+b=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."connection-id"')
+origConnectionId=$(checkEq "original connection id" $a $b)
+
+a=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."version"')
+b=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."version"')
+origVersion=$(checkEq "original version" $a $b)
+
+a=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."order"')
+b=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."order"')
+origOrder=$(checkEq "original ordering" $a $b)
+
+# back up the original config.json and make connection identifiers empty
+origconfig=`mktemp`
+cp "$RELAYER_CONF/config/config.json" $origconfig
+$RLY paths edit $PATH_NAME src connection-id ''
+$RLY paths edit $PATH_NAME dst connection-id ''
+
+# create a new connection and save the new connection identifiers
+retry 5 $RLY tx update-clients $PATH_NAME
+sleep 60
+retry 20 $RLY tx connection $PATH_NAME -o 20s
+a=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."connection-id"')
+b=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."connection-id"')
+altConnectionId=$(checkEq "alternative connection id" $a $b)
+altOrder=ordered
+
+# resume the original config.json
+mv $origconfig "$RELAYER_CONF/config/config.json"
+
+# the function that checks which of orig or alt the channel has finally settled
+checkResult() {
+    expectedSide=$1
+    expectedVersion=$2
+
+    a=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."connection-id"')
+    b=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."connection-id"')
+    connectionId=$(checkEq "path config connection id" $a $b)
+
+    a=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."version"')
+    b=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."version"')
+    version=$(checkEq "path config version" $a $b)
+
+    a=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].src."order"')
+    b=$($RLY paths list --json | jq --raw-output --arg path_name "$PATH_NAME" '.[$path_name].dst."order"')
+    order=$(checkEq "path config ordering" $a $b)
+
+    if [ "$expectedSide" = orig ]
+    then
+	expectedConnectionId=$origConnectionId
+	expectedOrder=$origOrder
+    elif [ $expectedSide = alt ]
+    then
+	expectedConnectionId=$altConnectionId
+	expectedOrder=$altOrder
+    else
+	echo "expectedSide is invalid value: $expectedSide"
+	exit 1
+    fi
+
+    if [ "$connectionId" != "$expectedConnectionId" -o "$order" != "$expectedOrder" -o "$version" != "$expectedVersion" ]
+    then
+	echo "unexpected channel fields: $connectionId(expected: $expectedConnectionId), $order(expected: $expectedOrder), $version(expected: $expectedVersion)"
+	exit 1
+    fi
+
+    # confirm src chain is not upgrading
+    upg=$($RLY query channel-upgrade ibc01 ibc0)
+    if [ $(echo "$upg" | jq '.fields|length') -ne 0 ]
+    then
+	echo "src chain still in the process of upgrade: $upg"
+	exit 1
+    fi
+
+    # confirm dst chain is not upgrading
+    upg=$($RLY query channel-upgrade ibc01 ibc1)
+    if [ $(echo "$upg" | jq '.fields|length') -ne 0 ]
+    then
+	echo "dst chain is still in the process of upgrade: $upg"
+	exit 1
+    fi
+}
+
+# constant variables
+#TIMEOUT_FLAGS="--timeout-height 0-0 --timeout-timestamp `date -d 2030/01/01 +%s`"
+TIMEOUT_FLAGS="--timeout-height 0-100000000"
+ORIG_FIELDS="--ordering $origOrder --connection-hops $origConnectionId"
+ALT_FIELDS="--ordering $altOrder --connection-hops $altConnectionId"
+
+echo '##### case 1 #####'
+fields="$ALT_FIELDS --version mockapp-2"
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+$RLY tx channel-upgrade init ibc01 ibc1 $fields
+retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state FLUSHCOMPLETE --target-dst-state FLUSHING
+$RLY eth upgrade allow ibc01 ibc1 --upgrade-sequence 1
+retry 10 $RLY tx channel-upgrade execute ibc01
+checkResult alt mockapp-2
+
+echo '##### case 2 #####'
+fields="$ORIG_FIELDS --version mockapp-3"
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+$RLY tx channel-upgrade init ibc01 ibc1 $fields
+retry 10 $RLY tx channel-upgrade execute ibc01
+checkResult orig mockapp-3
+
+echo '##### case 3 #####'
+fields="$ALT_FIELDS --version mockapp-4"
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+$RLY tx channel-upgrade init ibc01 ibc1 $fields
+retry 10 $RLY tx channel-upgrade cancel ibc01 ibc0 # create situation where ibc0.error_receipt.sequence >= ibc1.channel.upgrade_sequence
+retry 10 $RLY tx channel-upgrade execute ibc01     # the channel upgrade of ibc1 should be cancelled
+checkResult orig mockapp-3
+
+echo '##### case 4 #####'
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state INIT --target-dst-state FLUSHING
+retry 10 $RLY tx channel-upgrade cancel ibc01 ibc0 # ibc0 returns to UNINIT. ibc1 is FLUSHING.
+retry 10 $RLY tx channel-upgrade execute ibc01     # ibc1's upgrade should be cancelled
+checkResult orig mockapp-3
+
+echo '##### case 5 #####'
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state INIT --target-dst-state FLUSHING
+retry 10 $RLY tx channel-upgrade cancel ibc01 ibc0       # ibc0 returns to UNINIT. ibc1 is FLUSHING.
+$RLY tx channel-upgrade init ibc01 ibc0 --unsafe $fields # ibc0 re-initiates new upgrade.
+retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state FLUSHCOMPLETE --target-dst-state FLUSHING
+$RLY eth upgrade allow ibc01 ibc1 --upgrade-sequence 7
+retry 10 $RLY tx channel-upgrade execute ibc01           # The upgrade initiated by ibc0 should be completed after ibc1's one is cancelled.
+checkResult alt mockapp-4
+
+echo '##### case 6 #####'
+fields="$ORIG_FIELDS --version mockapp-5"
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state FLUSHCOMPLETE --target-dst-state FLUSHING
+retry 10 $RLY tx channel-upgrade cancel ibc01 ibc1 # ibc1 returns to UNINIT. ibc0 is FLUSHCOMPLETE.
+retry 10 $RLY tx channel-upgrade execute ibc01     # ibc0's upgrade (in FLUSHCOMPLETE) should be cancelled.
+checkResult alt mockapp-4
+
+echo '##### case 7 #####'
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state FLUSHCOMPLETE --target-dst-state FLUSHING
+retry 10 $RLY tx channel-upgrade cancel ibc01 ibc1       # ibc1 returns to UNINIT. ibc0 is FLUSHCOMPLETE.
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+$RLY tx channel-upgrade init ibc01 ibc1 --unsafe $fields # ibc1 re-initiates new upgrade.
+retry 10 $RLY tx channel-upgrade execute ibc01           # The upgrade initiated by ibc1 should be completed after ibc0's one is cancelled.
+checkResult orig mockapp-5
+
+echo '##### case 8 #####'
+fields="$ALT_FIELDS --version mockapp-6"
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
+$RLY tx channel-upgrade init ibc01 ibc1 $fields
+retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state FLUSHCOMPLETE --target-dst-state FLUSHING
+sleep 480                                      # ibc1 exceeds upgrade.timeout.timestamp
+retry 10 $RLY tx channel-upgrade execute ibc01 # ibc0 <= chanUpgradeTimeout, ibc1 <= chanUpgradeCancel
+checkResult orig mockapp-5
+
+echo '##### case 9 #####'
+$RLY tx channel-upgrade init ibc01 ibc0 $fields
+$RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS --timeout-height 0-0 --timeout-timestamp `date -d 480sec +%s%N`
+$RLY tx channel-upgrade init ibc01 ibc1 $fields
+retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state FLUSHING --target-dst-state FLUSHING
+sleep 480                                      # Both chains exceed upgrade.timeout.timestamp
+retry 10 $RLY tx channel-upgrade execute ibc01 # ibc0,ibc1 <= chanUpgradeTimeout
+checkResult orig mockapp-5

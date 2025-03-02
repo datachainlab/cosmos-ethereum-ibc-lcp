@@ -1,0 +1,8 @@
+#!/bin/bash
+set -eux
+
+RLY="${RLY_BIN} --debug"
+
+${RLY} lcp restore-elc ibc01 --src=true
+
+${RLY} lcp remove-eki ibc01 --src=true
