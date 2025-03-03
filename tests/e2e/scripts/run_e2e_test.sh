@@ -9,7 +9,7 @@ E2E_TEST_DIR=./tests/e2e/cases/tm2eth
 NO_RUN_LCP=false
 export LCP_ENCLAVE_DEBUG=0
 # LCP_RISC0_IMAGE_ID must be set to the same value as in the LCP service
-LCP_RISC0_IMAGE_ID=${LCP_RISC0_IMAGE_ID:-0xeca2d61c271b651b7a53d046e41ed681f1aa4b68ec05fcf958d0535265571f52}
+LCP_RISC0_IMAGE_ID=${LCP_RISC0_IMAGE_ID:-0x7238627eef5fe9a95d8cadd1a74c3bb1f703cf312699ce93f4c8aa448f122e6f}
 export ZKDCAP=false
 export LCP_ZKDCAP_RISC0_MOCK=false
 export LCP_RISC0_IMAGE_ID
