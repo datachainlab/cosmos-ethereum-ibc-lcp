@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -ex
 
-# Usage: run_e2e_test.sh <--no_run_lcp> <--zkdcap|--mock_zkdcap> <--enclave_debug> <--upgrade_test>
+# Usage: run_e2e_test.sh <--no_run_lcp> <--zkdcap|--mock_zkdcap> <--enclave_debug> <--upgrade_test> <--key_expiration=<integer>>
 
 source $(cd $(dirname "$0"); pwd)/util
 
 E2E_TEST_DIR=./tests/e2e/cases/tm2eth
 NO_RUN_LCP=false
 export LCP_ENCLAVE_DEBUG=0
+export LCP_KEY_EXPIRATION=86400
 # LCP_RISC0_IMAGE_ID must be set to the same value as in the LCP service
 LCP_RISC0_IMAGE_ID=${LCP_RISC0_IMAGE_ID:-0x7238627eef5fe9a95d8cadd1a74c3bb1f703cf312699ce93f4c8aa448f122e6f}
 export ZKDCAP=false
@@ -15,7 +16,7 @@ export LCP_ZKDCAP_RISC0_MOCK=false
 export LCP_RISC0_IMAGE_ID
 export USE_UPGRADE_TEST=no
 CERTS_DIR=./tests/certs
-ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test -- "$@")
+ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test,key_expiration: -- "$@")
 eval set -- "$ARGS"
 while true; do
     case "$1" in
@@ -40,6 +41,11 @@ while true; do
             ZKDCAP=true
             LCP_ZKDCAP_RISC0_MOCK=true
             shift
+            ;;
+        --key_expiration)
+            echo "Key expiration set to $2"
+            LCP_KEY_EXPIRATION=$2
+            shift 2
             ;;
         --upgrade_test)
             echo "Enable upgrade test"
