@@ -7,3 +7,6 @@
 [submodule "cosmwasm-ibc"]
 	path = cosmwasm-ibc
 	url = https://github.com/informalsystems/cosmwasm-ibc.git
+[submodule "ibc-elc-client-cw"]
+	path = ibc-elc-client-cw
+	url = https://github.com/datachainlab/ibc-elc-client-cw.git

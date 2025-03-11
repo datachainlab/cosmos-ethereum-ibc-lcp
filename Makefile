@@ -153,7 +153,7 @@ LCP_REPO=./lcp
 LCP_BIN=$(LCP_REPO)/bin/lcp
 
 TM_WASM_CODE=./cosmwasm-ibc/target/wasm32-unknown-unknown/release/ibc_client_tendermint_cw.wasm
-ETH_WASM_CODE=./ethereum-ibc-cw/target/wasm32-unknown-unknown/release/ethereum_ibc_cw.wasm
+ETH_WASM_CODE=./ibc-elc-client-cw/target/wasm32-unknown-unknown/release/ibc_ethereum_client_cw.wasm
 
 USE_UPGRADE_TEST ?= no
 
@@ -164,7 +164,7 @@ $(TM_WASM_CODE):
 	cd ./cosmwasm-ibc && cargo +1.81-x86_64-unknown-linux-gnu build -p ibc-client-tendermint-cw --target wasm32-unknown-unknown --release
 
 $(ETH_WASM_CODE):
-	cd ./ethereum-ibc-cw && cargo wasm
+	cd ./ibc-elc-client-cw && cargo wasm -p ibc-ethereum-client-cw
 
 .PHONY: prepare-contracts
 prepare-contracts:
