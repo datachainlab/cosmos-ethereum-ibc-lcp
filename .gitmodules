@@ -7,6 +7,3 @@
 [submodule "cosmwasm-ibc"]
 	path = cosmwasm-ibc
 	url = https://github.com/informalsystems/cosmwasm-ibc.git
-[submodule "ethereum-ibc-cw"]
-	path = ethereum-ibc-cw
-	url = https://github.com/datachainlab/ethereum-ibc-cw.git
