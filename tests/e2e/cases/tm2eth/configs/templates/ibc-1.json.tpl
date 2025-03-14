@@ -53,6 +53,7 @@
     "allowed_quote_statuses": ["SW_HARDENING_NEEDED", "GROUP_OUT_OF_DATE"],
     "allowed_advisory_ids": ["INTEL-SA-00219","INTEL-SA-00289","INTEL-SA-00334","INTEL-SA-00477","INTEL-SA-00614","INTEL-SA-00615","INTEL-SA-00617", "INTEL-SA-00828"],
     "key_expiration": $LCP_KEY_EXPIRATION,
+    "key_update_buffer_time": 3600,
     "elc_client_id": "ethereum-0",
     "message_aggregation": true,
     "is_debug_enclave": $IS_DEBUG_ENCLAVE,
