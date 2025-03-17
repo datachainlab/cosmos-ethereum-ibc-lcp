@@ -429,10 +429,12 @@ github.com/datachainlab/ethereum-ibc-relay-chain v0.3.17 h1:oyDLIbc9hyp31c3OoIB5
 github.com/datachainlab/ethereum-ibc-relay-chain v0.3.17/go.mod h1:sf+ti1uM1joxhukxIyj8oDQ5yf7d+e+nl+3vtn9f5CM=
 github.com/datachainlab/ethereum-ibc-relay-prover v0.3.10-0.20250314052616-979a08ffc2e1 h1:K0DZJzRkfLn4jETONLCDTNelHAMd1RDKOtU5Nmdo3kU=
 github.com/datachainlab/ethereum-ibc-relay-prover v0.3.10-0.20250314052616-979a08ffc2e1/go.mod h1:p+8+lPQDilpQxSQPagCbCbCcAMg82cXrhytjUsa+rW0=
+github.com/datachainlab/go-risc0-verifier v0.1.1 h1:M+GjE4tcbLAxJGX8oCC70yWv5gSXSgPJpBHZuyFB9kk=
+github.com/datachainlab/go-risc0-verifier v0.1.1/go.mod h1:O+uLSIdkN9rvqDXuZCnAOSPf/IT5SVjK/PxxJP3sPPU=
 github.com/datachainlab/ibc-hd-signer v0.1.2 h1:fWAYjMBVyM390OllX/l58mZYA7we0spEBFLYKWYTwfw=
 github.com/datachainlab/ibc-hd-signer v0.1.2/go.mod h1:nwH0Z3TK/7jbu/oInGGWGRimQ+LCn6yvDyjMZrw9mR4=
-github.com/datachainlab/lcp-go v0.2.16-0.20250227231558-a9c1fc04e252 h1:eAj435DejCxqcDJz5/AFYSryFJEQJeTWiHSCgo9YWOI=
-github.com/datachainlab/lcp-go v0.2.16-0.20250227231558-a9c1fc04e252/go.mod h1:f2s60rSD0OlxWClxrZOM7GTnIXNozr3aa63TGgDX7eM=
+github.com/datachainlab/lcp-go v0.2.16-0.20250317104543-a834db39662c h1:xVeu2HfUlu9BwtbsKefJ4A/WL8GUiE6KdugusYsuNJA=
+github.com/datachainlab/lcp-go v0.2.16-0.20250317104543-a834db39662c/go.mod h1:H/g5z87hmuOSZzRgPTvBWl0v0/yTgY0eZCRuR5dpNww=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -801,6 +803,8 @@ github.com/iancoleman/strcase v0.3.0 h1:nTXanmYxhfFAMjZL34Ov6gkzEsSJZ5DbhxWjvSAS
 github.com/iancoleman/strcase v0.3.0/go.mod h1:iwCmte+B7n89clKwxIoIXy/HfoL7AsD47ZCWhYzw7ho=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
+github.com/iden3/go-rapidsnark/verifier v0.0.5 h1:J7y0ovrEjDQoWtZmlrp4tgGng1A9faMeYsQH4igAEqA=
+github.com/iden3/go-rapidsnark/verifier v0.0.5/go.mod h1:KgL3Yr9NehlFDI4EIWVLE3UDUi8ulyjbp7HcXSBfiGI=
 github.com/improbable-eng/grpc-web v0.15.0 h1:BN+7z6uNXZ1tQGcNAuaU1YjsLTApzkjt2tzCixLaUPQ=
 github.com/improbable-eng/grpc-web v0.15.0/go.mod h1:1sy9HKV4Jt9aEs9JSnkWlRJPuPtwNr0l57L4f878wP8=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
