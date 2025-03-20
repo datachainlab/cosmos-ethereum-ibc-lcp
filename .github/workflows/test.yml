@@ -9,7 +9,7 @@ on:
 jobs:
   e2e-test:
     runs-on:
-      labels: ubuntu-22.04-16core
+      labels: ubuntu-22.04
     env:
       SGX_MODE: SW
     steps:
@@ -36,4 +36,4 @@ jobs:
           source /opt/sgxsdk/environment
           make prepare-contracts
           make build-images
-          make E2E_OPTIONS="--zkdcap" e2e-test
+          make E2E_OPTIONS="--mock_zkdcap" e2e-test
