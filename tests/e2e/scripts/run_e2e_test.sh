@@ -6,7 +6,7 @@ set -ex
 source $(cd $(dirname "$0"); pwd)/util
 
 E2E_TEST_DIR=./tests/e2e/cases/tm2eth
-NO_RUN_LCP=false
+export NO_RUN_LCP=false
 export LCP_ENCLAVE_DEBUG=0
 export LCP_KEY_EXPIRATION=86400
 # LCP_RISC0_IMAGE_ID must be set to the same value as in the LCP service
