@@ -168,7 +168,7 @@ async function main() {
 
   const fs = require('fs');
   let rootCert;
-  if (process.env.SGX_MODE === "SW") {
+  if (process.env.NO_RUN_LCP === "false" && process.env.SGX_MODE === "SW") {
     if (process.env.ZKDCAP === "true") {
       console.log("zkDCAP RA simulation is enabled");
       rootCert = fs.readFileSync("../config/simulation_dcap_rootca.der");
