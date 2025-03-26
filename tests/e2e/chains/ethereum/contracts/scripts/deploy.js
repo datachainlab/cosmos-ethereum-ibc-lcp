@@ -1,5 +1,5 @@
 const portMock = "mockapp";
-const lcpClientType = "lcp-client";
+const lcpClientType = "lcp-client-zkdcap";
 
 function saveAddress(contractName, contract) {
   const fs = require("fs");
