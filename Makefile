@@ -164,7 +164,7 @@ $(TM_WASM_CODE):
 	cd ./cosmwasm-ibc && cargo +1.81-x86_64-unknown-linux-gnu build -p ibc-client-tendermint-cw --target wasm32-unknown-unknown --release
 
 $(ETH_WASM_CODE):
-	cd ./ibc-elc-client-cw && cargo wasm -p ibc-ethereum-client-cw
+	cd ./ibc-elc-client-cw && cargo wasm -p ibc-ethereum-client-cw --features minimal
 
 .PHONY: prepare-contracts
 prepare-contracts:
