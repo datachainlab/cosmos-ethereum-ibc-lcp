@@ -21,11 +21,9 @@ if [ -z "$genesisHash" ]; then
 	exit 1
 fi
 
-electra_fork_epoch=${EPOCH_PECTRA}
 # Replace string of environment variable in command
 tmp=$(echo $cmd | sed -e 's/\${timestamp}/'${GENESIS_TIMESTAMP}'/g')
-tmp=$(echo $tmp | sed -e 's/\${genesisHash}/'${genesisHash}'/g')
-cmd=$(echo $tmp | sed -e 's/\${electra_fork_epoch}/'${electra_fork_epoch}'/g')
+cmd=$(echo $tmp | sed -e 's/\${genesisHash}/'${genesisHash}'/g')
 
 echo "replaced command args: $cmd"
 

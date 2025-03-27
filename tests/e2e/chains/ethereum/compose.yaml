@@ -104,7 +104,7 @@ services:
       - --params.BELLATRIX_FORK_EPOCH=0
       - --params.CAPELLA_FORK_EPOCH=0
       - --params.DENEB_FORK_EPOCH=0
-      - --params.ELECTRA_FORK_EPOCH=$${electra_fork_epoch}
+      - --params.ELECTRA_FORK_EPOCH=${EPOCH_PECTRA}
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --beaconNodes=http://127.0.0.1:${BEACON_HTTP_PORT}
@@ -160,10 +160,10 @@ services:
       - --params.BELLATRIX_FORK_EPOCH=0
       - --params.CAPELLA_FORK_EPOCH=0
       - --params.DENEB_FORK_EPOCH=0
-      - --params.ELECTRA_FORK_EPOCH=$${electra_fork_epoch}
+      - --params.ELECTRA_FORK_EPOCH=${EPOCH_PECTRA}
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
-      - --beaconNodes=http://lodestar:$${BEACON_HTTP_PORT}
+      - --beaconNodes=http://lodestar:${BEACON_HTTP_PORT}
       - --importKeystores=/validator-data/validator_keys
       - --importKeystoresPassword=/validator-data/password.txt
       - --logLevel=debug
