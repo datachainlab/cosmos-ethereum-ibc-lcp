@@ -21,7 +21,19 @@
     "terminalTotalDifficulty": 0,
     "terminalTotalDifficultyPassed": true,
     "depositContractAddress": "0x4242424242424242424242424242424242424242",
-    "ethash": {}
+    "ethash": {},
+    "blobSchedule": {
+      "cancun": {
+        "target": 3,
+        "max": 6,
+        "baseFeeUpdateFraction": 3338477
+      },
+      "prague": {
+        "target": 6,
+        "max": 9,
+        "baseFeeUpdateFraction": 5007716
+      }
+    }
   },
   "nonce":"0x42",
   "timestamp": "0x0",
