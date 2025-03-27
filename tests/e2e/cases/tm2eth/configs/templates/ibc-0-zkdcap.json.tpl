@@ -16,19 +16,24 @@
       "@type": "/relayer.chains.tendermint.config.ProverConfig",
       "trusting_period": "336h",
       "refresh_threshold_rate": {
-        "numerator": 2,
-        "denominator": 3
+        "numerator": 1,
+        "denominator": 2
       }
     },
     "lcp_service_address": "localhost:50051",
     "mrenclave": $MRENCLAVE,
-    "allowed_quote_statuses": ["SW_HARDENING_NEEDED", "GROUP_OUT_OF_DATE"],
-    "allowed_advisory_ids": ["INTEL-SA-00219","INTEL-SA-00289","INTEL-SA-00334","INTEL-SA-00477","INTEL-SA-00614","INTEL-SA-00615","INTEL-SA-00617", "INTEL-SA-00828"],
+    "allowed_quote_statuses": ["SWHardeningNeeded"],
+    "allowed_advisory_ids": ["INTEL-SA-00219","INTEL-SA-00289","INTEL-SA-00334","INTEL-SA-00477","INTEL-SA-00614","INTEL-SA-00615","INTEL-SA-00617"],
     "key_expiration": $LCP_KEY_EXPIRATION,
     "key_update_buffer_time": 3600,
     "elc_client_id": "07-tendermint-1",
-    "message_aggregation": true,
     "is_debug_enclave": $IS_DEBUG_ENCLAVE,
+    "current_tcb_evaluation_data_number": 1,
+    "tcb_evaluation_data_number_update_grace_period": 0,
+    "risc0_zkvm_config": {
+      "image_id": $RISC0_IMAGE_ID,
+      "mock": $LCP_ZKDCAP_RISC0_MOCK
+    },
     "operators": [
       "0xcb96F8d6C2d543102184d679D7829b39434E4EEc"
     ],
