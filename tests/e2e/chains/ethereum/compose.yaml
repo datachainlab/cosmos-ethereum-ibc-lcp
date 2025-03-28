@@ -19,7 +19,11 @@ services:
       - ${GETH_HTTP_PORT:-8545}:${GETH_HTTP_PORT:-8545} # RPC Port
     volumes:
       - geth-storage:/execution/geth
+      - ./scripts/geth_entrypoint.sh:/geth_entrypoint.sh
       - ./config/jwtsecret:/secret/jwtsecret
+    environment:
+      - GENESIS_TIMESTAMP=${GENESIS_TIMESTAMP}
+      - EPOCH_PECTRA=${EPOCH_PECTRA}
     healthcheck:
       test: [ "CMD", "curl", "-X", "POST", "-H", "'Content-Type: application/json'", "--data", '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["0x0", false]}', "http://127.0.0.1:${GETH_HTTP_PORT:-8545}" ]
       interval: "5s"
@@ -30,7 +34,7 @@ services:
       - --datadir=/execution
       - --verbosity=4
       - --http
-      - --http.api=debug,personal,eth,net,web3,txpool,engine,miner
+      - --http.api=debug,admin,eth,net,web3,txpool,engine,miner
       - --http.vhosts=*
       - --http.addr=0.0.0.0
       - --http.port=${GETH_HTTP_PORT:-8545}
@@ -61,7 +65,7 @@ services:
     container_name: lodestar
     volumes:
       - lodestar-storage:/data
-      - ./scripts/lodestar_entrypoint.sh:/scripts/lodestar_entrypoint.sh
+      - ./scripts/lodestar_entrypoint.sh:/lodestar_entrypoint.sh
       - ./config/jwtsecret:/secret/jwtsecret
       - ./consensus:/validator-data
       - logs:/logs
@@ -69,6 +73,8 @@ services:
       - NODE_OPTIONS=--max-old-space-size=8192
       - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
       - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
+      - GENESIS_TIMESTAMP=${GENESIS_TIMESTAMP}
+      - EPOCH_PECTRA=${EPOCH_PECTRA}
     ports:
       - "8008:8008" # Metrics port
       - ${BEACON_HTTP_PORT:-9596}:${BEACON_HTTP_PORT:-9596} # REST API port
@@ -77,7 +83,6 @@ services:
       interval: "5s"
       timeout: "10s"
       retries: 10
-    entrypoint: /scripts/lodestar_entrypoint.sh
     command:
       - dev
       - --dataDir=/data
@@ -99,6 +104,7 @@ services:
       - --params.BELLATRIX_FORK_EPOCH=0
       - --params.CAPELLA_FORK_EPOCH=0
       - --params.DENEB_FORK_EPOCH=0
+      - --params.ELECTRA_FORK_EPOCH=${EPOCH_PECTRA}
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --beaconNodes=http://127.0.0.1:${BEACON_HTTP_PORT}
@@ -137,13 +143,15 @@ services:
     container_name: lodestar-validator
     volumes:
       - validator-storage:/data
-      - ./scripts/lodestar_entrypoint.sh:/scripts/lodestar_entrypoint.sh
+      - ./scripts/lodestar_entrypoint.sh:/lodestar_entrypoint.sh
       - ./consensus:/validator-data
       - logs:/logs
     environment:
       - NODE_OPTIONS=--max-old-space-size=8192
       - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
       - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
+      - GENESIS_TIMESTAMP=${GENESIS_TIMESTAMP}
+      - EPOCH_PECTRA=${EPOCH_PECTRA}
     command:
       - validator
       - --network=dev
@@ -152,9 +160,10 @@ services:
       - --params.BELLATRIX_FORK_EPOCH=0
       - --params.CAPELLA_FORK_EPOCH=0
       - --params.DENEB_FORK_EPOCH=0
+      - --params.ELECTRA_FORK_EPOCH=${EPOCH_PECTRA}
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
-      - --beaconNodes=http://lodestar:$${BEACON_HTTP_PORT}
+      - --beaconNodes=http://lodestar:${BEACON_HTTP_PORT}
       - --importKeystores=/validator-data/validator_keys
       - --importKeystoresPassword=/validator-data/password.txt
       - --logLevel=debug
