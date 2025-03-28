@@ -4,9 +4,9 @@ go 1.22.2
 
 require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.17
-	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.9
+	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.10
 	github.com/datachainlab/ibc-hd-signer v0.1.2
-	github.com/datachainlab/lcp-go v0.2.16-0.20250314093437-61fba9b7a4be
+	github.com/datachainlab/lcp-go v0.2.17
 	github.com/hyperledger-labs/yui-relayer v0.5.12
 )
 
@@ -257,8 +257,4 @@ require (
 replace github.com/grpc-ecosystem/grpc-gateway/v2 => github.com/prysmaticlabs/grpc-gateway/v2 v2.3.1-0.20230315201114-09284ba20446
 
 // TODO: Delete the follwoing lines before requesting review
-replace (
-	github.com/datachainlab/ethereum-ibc-relay-prover => github.com/datachainlab/ethereum-ibc-relay-prover v0.3.10-0.20250314052616-979a08ffc2e1
-	github.com/datachainlab/lcp-go => github.com/datachainlab/lcp-go v0.2.16-0.20250317104543-a834db39662c
-	github.com/hyperledger-labs/yui-relayer => github.com/abicky/yui-relayer v0.0.0-20250227235826-c4bc26f833cd
-)
+replace github.com/hyperledger-labs/yui-relayer => github.com/abicky/yui-relayer v0.0.0-20250328104822-420aec043a7e
