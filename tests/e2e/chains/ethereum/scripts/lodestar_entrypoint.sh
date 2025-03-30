@@ -21,25 +21,9 @@ if [ -z "$genesisHash" ]; then
 	exit 1
 fi
 
-# Get timestamp
-# Note: alpine has a problem for date command, `coreutils`` is required
-#  - https://unix.stackexchange.com/questions/206540/date-d-command-fails-on-docker-alpine-linux-container
-OS="$(uname)"
-timestamp=""
-if [[ "$OS" =~ ^Darwin ]]; then
-	timestamp=$(date -v+10S '+%s')
-elif [[ "$OS" =~ ^Linux ]]; then
-	timestamp=$(date -d'+10second' +%s)
-else
-	echo "This platform is not supported"
-	exit 1
-fi
-
 # Replace string of environment variable in command
-tmp=$(echo $cmd | sed -e 's/\${timestamp}/'${timestamp}'/g')
-tmp=$(echo $tmp | sed -e 's/\${genesisHash}/'${genesisHash}'/g')
-tmp=$(echo $tmp | sed -e 's/\${GETH_HTTP_PORT}/'${GETH_HTTP_PORT}'/g')
-cmd=$(echo $tmp | sed -e 's/\${BEACON_HTTP_PORT}/'${BEACON_HTTP_PORT}'/g')
+tmp=$(echo $cmd | sed -e 's/\${timestamp}/'${GENESIS_TIMESTAMP}'/g')
+cmd=$(echo $tmp | sed -e 's/\${genesisHash}/'${genesisHash}'/g')
 
 echo "replaced command args: $cmd"
 
