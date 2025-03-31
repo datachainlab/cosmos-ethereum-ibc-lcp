@@ -119,6 +119,7 @@ async function prepareImplementation(deployer, proxy, contractName, constructorA
     txOverrides: {},
     unsafeAllow: unsafeAllow ?? [],
     redeployImplementation: 'always',
+    timeout: 600000,
     getTxResponse: true
   };
   const tx = await hre.upgrades.prepareUpgrade(proxy, factory, implOptions);
