@@ -1,0 +1,2 @@
+risc0-ethereum/=lib/risc0-ethereum/
+openzeppelin/=lib/risc0-ethereum/lib/openzeppelin-contracts/
