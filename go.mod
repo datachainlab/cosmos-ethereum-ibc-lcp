@@ -3,11 +3,11 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 go 1.22.2
 
 require (
-	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.16
-	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.9
+	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.17
+	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.10
 	github.com/datachainlab/ibc-hd-signer v0.1.2
-	github.com/datachainlab/lcp-go v0.2.17-0.20250326101114-4f484197aeb4
-	github.com/hyperledger-labs/yui-relayer v0.5.11
+	github.com/datachainlab/lcp-go v0.2.18-0.20250326095730-101ba8c9dfa1
+	github.com/hyperledger-labs/yui-relayer v0.5.12
 )
 
 require (
@@ -255,3 +255,6 @@ require (
 
 // See https://github.com/prysmaticlabs/grpc-gateway/issues/2
 replace github.com/grpc-ecosystem/grpc-gateway/v2 => github.com/prysmaticlabs/grpc-gateway/v2 v2.3.1-0.20230315201114-09284ba20446
+
+// TODO: Delete the follwoing lines before requesting review
+replace github.com/hyperledger-labs/yui-relayer => github.com/abicky/yui-relayer v0.0.0-20250328104822-420aec043a7e
