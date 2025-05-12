@@ -433,6 +433,8 @@ github.com/datachainlab/ibc-hd-signer v0.1.2 h1:fWAYjMBVyM390OllX/l58mZYA7we0spE
 github.com/datachainlab/ibc-hd-signer v0.1.2/go.mod h1:nwH0Z3TK/7jbu/oInGGWGRimQ+LCn6yvDyjMZrw9mR4=
 github.com/datachainlab/lcp-go v0.2.18 h1:B/0pXyAcPWncvcl2g8q16YUhZZRiw4pHDCfLYbZca1A=
 github.com/datachainlab/lcp-go v0.2.18/go.mod h1:H/g5z87hmuOSZzRgPTvBWl0v0/yTgY0eZCRuR5dpNww=
+github.com/datachainlab/lcp-go v0.2.19 h1:eOk5LlU2f2sKeDLFKA9fqYg0JzugKeJlXT/O5Wy9FbM=
+github.com/datachainlab/lcp-go v0.2.19/go.mod h1:oUFegGtikfNKVx020dNy+5hNU1ez/j4pLjCW2Ss1O7k=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
