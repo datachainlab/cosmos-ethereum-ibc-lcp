@@ -3,9 +3,9 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 go 1.22.2
 
 replace (
-	github.com/datachainlab/ethereum-ibc-relay-prover => github.com/datachainlab/ethereum-ibc-relay-prover v0.3.13-0.20250529050022-d3945627d5b4
-	github.com/datachainlab/lcp-go => github.com/datachainlab/lcp-go v0.2.20-0.20250529044927-4ea1234efc4a
-	github.com/hyperledger-labs/yui-relayer => github.com/hyperledger-labs/yui-relayer v0.5.14-0.20250528170243-a65bfd516bb9
+	github.com/datachainlab/ethereum-ibc-relay-prover => github.com/datachainlab/ethereum-ibc-relay-prover v0.3.13-0.20250529094453-11beaac1a9a6
+	github.com/datachainlab/lcp-go => github.com/datachainlab/lcp-go v0.2.20-0.20250529093456-ad6f6cfbcba3
+	github.com/hyperledger-labs/yui-relayer => github.com/hyperledger-labs/yui-relayer v0.5.14-0.20250529093019-420ac95bb98a
 )
 
 require (
