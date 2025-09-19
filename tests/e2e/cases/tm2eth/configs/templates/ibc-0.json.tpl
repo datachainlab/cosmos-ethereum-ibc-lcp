@@ -13,9 +13,8 @@
   "prover": {
     "@type": "/relayer.provers.debug.config.ProverConfig",
     "origin_prover": {
-
-    "@type": "/relayer.provers.lcp.config.ProverConfig",
-    "origin_prover": {
+      "@type": "/relayer.provers.lcp.config.ProverConfig",
+      "origin_prover": {
       "@type": "/relayer.chains.tendermint.config.ProverConfig",
       "trusting_period": "336h",
       "refresh_threshold_rate": {
