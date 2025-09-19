@@ -35,7 +35,7 @@
   "prover": {
     "@type": "/relayer.provers.debug.config.ProverConfig",
     "origin_prover": {
-
+    },
     "@type": "/relayer.provers.lcp.config.ProverConfig",
     "origin_prover": {
       "@type": "/relayer.provers.ethereum_light_client.config.ProverConfig",
