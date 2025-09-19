@@ -33,6 +33,9 @@
     "price_bump": 10
   },
   "prover": {
+    "@type": "/relayer.provers.debug.config.ProverConfig",
+    "origin_prover": {
+
     "@type": "/relayer.provers.lcp.config.ProverConfig",
     "origin_prover": {
       "@type": "/relayer.provers.ethereum_light_client.config.ProverConfig",
@@ -64,6 +67,7 @@
     "operators_eip712_cosmos_chain_params": {
       "chain_id": "ibc0",
       "prefix": "ibc"
+    }
     }
   }
 }
