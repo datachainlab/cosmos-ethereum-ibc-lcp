@@ -31,6 +31,9 @@ jobs:
       - name: Install SGX SDK
         run: |
           sudo bash ./lcp/.github/scripts/install_sgx_sdk.sh /opt
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable
       - name: Run E2E test
         run: |
           source /opt/sgxsdk/environment
