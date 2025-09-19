@@ -1,0 +1,53 @@
+#!/bin/bash
+
+: <<'END_COMMENT'
+* relay-interval = 20s
+* src-relay-optimize-interval = 30s
+* src-relay-optimize-count = 3
+* dst-relay-optimize-interval = 30s
+* dst-relay-optimize-count = 3
+END_COMMENT
+
+set -eux
+
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+source $SCRIPT_DIR/utils
+RLY="${RLY_BIN} --debug"
+
+TM_ADDRESS0=$(${RLY} tendermint keys show ibc0 testkey)
+
+if [ "x$USE_FAKELOST" = "xyes" ]; then
+    export DEBUG_RELAYER_MISSING_TRIE_NODE_HEIGHT_ibc0="10"
+    export DEBUG_RELAYER_MISSING_TRIE_NODE_HEIGHT_PROVER_ibc0="10"
+    export DEBUG_RELAYER_SHFU_WAIT_ibc1="20"
+fi
+
+expectUnrelayedCount "unrelayed-packets" "src" 0
+expectUnrelayedCount "unrelayed-packets" "dst" 0
+expectUnrelayedCount "unrelayed-acknowledgements" "src" 0
+expectUnrelayedCount "unrelayed-acknowledgements" "dst" 0
+
+sendPacketToEth
+waitUnrelayedCount "unrelayed-packets" "dst" 1 300
+
+docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_ADDRESS0} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes"
+waitUnrelayedCount "unrelayed-packets" "src" 1 30
+
+date; echo " yyyyyyyy Now is @0, Server has started. Both chains already have a message to relay which will be ready after optimize-interval(30s)."
+
+${RLY} service start ibc01 --relay-interval 20s --src-relay-optimize-interval 30s --src-relay-optimize-count 3 --dst-relay-optimize-interval 30s --dst-relay-optimize-count 3 &
+RLY_PID=$!
+
+echo "Waiting dst->src packets are relayed. Not that src chain(tendermint) has fast confirmation time"
+waitUnrelayedCount "unrelayed-packets" "dst" 0 300
+echo "Waiting src->dst packets are relayed"
+waitUnrelayedCount "unrelayed-packets" "src" 0 300
+
+echo "Waiting dst->src ack is relayed. Not that the time of src->dst->src relay and dst->src->dst relay takes nearly same time"
+waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 300
+echo "Waiting src->dst ack is relayed"
+waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 300
+
+echo "Finished"
+
+kill $RLY_PID

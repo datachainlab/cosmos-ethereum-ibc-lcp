@@ -6,6 +6,7 @@ set -ex
 source $(cd $(dirname "$0"); pwd)/util
 
 E2E_TEST_DIR=./tests/e2e/cases/tm2eth
+
 export NO_RUN_LCP=false
 export LCP_ENCLAVE_DEBUG=0
 export LCP_KEY_EXPIRATION=86400
@@ -16,8 +17,10 @@ export ZKDCAP=false
 export LCP_ZKDCAP_RISC0_MOCK=false
 export LCP_RISC0_IMAGE_ID
 export USE_UPGRADE_TEST=no
+USE_FAKELOST=yes
+
 CERTS_DIR=./tests/certs
-ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test,key_expiration: -- "$@")
+ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test,no_fakelost,key_expiration: -- "$@")
 eval set -- "$ARGS"
 while true; do
     case "$1" in
@@ -53,6 +56,11 @@ while true; do
             USE_UPGRADE_TEST=yes
             shift
             ;;
+        --no_fakelost)
+            echo "disaable fakelost"
+            USE_FAKELOST=no
+            shift
+            ;;
         --)
             shift
             break
@@ -63,6 +71,8 @@ while true; do
             ;;
     esac
 done
+
+MAKE_TEST_ARG="${MAKE_TEST_ARG} USE_FAKELOST=${USE_FAKELOST}"
 
 if [ "$NO_RUN_LCP" = "false" ]; then
     echo "Run LCP for testing"
@@ -95,17 +105,17 @@ else
     export LCP_MRENCLAVE=0x$(echo $res | jq -r .mrenclave | base64 -d | xxd -p | tr -d $'\n')
 fi
 
-make -C ${E2E_TEST_DIR} network
+make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} network
 
 E2E_TEST_DIR=${E2E_TEST_DIR} ${E2E_TEST_DIR}/scripts/gen_rly_config.sh
 
 # wait until first finality_update is built
 retry 20 curl -fsL http://localhost:19596/eth/v1/beacon/light_client/finality_update -o /dev/null -w '%{http_code}\n'
-make -C ${E2E_TEST_DIR} setup handshake
+make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} setup handshake
 
 if [ $USE_UPGRADE_TEST = yes ]
 then
-    make -C ${E2E_TEST_DIR} test-channel-upgrade
+    make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} test-channel-upgrade
 fi
 
 if [ "$NO_RUN_LCP" = "false" ]; then
@@ -119,9 +129,9 @@ if [ "$NO_RUN_LCP" = "false" ]; then
     make -C ${E2E_TEST_DIR} restore
 fi
 
-make -C ${E2E_TEST_DIR} test
-make -C ${E2E_TEST_DIR} test-operators
-make -C ${E2E_TEST_DIR} network-down
+make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} test
+make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} test-operators
+make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} network-down
 if [ "$NO_RUN_LCP" = false ]; then
     kill $LCP_PID
 fi

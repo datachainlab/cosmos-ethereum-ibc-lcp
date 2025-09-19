@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eux
 
+source $(dirname $0)/utils
 RLY="${RLY_BIN} --debug"
 
 # XXX set proper value
@@ -25,10 +26,28 @@ retry() {
     done
 }
 
-echo "!!! ibc0 -> ibc1 !!!"
+echo "!!! ibc0 <-> ibc1 !!!"
+if [ "x$USE_FAKELOST" = "xyes" ]; then
+  export DEBUG_RELAYER_MISSING_TRIE_NODE_HEIGHT_ibc1="10"
+  export DEBUG_RELAYER_MISSING_TRIE_NODE_HEIGHT_PROVER_ibc1="10"
+  export DEBUG_RELAYER_SHFU_WAIT_ibc0="20"
+fi
 
 docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes"
-sleep 5
+
+sendPacketToEth
+
+waitUnrelayedCount "unrelayed-packets" "dst" 1 300
+waitUnrelayedCount "unrelayed-packets" "src" 1 300
+
 retry 10 ${RLY} tx relay --do-refresh ibc01
 sleep ${TX_INTERNAL}
+
+waitUnrelayedCount "unrelayed-acknowledgements" "dst" 1 300
+waitUnrelayedCount "unrelayed-acknowledgements" "src" 1 300
+
 retry 10 ${RLY} tx acks --do-refresh ibc01
+sleep ${TX_INTERNAL}
+
+waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 300
+waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 300
