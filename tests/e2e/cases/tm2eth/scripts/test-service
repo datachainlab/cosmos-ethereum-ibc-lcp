@@ -43,7 +43,7 @@ waitUnrelayedCount "unrelayed-packets" "dst" 0 300
 echo "Waiting src->dst packets are relayed"
 waitUnrelayedCount "unrelayed-packets" "src" 0 300
 
-echo "Waiting dst->src ack is relayed. Not that the time of src->dst->src relay and dst->src->dst relay takes nearly same time"
+echo "Waiting dst->src ack is relayed. Note that the time of src->dst->src relay and dst->src->dst relay takes nearly same time"
 waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 300
 echo "Waiting src->dst ack is relayed"
 waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 300
