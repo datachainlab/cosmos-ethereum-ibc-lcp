@@ -57,7 +57,7 @@ while true; do
             shift
             ;;
         --no_fakelost)
-            echo "disaable fakelost"
+            echo "disable fakelost"
             USE_FAKELOST=no
             shift
             ;;
