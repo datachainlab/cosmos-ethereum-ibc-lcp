@@ -145,7 +145,7 @@ fmt:
 
 .PHONY: yrly
 yrly:
-	go build -o ./bin/yrly -tags customcert ./relayer
+	go build -o ./bin/yrly -tags customcert,ylry_debug ./relayer
 
 ######## E2E test ########
 
