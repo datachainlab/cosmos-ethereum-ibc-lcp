@@ -11,6 +11,9 @@
     "max_retry_for_commit": 5
   },
   "prover": {
+    "@type": "/relayer.provers.debug.config.ProverConfig",
+    "origin_prover": {
+
     "@type": "/relayer.provers.lcp.config.ProverConfig",
     "origin_prover": {
       "@type": "/relayer.chains.tendermint.config.ProverConfig",
@@ -39,6 +42,7 @@
     "operators_eip712_evm_chain_params": {
       "chain_id": 15,
       "verifying_contract_address": $LC_ADDRESS
+    }
     }
   }
 }
