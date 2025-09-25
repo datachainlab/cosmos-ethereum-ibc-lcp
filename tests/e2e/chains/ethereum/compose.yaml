@@ -39,7 +39,7 @@ services:
       - --http.addr=0.0.0.0
       - --http.port=${GETH_HTTP_PORT:-8545}
       - --rpc.allow-unprotected-txs
-      - --rpc.gascap=100000000
+      - --rpc.gascap=16777216
       - --authrpc.vhosts=*
       - --authrpc.addr=0.0.0.0
       - --authrpc.jwtsecret=/secret/jwtsecret
