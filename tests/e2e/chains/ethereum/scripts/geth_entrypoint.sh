@@ -6,10 +6,10 @@ GENESIS_TIMESTAMP=${GENESIS_TIMESTAMP}
 MINIMAL_SECONDS_PER_SLOT=6
 MINIMAL_SLOTS_PER_EPOCH=8
 
-PRAGUE_TIMESTAMP_DIFF=$((EPOCH_PECTRA * MINIMAL_SECONDS_PER_SLOT * MINIMAL_SLOTS_PER_EPOCH))
-PRAGUE_TIMESTAMP=$((GENESIS_TIMESTAMP + PRAGUE_TIMESTAMP_DIFF))
+FUSAKA_TIMESTAMP_DIFF=$((EPOCH_OSAKA * MINIMAL_SECONDS_PER_SLOT * MINIMAL_SLOTS_PER_EPOCH))
+FUSAKA_TIMESTAMP=$((GENESIS_TIMESTAMP + FUSAKA_TIMESTAMP_DIFF))
 
-sed -i.bak s/"\"pragueTime\": 0/\"pragueTime\": ${PRAGUE_TIMESTAMP}/" /execution/genesis.json
+sed -i.bak s/"\"fusakaTime\": 0/\"fusakaTime\": ${FUSAKA_TIMESTAMP}/" /execution/genesis.json
 
 # Init
 geth --datadir=/execution init --state.scheme hash --db.engine=leveldb /execution/genesis.json
