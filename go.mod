@@ -266,3 +266,5 @@ require (
 	rsc.io/tmplfunc v0.0.3 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
+
+replace github.com/datachainlab/ethereum-ibc-relay-prover => github.com/datachainlab/ethereum-ibc-relay-prover v0.3.15-0.20250925100906-5c1eab31b3a6
