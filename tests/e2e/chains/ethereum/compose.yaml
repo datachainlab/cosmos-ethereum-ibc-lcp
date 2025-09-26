@@ -74,7 +74,7 @@ services:
       - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
       - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
       - GENESIS_TIMESTAMP=${GENESIS_TIMESTAMP}
-      - EPOCH_OSAKA=${EPOCH_OSAKA}
+      - EPOCH_FULU=${EPOCH_FULU}
     ports:
       - "8008:8008" # Metrics port
       - ${BEACON_HTTP_PORT:-9596}:${BEACON_HTTP_PORT:-9596} # REST API port
@@ -152,7 +152,7 @@ services:
       - GETH_HTTP_PORT=${GETH_HTTP_PORT:-8545}
       - BEACON_HTTP_PORT=${BEACON_HTTP_PORT:-9596}
       - GENESIS_TIMESTAMP=${GENESIS_TIMESTAMP}
-      - EPOCH_OSAKA=${EPOCH_OSAKA}
+      - EPOCH_FULU=${EPOCH_FULU}
     command:
       - validator
       - --network=dev
