@@ -43,4 +43,6 @@ sleep 60
 retry 20 $RLY lcp activate-client $PATH_NAME --src=false
 
 retry 20 $RLY tx connection $PATH_NAME -o 20s
+echo 'call eth_blockNumber'
+curl -s http://localhost:8545 --json '{"method":"eth_blockNumber","id":1,"jsonrpc":"2.0"}'
 retry 20 $RLY tx channel $PATH_NAME -o 20s
