@@ -425,8 +425,8 @@ github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuA
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.3.18 h1:bfHPAZv7BXCWjlnhiWuBifhA65C81x23GtSjsyZINss=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.3.18/go.mod h1:Hqfxa2dcbK7P6yheoVwu09q8rN1kiC1HxSL0S9K4dDU=
-github.com/datachainlab/ethereum-ibc-relay-prover v0.3.15-0.20250925100906-5c1eab31b3a6 h1:aKyh6frwud19GYe6n6CeEos7hqHHnfrVwxFJQicwtjk=
-github.com/datachainlab/ethereum-ibc-relay-prover v0.3.15-0.20250925100906-5c1eab31b3a6/go.mod h1:kuznUQ69vzXBE/H43m56v6YwgEqXGKhqUy3PeyQp9FY=
+github.com/datachainlab/ethereum-ibc-relay-prover v0.3.15-0.20250927052155-d9fe27bad5ab h1:4yyr4Tr4ai7hefXpvgIG4VdoS0o5sj+MuOpu3py/ig4=
+github.com/datachainlab/ethereum-ibc-relay-prover v0.3.15-0.20250927052155-d9fe27bad5ab/go.mod h1:kuznUQ69vzXBE/H43m56v6YwgEqXGKhqUy3PeyQp9FY=
 github.com/datachainlab/go-risc0-verifier v0.1.3 h1:iEIVqGzLK1+AdZCfNqSxXJhMLDg7lEzbAfOZ8b/stRM=
 github.com/datachainlab/go-risc0-verifier v0.1.3/go.mod h1:O+uLSIdkN9rvqDXuZCnAOSPf/IT5SVjK/PxxJP3sPPU=
 github.com/datachainlab/ibc-hd-signer v0.1.2 h1:fWAYjMBVyM390OllX/l58mZYA7we0spEBFLYKWYTwfw=
