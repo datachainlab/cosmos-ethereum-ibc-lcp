@@ -33,16 +33,19 @@
     "price_bump": 10
   },
   "prover": {
-    "@type": "/relayer.provers.lcp.config.ProverConfig",
+    "@type": "/relayer.provers.debug.config.ProverConfig",
     "origin_prover": {
-      "@type": "/relayer.provers.ethereum_light_client.config.ProverConfig",
-      "beacon_endpoint": "http://localhost:19596",
-      "network": "minimal",
-      "trusting_period": "168h",
-      "max_clock_drift": "0",
-      "refresh_threshold_rate": {
-        "numerator": 2,
-        "denominator": 3
+      "@type": "/relayer.provers.lcp.config.ProverConfig",
+      "origin_prover": {
+        "@type": "/relayer.provers.ethereum_light_client.config.ProverConfig",
+        "beacon_endpoint": "http://localhost:19596",
+        "network": "minimal",
+        "trusting_period": "168h",
+        "max_clock_drift": "0",
+        "refresh_threshold_rate": {
+          "numerator": 2,
+          "denominator": 3
+        }
       }
     },
     "lcp_service_address": "localhost:50051",
