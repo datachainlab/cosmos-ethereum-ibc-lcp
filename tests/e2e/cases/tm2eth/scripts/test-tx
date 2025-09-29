@@ -28,14 +28,14 @@ retry() {
 
 echo "!!! ibc0 <-> ibc1 !!!"
 if [ "x$USE_FAKELOST" = "xyes" ]; then
-  export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="20"
-  export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="20"
-  export DEBUG_RELAYER_SHFU_WAIT_ibc0="150"
+  export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="15"
+  export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="15"
+  export DEBUG_RELAYER_SHFU_WAIT_ibc0="100"
 fi
 
 docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes"
 
-sendPacketToEth
+sendPacketOnEth
 
 waitUnrelayedCount "unrelayed-packets" "dst" 1 300
 waitUnrelayedCount "unrelayed-packets" "src" 1 300
@@ -43,11 +43,11 @@ waitUnrelayedCount "unrelayed-packets" "src" 1 300
 retry 10 ${RLY} tx relay --do-refresh ibc01
 sleep ${TX_INTERNAL}
 
-waitUnrelayedCount "unrelayed-acknowledgements" "dst" 1 1000
-waitUnrelayedCount "unrelayed-acknowledgements" "src" 1 1000
+waitUnrelayedCount "unrelayed-acknowledgements" "dst" 1 300
+waitUnrelayedCount "unrelayed-acknowledgements" "src" 1 300
 
 retry 10 ${RLY} tx acks --do-refresh ibc01
 sleep ${TX_INTERNAL}
 
-waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 1000
-waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 1000
+waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 300
+waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 300
