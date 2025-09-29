@@ -11,13 +11,16 @@
     "max_retry_for_commit": 5
   },
   "prover": {
-    "@type": "/relayer.provers.lcp.config.ProverConfig",
+    "@type": "/relayer.provers.debug.config.ProverConfig",
     "origin_prover": {
-      "@type": "/relayer.chains.tendermint.config.ProverConfig",
-      "trusting_period": "336h",
-      "refresh_threshold_rate": {
-        "numerator": 1,
-        "denominator": 2
+      "@type": "/relayer.provers.lcp.config.ProverConfig",
+      "origin_prover": {
+        "@type": "/relayer.chains.tendermint.config.ProverConfig",
+        "trusting_period": "336h",
+        "refresh_threshold_rate": {
+          "numerator": 1,
+          "denominator": 2
+        }
       }
     },
     "lcp_service_address": "localhost:50051",
