@@ -46,33 +46,33 @@
           "numerator": 2,
           "denominator": 3
         }
+      },
+      "lcp_service_address": "localhost:50051",
+      "mrenclave": $MRENCLAVE,
+      "allowed_quote_statuses": ["SWHardeningNeeded"],
+      "allowed_advisory_ids": ["INTEL-SA-00219","INTEL-SA-00289","INTEL-SA-00334","INTEL-SA-00477","INTEL-SA-00614","INTEL-SA-00615","INTEL-SA-00617", "INTEL-SA-00828"],
+      "key_expiration": $LCP_KEY_EXPIRATION,
+      "key_update_buffer_time": 3600,
+      "elc_client_id": "ethereum-0",
+      "message_aggregation": true,
+      "is_debug_enclave": $IS_DEBUG_ENCLAVE,
+      "current_tcb_evaluation_data_number": 1,
+      "tcb_evaluation_data_number_update_grace_period": 0,
+      "risc0_zkvm_config": {
+        "image_id": $RISC0_IMAGE_ID,
+        "mock": $LCP_ZKDCAP_RISC0_MOCK
+      },
+      "operators": [
+        "0x9722414d09f43fb02235d739B50F4C027F43e657"
+      ],
+      "operator_signer": {
+        "@type": "/relayer.provers.lcp.signers.raw.SignerConfig",
+        "private_key": "0x8a94e9f944a297c402a997aa9a60026ce47a6e018192d111c1703176bbc26651"
+      },
+      "operators_eip712_cosmos_chain_params": {
+        "chain_id": "ibc0",
+        "prefix": "ibc"
       }
-    },
-    "lcp_service_address": "localhost:50051",
-    "mrenclave": $MRENCLAVE,
-    "allowed_quote_statuses": ["SWHardeningNeeded"],
-    "allowed_advisory_ids": ["INTEL-SA-00219","INTEL-SA-00289","INTEL-SA-00334","INTEL-SA-00477","INTEL-SA-00614","INTEL-SA-00615","INTEL-SA-00617", "INTEL-SA-00828"],
-    "key_expiration": $LCP_KEY_EXPIRATION,
-    "key_update_buffer_time": 3600,
-    "elc_client_id": "ethereum-0",
-    "message_aggregation": true,
-    "is_debug_enclave": $IS_DEBUG_ENCLAVE,
-    "current_tcb_evaluation_data_number": 1,
-    "tcb_evaluation_data_number_update_grace_period": 0,
-    "risc0_zkvm_config": {
-      "image_id": $RISC0_IMAGE_ID,
-      "mock": $LCP_ZKDCAP_RISC0_MOCK
-    },
-    "operators": [
-      "0x9722414d09f43fb02235d739B50F4C027F43e657"
-    ],
-    "operator_signer": {
-      "@type": "/relayer.provers.lcp.signers.raw.SignerConfig",
-      "private_key": "0x8a94e9f944a297c402a997aa9a60026ce47a6e018192d111c1703176bbc26651"
-    },
-    "operators_eip712_cosmos_chain_params": {
-      "chain_id": "ibc0",
-      "prefix": "ibc"
     }
   }
 }
