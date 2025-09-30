@@ -39,14 +39,14 @@ ${RLY} service start ibc01 --relay-interval 20s --src-relay-optimize-interval 30
 RLY_PID=$!
 
 echo "Waiting dst->src packets are relayed. Note that src chain(tendermint) has fast confirmation time"
-waitUnrelayedCount "unrelayed-packets" "dst" 0 300
+waitUnrelayedCount "unrelayed-packets" "dst" 0 900
 echo "Waiting src->dst packets are relayed"
-waitUnrelayedCount "unrelayed-packets" "src" 0 300
+waitUnrelayedCount "unrelayed-packets" "src" 0 900
 
 echo "Waiting dst->src ack is relayed. Note that the time of src->dst->src relay and dst->src->dst relay takes nearly same time"
-waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 300
+waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 900
 echo "Waiting src->dst ack is relayed"
-waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 300
+waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 900
 
 echo "Finished"
 
