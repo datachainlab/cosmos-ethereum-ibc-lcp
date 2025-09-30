@@ -14,8 +14,8 @@ STAKING-CLI=docker run -it --rm -v $(shell pwd)/consensus/validator_keys:/app/va
 # Run geth lodestar deposit lodestar-validator
 .PHONY:network
 network:
-	EPOCH_OSAKA=8 \
-	EPOCH_FULU=8 \
+	EPOCH_OSAKA=16 \
+	EPOCH_FULU=16 \
 	GENESIS_TIMESTAMP=$(shell date -d'+10second' +%s) \
 	GETH_VERSION=$(GETH_VERSION) GETH_HTTP_PORT=$(GETH_HTTP_PORT) \
 	LODESTAR_VERSION=$(LODESTAR_VERSION) BEACON_HTTP_PORT=$(BEACON_HTTP_PORT) \
