@@ -28,9 +28,9 @@ retry() {
 
 echo "!!! ibc0 <-> ibc1 !!!"
 if [ "x$USE_FAKELOST" = "xyes" ]; then
-  export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="15"
-  export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="15"
-  export DEBUG_RELAYER_SHFU_WAIT_ibc0="100"
+  export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="20"
+  export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="20"
+  export DEBUG_RELAYER_SHFU_WAIT_ibc0="150"
 fi
 
 docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes"
