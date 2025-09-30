@@ -44,32 +44,32 @@ retry 20 $RLY lcp activate-client $PATH_NAME --src=false
 
 retry 20 $RLY tx connection $PATH_NAME -o 20s
 
-TARGET_EPOCH=16
-SLOTS_PER_EPOCH=8
-RPC_URL="http://localhost:8546"
-
-echo "Waiting for epoch ${TARGET_EPOCH}..."
-while true; do
-    response=$(curl -s -H "Content-Type: application/json" \
-        -d '{"method":"eth_getBlockByNumber","id":1,"params":["finalized", false],"jsonrpc":"2.0"}' \
-        ${RPC_URL})
-    block_hex=$(echo ${response} | jq -r '.result.number')
-
-    if [ "${block_hex}" == "null" ] || [ -z "${block_hex}" ]; then
-        sleep 5
-        continue
-    fi
-
-    block_number=$((${block_hex}))
-    current_epoch=$((${block_number} / ${SLOTS_PER_EPOCH}))
-    echo "Current epoch: ${current_epoch}"
-
-    if [ ${current_epoch} -ge ${TARGET_EPOCH} ]; then
-        echo "Target epoch ${TARGET_EPOCH} reached"
-        break
-    fi
-
-    sleep 10
-done
+#TARGET_EPOCH=16
+#SLOTS_PER_EPOCH=8
+#RPC_URL="http://localhost:8546"
+#
+#echo "Waiting for epoch ${TARGET_EPOCH}..."
+#while true; do
+#    response=$(curl -s -H "Content-Type: application/json" \
+#        -d '{"method":"eth_getBlockByNumber","id":1,"params":["finalized", false],"jsonrpc":"2.0"}' \
+#        ${RPC_URL})
+#    block_hex=$(echo ${response} | jq -r '.result.number')
+#
+#    if [ "${block_hex}" == "null" ] || [ -z "${block_hex}" ]; then
+#        sleep 5
+#        continue
+#    fi
+#
+#    block_number=$((${block_hex}))
+#    current_epoch=$((${block_number} / ${SLOTS_PER_EPOCH}))
+#    echo "Current epoch: ${current_epoch}"
+#
+#    if [ ${current_epoch} -ge ${TARGET_EPOCH} ]; then
+#        echo "Target epoch ${TARGET_EPOCH} reached"
+#        break
+#    fi
+#
+#    sleep 10
+#done
 
 retry 20 $RLY tx channel $PATH_NAME -o 20s
