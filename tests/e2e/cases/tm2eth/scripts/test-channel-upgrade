@@ -190,7 +190,7 @@ $RLY tx channel-upgrade init ibc01 ibc0 $fields
 $RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS
 $RLY tx channel-upgrade init ibc01 ibc1 $fields
 retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state FLUSHCOMPLETE --target-dst-state FLUSHING
-sleep 580                                      # ibc1 exceeds upgrade.timeout.timestamp
+sleep 480                                      # ibc1 exceeds upgrade.timeout.timestamp
 retry 10 $RLY tx channel-upgrade execute ibc01 # ibc0 <= chanUpgradeTimeout, ibc1 <= chanUpgradeCancel
 checkResult orig mockapp-5
 
@@ -199,6 +199,6 @@ $RLY tx channel-upgrade init ibc01 ibc0 $fields
 $RLY eth upgrade propose ibc01 ibc1 $fields $TIMEOUT_FLAGS --timeout-height 0-0 --timeout-timestamp `date -d 480sec +%s%N`
 $RLY tx channel-upgrade init ibc01 ibc1 $fields
 retry 10 $RLY tx channel-upgrade execute ibc01 --target-src-state FLUSHING --target-dst-state FLUSHING
-sleep 580                                      # Both chains exceed upgrade.timeout.timestamp
+sleep 480                                      # Both chains exceed upgrade.timeout.timestamp
 retry 10 $RLY tx channel-upgrade execute ibc01 # ibc0,ibc1 <= chanUpgradeTimeout
 checkResult orig mockapp-5

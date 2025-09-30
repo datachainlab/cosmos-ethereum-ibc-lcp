@@ -30,7 +30,7 @@ expectUnrelayedCount "unrelayed-acknowledgements" "dst" 0
 sendPacketOnEth
 waitUnrelayedCount "unrelayed-packets" "dst" 1 300
 
-docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_ADDRESS0} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes"
+docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_ADDRESS0} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes --packet-timeout-timestamp 0"
 waitUnrelayedCount "unrelayed-packets" "src" 1 30
 
 date; echo " yyyyyyyy Now is @0, Server has started. Both chains already have a message to relay which will be ready after optimize-interval(30s)."
