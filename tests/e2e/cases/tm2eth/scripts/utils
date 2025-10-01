@@ -33,7 +33,7 @@ waitUnrelayedCount() {
 sendPacketOnEth() {
     PATH_NAME=ibc01
     MOCKAPP_CONTRACT_B=$(cat $(dirname $0)/../../../chains/ethereum/contracts/addresses/AppV1)
-    RPC_ADDRESS_B=$($RLY config show | jq -r '.chains[] | select(.chain.chain_id == "ibc1").chain.rpc_addr')
+    RPC_ADDRESS_B=$($RLY config show | jq -r '.chains[] | select(.chain.origin_chain.chain_id == "ibc1").chain.rpc_addr')
     PORT_B=$($RLY paths list --json | jq -r --arg path $PATH_NAME '.[$path].dst."port-id"')
     CHANNEL_B=$($RLY paths list --json | jq -r --arg path $PATH_NAME '.[$path].dst."channel-id"')
 
