@@ -1,5 +1,5 @@
 ARG VERSION=latest
-FROM ethpandaops/lodestar:${VERSION}
+FROM chainsafe/lodestar:${VERSION}
 
 # Install package of jq
 RUN apt-get update && \

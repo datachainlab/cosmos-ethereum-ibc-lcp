@@ -1,7 +1,7 @@
 GETH_HTTP_PORT ?= 8546
 BEACON_HTTP_PORT ?= 19596
-GETH_VERSION ?= master-6492751
-LODESTAR_VERSION ?= fusaka-devnet-5-5e2a800
+GETH_VERSION ?= v1.16.4
+LODESTAR_VERSION ?= v1.35.0-rc.1
 DOCKER_COMPOSE ?= docker compose
 COMPOSE_UP_OPTS ?= -d
 HARDHAT ?= npx hardhat
@@ -99,23 +99,23 @@ check-health-log:
 
 .PHONY:geth-help
 geth-help:
-	docker run --rm ethpandaops/geth:$(GETH_VERSION) --help
+	docker run --rm ethereum/client-go:$(GETH_VERSION) --help
 
 .PHONY:lodestar-help
 lodestar-help:
-	docker run --rm ethpandaops/lodestar:$(LODESTAR_VERSION) --help
+	docker run --rm chainsafe/lodestar:$(LODESTAR_VERSION) --help
 
 .PHONY:lodestar-dev-help
 lodestar-dev-help:
-	docker run --rm ethpandaops/lodestar:$(LODESTAR_VERSION) dev --help
+	docker run --rm chainsafe/lodestar:$(LODESTAR_VERSION) dev --help
 
 .PHONY:lodestar-beacon-help
 lodestar-beacon-help:
-	docker run --rm ethpandaops/lodestar:$(LODESTAR_VERSION) beacon --help
+	docker run --rm chainsafe/lodestar:$(LODESTAR_VERSION) beacon --help
 
 .PHONY:lodestar-validator-help
 lodestar-validator-help:
-	docker run --rm ethpandaops/lodestar:$(LODESTAR_VERSION) validator --help
+	docker run --rm chainsafe/lodestar:$(LODESTAR_VERSION) validator --help
 
 .PHONY:shfmt
 shfmt:

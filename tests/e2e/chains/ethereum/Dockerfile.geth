@@ -1,5 +1,5 @@
 ARG VERSION=latest
-FROM ethpandaops/geth:${VERSION}
+FROM ethereum/client-go:${VERSION}
 
 # For health check
 RUN apk add --no-cache bash curl jq sed
