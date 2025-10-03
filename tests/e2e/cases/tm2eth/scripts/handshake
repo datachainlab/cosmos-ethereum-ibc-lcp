@@ -3,9 +3,8 @@
 set -eux
 
 if [ "x$USE_FAKELOST" = "xyes" ]; then
-    #export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_CHAIN_ibc1="20"
-    export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="20"
-    export DEBUG_RELAYER_SHFU_WAIT_ibc0="150"
+    export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="30"
+    export DEBUG_RELAYER_SHFU_WAIT_ibc0="200"
 fi
 
 retry() {
