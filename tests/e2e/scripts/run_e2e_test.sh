@@ -17,10 +17,10 @@ export ZKDCAP=false
 export LCP_ZKDCAP_RISC0_MOCK=false
 export LCP_RISC0_IMAGE_ID
 export USE_UPGRADE_TEST=no
-USE_FAKELOST=yes
+USE_FAKELOST_TEST=no
 
 CERTS_DIR=./tests/certs
-ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test,no_fakelost,key_expiration: -- "$@")
+ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test,fakelost_test,key_expiration: -- "$@")
 eval set -- "$ARGS"
 while true; do
     case "$1" in
@@ -56,9 +56,9 @@ while true; do
             USE_UPGRADE_TEST=yes
             shift
             ;;
-        --no_fakelost)
-            echo "disable fakelost"
-            USE_FAKELOST=no
+        --fakelost_test)
+            echo "Enable fakelost test"
+            USE_FAKELOST_TEST=yes
             shift
             ;;
         --)
@@ -72,7 +72,7 @@ while true; do
     esac
 done
 
-MAKE_TEST_ARG="${MAKE_TEST_ARG} USE_FAKELOST=${USE_FAKELOST}"
+MAKE_TEST_ARG="${MAKE_TEST_ARG} USE_FAKELOST_TEST=${USE_FAKELOST_TEST}"
 
 if [ "$NO_RUN_LCP" = "false" ]; then
     echo "Run LCP for testing"

@@ -1,6 +1,6 @@
 RLY_BIN ?= ../../../../bin/yrly
 
-export USE_FAKELOST ?= yes
+export USE_FAKELOST_TEST ?= no
 
 .PHONY: network
 network:
