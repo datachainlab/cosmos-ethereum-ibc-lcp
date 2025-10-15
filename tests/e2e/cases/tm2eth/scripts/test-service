@@ -16,9 +16,11 @@ RLY="${RLY_BIN} --debug"
 
 TM_ADDRESS0=$(${RLY} tendermint keys show ibc0 testkey)
 
-if [ "x$USE_FAKELOST" = "xyes" ]; then
+if [ "x$USE_FAKELOST_TEST" = "xyes" ]; then
     export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="30"
     export DEBUG_RELAYER_SHFU_WAIT_ibc0="200"
+else
+    export DEBUG_RELAYER_SHFU_WAIT_ibc0="3"
 fi
 
 expectUnrelayedCount "unrelayed-packets" "src" 0
