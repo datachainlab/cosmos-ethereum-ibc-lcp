@@ -3,7 +3,7 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 go 1.22.2
 
 require (
-	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.18
+	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.20-0.20251118052030-5c4ff804b61e
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.14
 	github.com/datachainlab/ibc-hd-signer v0.1.2
 	github.com/datachainlab/lcp-go v0.2.22
