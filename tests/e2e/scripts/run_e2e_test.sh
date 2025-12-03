@@ -18,9 +18,10 @@ export LCP_ZKDCAP_RISC0_MOCK=false
 export LCP_RISC0_IMAGE_ID
 export USE_UPGRADE_TEST=no
 USE_FAKELOST_TEST=no
+USE_SHFU_SERVER=no
 
 CERTS_DIR=./tests/certs
-ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test,fakelost_test,key_expiration: -- "$@")
+ARGS=$(getopt -o '' --long no_run_lcp,enclave_debug,zkdcap,mock_zkdcap,upgrade_test,fakelost_test,shfu_server,key_expiration: -- "$@")
 eval set -- "$ARGS"
 while true; do
     case "$1" in
@@ -59,6 +60,11 @@ while true; do
         --fakelost_test)
             echo "Enable fakelost test"
             USE_FAKELOST_TEST=yes
+            shift
+            ;;
+        --shfu_server)
+            echo "Enable SHFU server"
+            USE_SHFU_SERVER=yes
             shift
             ;;
         --)
@@ -130,8 +136,18 @@ if [ "$NO_RUN_LCP" = "false" ]; then
 fi
 
 make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} test
+
+if [ ${USE_SHFU_SERVER} = "yes" ]; then
+    make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} shfu-server-start
+    make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} ENABLE_SHFU_GRPC=yes test
+    make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} shfu-server-stop
+fi
+
 make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} test-operators
+
 make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} network-down
 if [ "$NO_RUN_LCP" = false ]; then
     kill $LCP_PID
 fi
+
+

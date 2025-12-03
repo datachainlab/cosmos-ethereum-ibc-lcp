@@ -26,6 +26,7 @@
         }
       },
       "lcp_service_address": "localhost:50051",
+      "shfu_grpc_address": "localhost:50061",
       "mrenclave": $MRENCLAVE,
       "allowed_quote_statuses": ["SWHardeningNeeded"],
       "allowed_advisory_ids": ["INTEL-SA-00219","INTEL-SA-00289","INTEL-SA-00334","INTEL-SA-00477","INTEL-SA-00614","INTEL-SA-00615","INTEL-SA-00617"],

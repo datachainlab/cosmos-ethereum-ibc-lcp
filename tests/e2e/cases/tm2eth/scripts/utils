@@ -4,7 +4,7 @@ expectUnrelayedCount() {
     expect_count=$3
     unrelayed_count=$(${RLY} query ${query_type} ibc01 | jq "${filter}")
     if [ $unrelayed_count -ne ${expect_count} ]; then
-        echo "$query_type: $unrelayed_count"
+        echo "$0 ${query_type}: expect=$expect_count, actual=$unrelayed_count"
         test -z "$RLY_PID" || kill $RLY_PID
         exit 1
     fi
@@ -20,7 +20,7 @@ waitUnrelayedCount() {
     until [ $unrelayed_count -eq $expect_count ]; do
         unrelayed_count=$(${RLY} query ${query_type} ibc01 | jq "${filter}")
         date
-        echo "$0 ${query_type} is $unrelayed_count"
+        echo "$0 ${query_type}: expect=$expect_count, actual=$unrelayed_count"
         t=$(date +%s)
         if [ $t -gt $timeout ]; then
             echo "TIMEOUT waitUnrelayedCount: $query_type $chain expect $expect_count but $unrelayed_count"
