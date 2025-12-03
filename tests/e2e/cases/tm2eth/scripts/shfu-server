@@ -14,7 +14,7 @@ help() {
 
 clean() {
     for f in $SHFU_DB $SHFU_DB.pid $SHFU_DB-shm $SHFU_DB-wal; do
-      test -f $f && rm $f
+      test -f "$f" && rm "$f"
       echo "$f is cleaned"
     done
 }
