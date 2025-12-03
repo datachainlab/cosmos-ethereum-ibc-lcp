@@ -8,7 +8,7 @@ RLY="${RLY_BIN} --debug"
 SHFU_DB=${SHFU_DB:-/tmp/shfu.db}
 
 help() {
-    test -z $1 || echo $1
+    test -z "$1" || echo $1
     echo "$(basename $0) <start | stop | clean>"
 }
 
