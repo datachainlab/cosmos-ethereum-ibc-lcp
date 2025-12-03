@@ -21,7 +21,7 @@ clean() {
 
 start() {
   if [ -f $SHFU_DB ]; then
-    echo "$SHFU_DB is already exists"
+    echo "$SHFU_DB already exists"
     exit 1
   fi
 
