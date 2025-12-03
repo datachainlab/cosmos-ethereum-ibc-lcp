@@ -149,5 +149,3 @@ make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} network-down
 if [ "$NO_RUN_LCP" = false ]; then
     kill $LCP_PID
 fi
-
-
