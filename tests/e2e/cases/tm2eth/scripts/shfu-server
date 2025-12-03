@@ -46,6 +46,7 @@ start() {
 }
 
 stop() {
+    test -f "${SHFU_DB}.pid" || { echo "PID file not found"; exit 1; }
     kill $(cat ${SHFU_DB}.pid)
 }
 
