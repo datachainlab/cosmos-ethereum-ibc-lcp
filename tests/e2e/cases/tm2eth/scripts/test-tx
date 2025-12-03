@@ -4,6 +4,8 @@ set -eux
 source $(dirname $0)/utils
 RLY="${RLY_BIN} --debug"
 
+ENABLE_SHFU_GRPC=${ENABLE_SHFU_GRPC:-no}
+
 # XXX set proper value
 TX_INTERNAL=120
 TM_USER_ADDRESS=$(${RLY} tendermint keys show ibc0 testkey)
@@ -38,6 +40,8 @@ docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-bac
 
 sendPacketOnEth
 
+export YRLY_LCP_SHFU_GRPC_ENABLE=${ENABLE_SHFU_GRPC}
+
 waitUnrelayedCount "unrelayed-packets" "dst" 1 300
 waitUnrelayedCount "unrelayed-packets" "src" 1 300
 
@@ -52,3 +56,5 @@ sleep ${TX_INTERNAL}
 
 waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 300
 waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 300
+
+echo "$0 Finished"

@@ -14,6 +14,8 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd)
 source $SCRIPT_DIR/utils
 RLY="${RLY_BIN} --debug"
 
+ENABLE_SHFU_GRPC=${ENABLE_SHFU_GRPC:-yes}
+
 TM_ADDRESS0=$(${RLY} tendermint keys show ibc0 testkey)
 
 if [ "x$USE_FAKELOST_TEST" = "xyes" ]; then
@@ -34,6 +36,8 @@ waitUnrelayedCount "unrelayed-packets" "dst" 1 300
 docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_ADDRESS0} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes --packet-timeout-timestamp 0"
 waitUnrelayedCount "unrelayed-packets" "src" 1 30
 
+export YRLY_LCP_SHFU_GRPC_ENABLE=${ENABLE_SHFU_GRPC}
+
 date; echo " yyyyyyyy Now is @0, Server has started. Both chains already have a message to relay which will be ready after optimize-interval(30s)."
 
 ${RLY} service start ibc01 --relay-interval 20s --src-relay-optimize-interval 30s --src-relay-optimize-count 3 --dst-relay-optimize-interval 30s --dst-relay-optimize-count 3 &
@@ -49,6 +53,6 @@ waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 900
 echo "Waiting src->dst ack is relayed"
 waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 900
 
-echo "Finished"
+echo "$0 Finished"
 
 kill $RLY_PID
