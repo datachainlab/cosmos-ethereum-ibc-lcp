@@ -39,4 +39,6 @@ jobs:
           source /opt/sgxsdk/environment
           make prepare-contracts
           make build-images
+          make -C lcp && rm -rf lcp/target/release/deps
+          make yrly
           make E2E_OPTIONS="--mock_zkdcap" e2e-test
