@@ -2,6 +2,13 @@
 
 set -eux
 
+if [ "x$USE_FAKELOST_TEST" = "xyes" ]; then
+    export DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1="30"
+    export DEBUG_RELAYER_SHFU_WAIT_ibc0="200"
+else
+    export DEBUG_RELAYER_SHFU_WAIT_ibc0="3"
+fi
+
 retry() {
     local -r -i max_attempts="$1"; shift
     local -r cmd="$@"
