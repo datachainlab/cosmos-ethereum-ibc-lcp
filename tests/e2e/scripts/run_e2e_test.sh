@@ -139,7 +139,7 @@ make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} test
 
 if [ ${USE_SHFU_SERVER} = "yes" ]; then
     make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} shfu-server-start
-    make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} ENABLE_SHFU_GRPC=yes test
+    make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} ENABLE_SHFU_GRPC=true test
     make -C ${E2E_TEST_DIR} ${MAKE_TEST_ARG} shfu-server-stop
 fi
 

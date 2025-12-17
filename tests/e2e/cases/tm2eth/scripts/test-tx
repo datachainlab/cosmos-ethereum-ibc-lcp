@@ -4,7 +4,7 @@ set -eux
 source $(dirname $0)/utils
 RLY="${RLY_BIN} --debug"
 
-ENABLE_SHFU_GRPC=${ENABLE_SHFU_GRPC:-no}
+ENABLE_SHFU_GRPC=${ENABLE_SHFU_GRPC:-false}
 
 # XXX set proper value
 TX_INTERNAL=120

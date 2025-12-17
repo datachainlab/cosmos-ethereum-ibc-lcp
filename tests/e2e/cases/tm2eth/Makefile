@@ -1,7 +1,7 @@
 RLY_BIN ?= ../../../../bin/yrly
 
 export USE_FAKELOST_TEST ?= no
-export ENABLE_SHFU_GRPC ?= no
+export ENABLE_SHFU_GRPC ?= false
 export SHFU_DB ?=
 
 .PHONY: network
