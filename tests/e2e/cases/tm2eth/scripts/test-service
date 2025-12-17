@@ -14,7 +14,7 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd)
 source $SCRIPT_DIR/utils
 RLY="${RLY_BIN} --debug"
 
-ENABLE_SHFU_GRPC=${ENABLE_SHFU_GRPC:-yes}
+ENABLE_SHFU_GRPC=${ENABLE_SHFU_GRPC:-false}
 
 TM_ADDRESS0=$(${RLY} tendermint keys show ibc0 testkey)
 

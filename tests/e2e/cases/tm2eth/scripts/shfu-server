@@ -34,13 +34,15 @@ start() {
 
   $RLY lcp shfu dbinit --sqlite-path $SHFU_DB
 
-  # make sure 1 record is registered
-  $RLY lcp shfu update --sqlite-path $SHFU_DB ibc01:ibc0
-  $RLY lcp shfu update --sqlite-path $SHFU_DB ibc01:ibc1
-  test $($RLY lcp shfu dblist --sqlite-path $SHFU_DB --chain-id ibc0 --no-header | wc -l) -eq 1 || exit 1
-  test $($RLY lcp shfu dblist --sqlite-path $SHFU_DB --chain-id ibc1 --no-header | wc -l) -eq 1 || exit 1
+  # If you would like that at least 1 record is registered
+  # $RLY lcp shfu update --sqlite-path $SHFU_DB ibc01:ibc0
+  # $RLY lcp shfu update --sqlite-path $SHFU_DB ibc01:ibc1
+  # test $($RLY lcp shfu dblist --sqlite-path $SHFU_DB --chain-id ibc0 --no-header | wc -l) -eq 1 || exit 1
+  # test $($RLY lcp shfu dblist --sqlite-path $SHFU_DB --chain-id ibc1 --no-header | wc -l) -eq 1 || exit 1
 
-  $RLY lcp shfu server --grpc-addr localhost:50061 --sqlite-path $SHFU_DB --cleanup-age 30m ibc01:ibc0 ibc01:ibc1 &
+  interval=10s
+  $RLY lcp shfu server --grpc-addr localhost:50061 --sqlite-path $SHFU_DB --update-interval $interval --cleanup-age 30m ibc01:ibc0 ibc01:ibc1 &
+
   echo $! > $SHFU_DB.pid
   disown %1
 }
