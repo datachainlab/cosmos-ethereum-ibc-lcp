@@ -3,6 +3,7 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 go 1.22.2
 
 replace github.com/datachainlab/lcp-go v0.2.22 => github.com/dai1975/lcp-go v0.0.0-20251216120803-b7da48a170f1
+
 //replace github.com/datachainlab/lcp-go v0.2.22 => ../../elc-updater/updater-for-relayer
 
 require (
@@ -124,6 +125,7 @@ require (
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
+	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.1 // indirect
 	github.com/gsterjov/go-libsecret v0.0.0-20161001094733-a6f4afe4910c // indirect
