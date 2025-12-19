@@ -1,0 +1,73 @@
+#!/bin/bash
+
+set -ux
+CMD=$1
+
+RLY_BIN=${RLY_BIN:-$(dirname $0)/../../../../../bin/yrly}
+RLY="${RLY_BIN} --debug"
+ELC_UPDATER_DB=${ELC_UPDATER_DB:-/tmp/elc-updater.db}
+
+help() {
+    test -z "$1" || echo $1
+    echo "$(basename $0) <start | stop | clean>"
+}
+
+clean() {
+    for f in $ELC_UPDATER_DB $ELC_UPDATER_DB.pid $ELC_UPDATER_DB-shm $ELC_UPDATER_DB-wal; do
+      test -f "$f" && rm "$f"
+      echo "$f is cleaned"
+    done
+}
+
+start() {
+  if [ -f $ELC_UPDATER_DB ]; then
+    echo "$ELC_UPDATER_DB already exists"
+    exit 1
+  fi
+
+  set -e
+  # to check metrics output
+  # export YRLY_ENABLE_TELEMETRY=true
+  # export OTEL_LOGS_EXPORTER=none
+  # export OTEL_METRICS_EXPORTER=console
+  # export OTEL_TRACES_EXPORTER=none
+
+  $RLY lcp elc-updater dbinit --sqlite-path $ELC_UPDATER_DB
+
+  # If you would like that at least 1 record is registered
+  # $RLY lcp elc-updater update --sqlite-path $ELC_UPDATER_DB ibc01:ibc0
+  # $RLY lcp elc-updater update --sqlite-path $ELC_UPDATER_DB ibc01:ibc1
+  # test $($RLY lcp elc-updater dblist --sqlite-path $ELC_UPDATER_DB --chain-id ibc0 --no-header | wc -l) -eq 1 || exit 1
+  # test $($RLY lcp elc-updater dblist --sqlite-path $ELC_UPDATER_DB --chain-id ibc1 --no-header | wc -l) -eq 1 || exit 1
+
+  interval=10s
+  $RLY lcp elc-updater server --grpc-addr localhost:50061 --sqlite-path $ELC_UPDATER_DB --update-interval $interval --cleanup-age 30m ibc01:ibc0 ibc01:ibc1 &
+
+  echo $! > $ELC_UPDATER_DB.pid
+  disown %1
+}
+
+stop() {
+    test -f "${ELC_UPDATER_DB}.pid" || { echo "PID file not found"; exit 1; }
+    kill $(cat ${ELC_UPDATER_DB}.pid)
+}
+
+case "x$CMD" in
+  xclean)
+      clean
+      echo "cleaned"
+      ;;
+  xstart)
+      start
+      ;;
+  xstop)
+      stop
+      ;;
+  x)
+      help "command required"
+      ;;
+  *)
+      help "unknown command: $CMD"
+      exit 1
+      ;;
+esac

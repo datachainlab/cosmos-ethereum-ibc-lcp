@@ -1,8 +1,8 @@
 RLY_BIN ?= ../../../../bin/yrly
 
 export USE_FAKELOST_TEST ?= no
-export ENABLE_SHFU_GRPC ?= false
-export SHFU_DB ?=
+export ENABLE_ELC_UPDATER_GRPC ?= false
+export ELC_UPDATER_DB ?=
 
 .PHONY: network
 network:
@@ -29,13 +29,13 @@ handshake:
 test-channel-upgrade:
 	RLY_BIN=$(RLY_BIN) ./scripts/test-channel-upgrade
 
-.PHONY: shfu-server-start shfu-server-stop
-shfu-server-start:
-	./scripts/shfu-server clean
-	RLY_BIN=$(RLY_BIN) ./scripts/shfu-server start
+.PHONY: elc-updater-start elc-updater-stop
+elc-updater-start:
+	./scripts/elc-updater clean
+	RLY_BIN=$(RLY_BIN) ./scripts/elc-updater start
 
-shfu-server-stop:
-	RLY_BIN=$(RLY_BIN) ./scripts/shfu-server stop
+elc-updater-stop:
+	RLY_BIN=$(RLY_BIN) ./scripts/elc-updater stop
 
 .PHONY: test
 test:
