@@ -4,7 +4,7 @@ set -eux
 source $(dirname $0)/utils
 RLY="${RLY_BIN} --debug"
 
-ENABLE_SHFU_GRPC=${ENABLE_SHFU_GRPC:-false}
+ENABLE_LCP_ELC_UPDATER_GRPC=${ENABLE_ELC_UPDATER_GRPC:-false}
 
 # XXX set proper value
 TX_INTERNAL=120
@@ -40,7 +40,7 @@ docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-bac
 
 sendPacketOnEth
 
-export YRLY_LCP_SHFU_GRPC_ENABLE=${ENABLE_SHFU_GRPC}
+export YRLY_LCP_ELC_UPDATER_GRPC_ENABLE=${ENABLE_LCP_ELC_UPDATER_GRPC}
 
 waitUnrelayedCount "unrelayed-packets" "dst" 1 300
 waitUnrelayedCount "unrelayed-packets" "src" 1 300
