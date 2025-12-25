@@ -421,8 +421,8 @@ github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7Do
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/d4l3k/messagediff v1.2.1 h1:ZcAIMYsUg0EAp9X+tt8/enBE/Q8Yd5kzPynLyKptt9U=
 github.com/d4l3k/messagediff v1.2.1/go.mod h1:Oozbb1TVXFac9FtSIxHBMnBCq2qeH/2KkEQxENCrlLo=
-github.com/dai1975/lcp-go v0.0.0-20251223060032-50facc06e346 h1:nKp75ZWZHT+fe2bgRah0qBwIwYPfUt50cXoPK4IZN20=
-github.com/dai1975/lcp-go v0.0.0-20251223060032-50facc06e346/go.mod h1:74/KVL3Ib+gi0KwfHAF/nBmTYF+joBfVP6kyIB55BEc=
+github.com/dai1975/lcp-go v0.0.0-20251225052453-eb1533b01926 h1:RUXVCAGn5a863O0EjiiEmhtK6ka77eZ3xpUEatDE+aU=
+github.com/dai1975/lcp-go v0.0.0-20251225052453-eb1533b01926/go.mod h1:0PKc5CXQzPp39rkNkQB0PhUNKxX1va78gp4yAXZCcw0=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.3.18 h1:bfHPAZv7BXCWjlnhiWuBifhA65C81x23GtSjsyZINss=
