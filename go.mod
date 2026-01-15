@@ -2,8 +2,8 @@ module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 
 go 1.22.2
 
-//replace github.com/datachainlab/lcp-go v0.2.22 => ../../elc-updater/updater-for-relayer
-replace github.com/datachainlab/lcp-go v0.2.22 => github.com/dai1975/lcp-go v0.0.0-20251225084813-36474f565b3e
+//replace github.com/datachainlab/lcp-go v0.2.22 => ../../elc-updater/updater-for-relayer-2
+replace github.com/datachainlab/lcp-go v0.2.22 => github.com/dai1975/lcp-go v0.0.0-20260115020818-926b69c08377
 
 require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.18
