@@ -4,7 +4,7 @@ go 1.22.2
 
 //replace github.com/datachainlab/lcp-go v0.2.22 => ../../elc-updater/updater-for-relayer-2
 //replace github.com/datachainlab/lcp-go v0.2.22 => ../../elc-updater/updater-for-relayer
-replace github.com/datachainlab/lcp-go v0.2.22 => github.com/dai1975/lcp-go v0.0.0-20260122070552-6c6bfe381767
+replace github.com/datachainlab/lcp-go v0.2.22 => github.com/dai1975/lcp-go v0.0.0-20260123014104-ca044598e094
 
 require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.18
