@@ -1,6 +1,8 @@
 RLY_BIN ?= ../../../../bin/yrly
 
 export USE_FAKELOST_TEST ?= no
+export ENABLE_ELC_UPDATER_GRPC ?= false
+export ELC_UPDATER_DB ?=
 
 .PHONY: network
 network:
@@ -26,6 +28,14 @@ handshake:
 .PHONY: test-channel-upgrade
 test-channel-upgrade:
 	RLY_BIN=$(RLY_BIN) ./scripts/test-channel-upgrade
+
+.PHONY: elc-updater-start elc-updater-stop
+elc-updater-start:
+	./scripts/elc-updater clean
+	RLY_BIN=$(RLY_BIN) ./scripts/elc-updater start
+
+elc-updater-stop:
+	RLY_BIN=$(RLY_BIN) ./scripts/elc-updater stop
 
 .PHONY: test
 test:

@@ -41,4 +41,4 @@ jobs:
           make build-images
           make -C lcp && rm -rf lcp/target/release/deps
           make yrly
-          make E2E_OPTIONS="--mock_zkdcap" e2e-test
+          make E2E_OPTIONS="--mock_zkdcap --elc_updater" e2e-test
