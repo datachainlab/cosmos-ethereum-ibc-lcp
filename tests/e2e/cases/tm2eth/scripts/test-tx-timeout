@@ -1,0 +1,66 @@
+#!/bin/bash
+set -eux
+
+RLY="${RLY_BIN} --debug"
+
+# XXX set proper value
+PATH_NAME=ibc01
+TX_INTERVAL=120
+TM_USER_ADDRESS=$(${RLY} tendermint keys show ibc0 testkey)
+
+retry() {
+    local -r -i max_attempts="$1"; shift
+    local -r cmd="$@"
+    local -i attempt_num=1
+
+    until $cmd
+    do
+        if (( attempt_num == max_attempts ))
+        then
+            echo "Attempt $attempt_num failed and there are no more attempts left!"
+            return 1
+        else
+            echo "Attempt $attempt_num failed! Trying again in $attempt_num seconds..."
+            sleep $(( attempt_num++ ))
+        fi
+    done
+}
+
+TMPFILE=/tmp/tm2eth-test-tx-timeout.log
+
+echo "!!! ibc0 -> ibc1 !!!"
+
+docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send --packet-timeout-height 0-1 mockapp channel-0 'mock packet data' --yes"
+sleep ${TX_INTERVAL}
+retry 10 ${RLY} tx relay ${PATH_NAME} 2>&1 | tee $TMPFILE
+if grep -i 'Error' $TMPFILE; then exit 1; fi
+grep -e 'core\.(\*RelayMsgs)\.Send' $TMPFILE | grep ProofUnreceived
+
+
+echo "!!! ibc1 -> ibc0 !!!"
+RPC_ADDRESS_B=$($RLY config show | jq -r '.chains[] | select(.chain.chain_id == "ibc1").chain.rpc_addr')
+PORT_B=$($RLY paths list --json | jq -r --arg path $PATH_NAME '.[$path].dst."port-id"')
+CHANNEL_B=$($RLY paths list --json | jq -r --arg path $PATH_NAME '.[$path].dst."channel-id"')
+MNEMONIC_B=$($RLY config show | jq -r '.chains[] | select(.chain.chain_id == "ibc1").chain.signer.mnemonic')
+BOB_INDEX=2
+ADDRESSES_DIR_B=$(dirname $0)/../../../chains/ethereum/contracts/addresses
+MOCKAPP_CONTRACT_B=`cat ${ADDRESSES_DIR_B}/AppV1`
+
+cast send \
+     --rpc-url $RPC_ADDRESS_B \
+     --mnemonic "$MNEMONIC_B" \
+     --mnemonic-index ${BOB_INDEX} \
+     $MOCKAPP_CONTRACT_B \
+     'sendPacket(bytes,string,string,(uint64,uint64),uint64)' \
+     $(cast from-utf8 'mock packet data') \
+     $PORT_B \
+     $CHANNEL_B \
+     '(0,100000)' \
+     $(date -d 1sec +%s%N)
+sleep ${TX_INTERVAL}
+sleep ${TX_INTERVAL}
+cast block-number --rpc-url $RPC_ADDRESS_B
+${RLY} tx relay $PATH_NAME 2>&1 | tee $TMPFILE
+
+if grep -i 'Error' $TMPFILE; then exit 1; fi
+grep -e 'core\.(\*RelayMsgs)\.Send' $TMPFILE | grep ProofUnreceived

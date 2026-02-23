@@ -28,6 +28,7 @@ test-channel-upgrade:
 .PHONY: test
 test:
 	RLY_BIN=$(RLY_BIN) ./scripts/test-tx
+	RLY_BIN=$(RLY_BIN) ./scripts/test-tx-timeout
 
 .PHONY: restore
 restore:
