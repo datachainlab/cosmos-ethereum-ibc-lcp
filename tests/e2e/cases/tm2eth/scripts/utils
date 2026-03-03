@@ -1,0 +1,54 @@
+expectUnrelayedCount() {
+    query_type=$1
+    filter=".$2 | length"
+    expect_count=$3
+    unrelayed_count=$(${RLY} query ${query_type} ibc01 | jq "${filter}")
+    if [ $unrelayed_count -ne ${expect_count} ]; then
+        echo "$query_type: $unrelayed_count"
+        test -z "$RLY_PID" || kill $RLY_PID
+        exit 1
+    fi
+}
+
+waitUnrelayedCount() {
+    query_type=$1
+    chain=$2
+    filter=".$chain | length"
+    expect_count=$3
+    timeout=$(( $(date +%s) + $4 ))
+    unrelayed_count=999
+    until [ $unrelayed_count -eq $expect_count ]; do
+        unrelayed_count=$(${RLY} query ${query_type} ibc01 | jq "${filter}")
+        date
+        echo "$0 ${query_type} is $unrelayed_count"
+        t=$(date +%s)
+        if [ $t -gt $timeout ]; then
+            echo "TIMEOUT waitUnrelayedCount: $query_type $chain expect $expect_count but $unrelayed_count"
+            exit 1
+        fi
+        sleep 10
+    done
+}
+
+sendPacketOnEth() {
+    PATH_NAME=ibc01
+    MOCKAPP_CONTRACT_B=$(cat $(dirname $0)/../../../chains/ethereum/contracts/addresses/AppV1)
+    RPC_ADDRESS_B=$($RLY config show | jq -r '.chains[] | select(.chain.origin_chain.chain_id == "ibc1").chain.origin_chain.rpc_addr')
+    PORT_B=$($RLY paths list --json | jq -r --arg path $PATH_NAME '.[$path].dst."port-id"')
+    CHANNEL_B=$($RLY paths list --json | jq -r --arg path $PATH_NAME '.[$path].dst."channel-id"')
+
+    SENDER=$(cast wallet address --private-key 0x0000000000000000000000000000000000000000000000000000000000000001)
+    cast balance $SENDER --rpc-url $RPC_ADDRESS_B
+    cast nonce $SENDER --rpc-url $RPC_ADDRESS_B
+    cast send \
+     --rpc-url $RPC_ADDRESS_B \
+     --private-key 0x0000000000000000000000000000000000000000000000000000000000000001 \
+     --legacy \
+     $MOCKAPP_CONTRACT_B \
+     'sendPacket(bytes,string,string,(uint64,uint64),uint64)' \
+     $(cast from-utf8 'mock packet data') \
+     $PORT_B \
+     $CHANNEL_B \
+     '(0,100000)' \
+     $(date -d 1hour +%s%N) || exit 1
+}

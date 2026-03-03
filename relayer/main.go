@@ -10,7 +10,9 @@ import (
 	lcp "github.com/datachainlab/lcp-go/relay"
 	rawsigner "github.com/datachainlab/lcp-go/relay/signers/raw"
 	lcptm "github.com/datachainlab/lcp-go/relay/tendermint"
-	tendermint "github.com/hyperledger-labs/yui-relayer/chains/tendermint/module"
+	debug_chain "github.com/hyperledger-labs/yui-relayer/chains/debug/module"
+ 	tendermint "github.com/hyperledger-labs/yui-relayer/chains/tendermint/module"
+	debugprover "github.com/hyperledger-labs/yui-relayer/provers/debug/module"
 	"github.com/hyperledger-labs/yui-relayer/cmd"
 )
 
@@ -19,6 +21,8 @@ func main() {
 		tendermint.Module{},
 		ethereum.Module{},
 		ethereumlc.Module{},
+		debug_chain.Module{},
+		debugprover.Module{},
 		hd.Module{},
 		lcp.Module{},
 		lcptm.Module{},
