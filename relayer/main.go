@@ -7,7 +7,7 @@ import (
 	"github.com/datachainlab/ethereum-ibc-relay-chain/pkg/relay/ethereum"
 	ethereumlc "github.com/datachainlab/ethereum-ibc-relay-prover/relay"
 	"github.com/datachainlab/ibc-hd-signer/pkg/hd"
-	lcp "github.com/datachainlab/lcp-go/relay"
+	lcp "github.com/datachainlab/lcp-go/relay/module"
 	rawsigner "github.com/datachainlab/lcp-go/relay/signers/raw"
 	lcptm "github.com/datachainlab/lcp-go/relay/tendermint"
 	debug_chain "github.com/hyperledger-labs/yui-relayer/chains/debug/module"
