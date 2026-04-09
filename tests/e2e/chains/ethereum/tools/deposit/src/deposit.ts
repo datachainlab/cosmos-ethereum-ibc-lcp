@@ -95,7 +95,7 @@ const main = async (): Promise<void> => {
       params.depositDataRoot,
     )
 
-    const maxRetryCount = 30;
+    const maxRetryCount = 60;
     let retryCount = 0;
     let receipt;
     while (true) {

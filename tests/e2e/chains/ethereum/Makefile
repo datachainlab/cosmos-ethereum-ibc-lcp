@@ -1,7 +1,7 @@
 GETH_HTTP_PORT ?= 8546
 BEACON_HTTP_PORT ?= 19596
-GETH_VERSION ?= v1.15.6
-LODESTAR_VERSION ?= v1.28.1
+GETH_VERSION ?= v1.17.2
+LODESTAR_VERSION ?= v1.41.1
 DOCKER_COMPOSE ?= docker compose
 COMPOSE_UP_OPTS ?= -d
 HARDHAT ?= npx hardhat
@@ -14,8 +14,8 @@ STAKING-CLI=docker run -it --rm -v $(shell pwd)/consensus/validator_keys:/app/va
 # Run geth lodestar deposit lodestar-validator
 .PHONY:network
 network:
-	EPOCH_PECTRA=0 \
-	GENESIS_TIMESTAMP=$(shell date -d'+10second' +%s) \
+	EPOCH_LATEST_HF=0 \
+	GENESIS_TIMESTAMP=$(shell date -d'+10second' +%s 2>/dev/null || date -v+10S +%s) \
 	GETH_VERSION=$(GETH_VERSION) GETH_HTTP_PORT=$(GETH_HTTP_PORT) \
 	LODESTAR_VERSION=$(LODESTAR_VERSION) BEACON_HTTP_PORT=$(BEACON_HTTP_PORT) \
 	$(DOCKER_COMPOSE) up $(COMPOSE_UP_OPTS) geth lodestar deposit lodestar-validator
