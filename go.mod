@@ -1,13 +1,13 @@
 module github.com/datachainlab/cosmos-ethereum-ibc-lcp
 
-go 1.22.2
+go 1.23.0
 
 require (
-	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.18
+	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.21
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.16
 	github.com/datachainlab/ibc-hd-signer v0.1.2
-	github.com/datachainlab/lcp-go v0.2.23
-	github.com/hyperledger-labs/yui-relayer v0.5.19
+	github.com/datachainlab/lcp-go v0.2.24
+	github.com/hyperledger-labs/yui-relayer v0.5.20
 )
 
 require (
@@ -249,7 +249,7 @@ require (
 	golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c // indirect
 	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/oauth2 v0.26.0 // indirect
-	golang.org/x/sync v0.11.0 // indirect
+	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/term v0.29.0 // indirect
 	golang.org/x/text v0.22.0 // indirect

@@ -42,6 +42,10 @@ test:
 	RLY_BIN=$(RLY_BIN) ./scripts/test-tx
 	RLY_BIN=$(RLY_BIN) ./scripts/test-service
 
+.PHONY: test-timeout
+test-timeout:
+	RLY_BIN=$(RLY_BIN) ./scripts/test-tx-timeout
+
 .PHONY: restore
 restore:
 	RLY_BIN=$(RLY_BIN) ./scripts/restore
