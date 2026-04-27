@@ -11,7 +11,7 @@ Cross-chain messaging demo between Cosmos (Tendermint) and Ethereum using IBC + 
 - **`enclave/`** — Rust `no_std` SGX enclave (built as static lib, signed into `bin/enclave.signed.so`). `enclave/src/lib.rs` registers light clients via `tendermint_lc` and `ethereum_elc` against the LCP `enclave-runtime`. The `PRESET` constant decides Ethereum spec (`preset::minimal` for the local devnet — must be switched to `preset::mainnet` for goerli/sepolia/holesky/mainnet builds).
 - **`relayer/main.go`** — Builds `yrly`: a thin `cmd.Execute(...)` wiring of yui-relayer modules. Brings together tendermint chain, ethereum chain, ethereum LC prover (`ethereum-ibc-relay-prover`), LCP relay module (`lcp-go`), LCP-tendermint prover, HD signer, raw signer, and debug chain/prover. It contains no relay logic itself; behavior changes go upstream into those modules. Versions are pinned in `go.mod` and listed in README.md "Supported Versions".
 - **`lcp/`** — Git submodule of the LCP service. The `lcp` binary used for `enclave generate-key`, `service start`, and remote attestation is built here (`make -C lcp`). E2E uses `lcp/bin/lcp`.
-- **`tests/e2e/`** — End-to-end harness. `chains/ethereum` runs geth + lodestar (consensus) + deposit + lodestar-validator via `compose.yaml`, and deploys Solidity contracts (`contracts/contracts/App.sol`, `Dependencies.sol`) via Hardhat. `chains/tendermint` builds a Cosmos `simapp` Docker image. `cases/tm2eth` is the only test case and orchestrates `network → setup → handshake → test → test-operators → network-down`. Relayer config templates live in `cases/tm2eth/configs/templates/` and are rendered by `scripts/gen_rly_config.sh`.
+- **`tests/e2e/`** — End-to-end harness, split into three subdirectories described in detail in [Test Harness Layout](#test-harness-layout) below.
 - **`enclave/Cargo.toml`** pins `enclave-runtime`, `tendermint-lc`, and `ethereum-elc` to specific git revs. Bumps to LCP/ELC versions happen here and must stay in sync with the Go-side `lcp-go` / `ethereum-ibc-relay-prover` versions in `go.mod`. Rust toolchain is pinned by `rust-toolchain` (currently `nightly-2024-09-05`).
 
 ## Build
@@ -47,6 +47,43 @@ make E2E_OPTIONS="--key_expiration=3600" e2e-test
 Supported flags: `--no_run_lcp`, `--zkdcap`, `--mock_zkdcap`, `--enclave_debug`, `--upgrade_test`, `--fakelost_test`, `--elc_updater`, `--key_expiration=<int>`. `LCP_RISC0_IMAGE_ID` must match the value baked into the LCP zkVM build when `--zkdcap` is used.
 
 Sub-targets inside `tests/e2e/cases/tm2eth/Makefile` (`network`, `setup`, `handshake`, `test`, `test-channel-upgrade`, `test-operators`, `restore`, `network-down`) can be run directly when iterating without a full enclave rebuild — the README.md "Run E2E test (Manually)" section documents the manual flow including remote attestation and `mrenclave`/`ibc_address` config edits.
+
+## Test Harness Layout
+
+`tests/e2e/` contains three sibling directories. Top-level orchestration in `scripts/` drives `chains/` (the local devnets) and `cases/` (the test scenarios) in that order.
+
+### `tests/e2e/chains/` — local devnets
+
+Each subdirectory builds the docker image(s) and `compose` services for one chain. They are independent: their `make network` / `network-down` targets bring the chain up or tear it down without knowing about the relayer.
+
+- **`chains/tendermint/`** — Cosmos chain. The `simapp/` directory contains a custom SDK app (`app.go`, `ibc.go`, `genesis.go`, `ante.go`, `upgrades.go`, plus the `simd` and `tm-chain` binaries) with a `mockapp` IBC module used as the test app. `make image` builds `tendermint-chain:latest` from the `Dockerfile`. `docker-compose.yml` runs a single `tendermint-chain` container exposing 26656/26657/9090 with `IBC_CHANNEL_UPGRADE_TIMEOUT=480000000000` and the `LCP_RA_ROOT_CERT_HEX` / `LCP_DCAP_RA_ROOT_CERT_HEX` env vars used to inject the LCP attestation root cert in SW mode. `proto/` + `scripts/protocgen.sh` regenerate Go protobuf bindings via `make proto-gen`.
+- **`chains/ethereum/`** — Ethereum execution + consensus stack. `compose.yaml` defines four runtime services (`geth`, `lodestar`, `deposit`, `lodestar-validator`) plus a build-only `contracts` service. `make build-images` (`build-geth-image` / `build-lodestar-image` / `build-deposit-image` / `build-contract-image`) builds the four images from `Dockerfile.geth`, `Dockerfile.lodestar`, `Dockerfile.deposit`, `Dockerfile.npm`. `make network` brings the stack up with `EPOCH_LATEST_HF=0` and a genesis timestamp 10s in the future; lodestar runs in `dev` mode with all forks (Altair → Electra) at epoch 0 and Fulu at `EPOCH_LATEST_HF`. Validator keys live under `consensus/validator_keys/` (regenerable via `setup-validator-key`) and the JWT secret used between geth and lodestar is in `config/jwtsecret`. `make deploy` runs `npx hardhat run ./scripts/deploy.js --network eth_local` inside the `contracts` service to deploy `contracts/contracts/App.sol` (the mockapp) and `Dependencies.sol`; `make extract-abi` then dumps ABIs and addresses. `make rm-oz-upgrades` clears the OpenZeppelin upgrade manifest under `.openzeppelin/` (called by the root `e2e-clean` target). `lib/forge-std` and `lib/risc0-ethereum` are git submodules pulled in for Foundry/zkDCAP support.
+
+### `tests/e2e/cases/` — test scenarios
+
+Currently only `cases/tm2eth/` exists; the directory structure is set up so that other (chain-pair, scenario) combinations can be added as siblings.
+
+- **`cases/tm2eth/Makefile`** — orchestration entry. Targets compose chain bring-up + relayer setup + scenarios:
+  - `network` / `network-down` — bring both `chains/tendermint` and `chains/ethereum` up/down, then `deploy` and `extract-abi` on Ethereum.
+  - `setup` — runs `scripts/fixture` (copies `key_seed.json` out of the tendermint container into `fixtures/`) and `scripts/init-rly` (initializes `~/.yui-relayer`, registers `configs/demo/`, and imports the tendermint signing key).
+  - `handshake` — runs `scripts/handshake`: initializes the LCP-tendermint light client, adds the path from `configs/path.json`, creates clients on both sides, calls `lcp activate-client` for each, and finally completes the connection and channel handshakes.
+  - `test` — runs `scripts/test-tx` (sends one packet from each side and waits for the relayer to drain unrelayed packets/acks) followed by `scripts/test-service` (runs `yrly service start` with relay/optimize intervals 20s/30s and validates ack drain).
+  - `test-channel-upgrade` — runs `scripts/test-channel-upgrade`, a 9-case scenario covering channel upgrade init/cancel/timeout interleavings between the two chains.
+  - `test-operators` — runs `scripts/test-operators` exercising `lcp update-operators` nonce semantics on both sides.
+  - `restore` — runs `scripts/restore`: `lcp restore-elc` + `lcp remove-eki` on both sides, used after restarting the LCP service to recover ELC state.
+  - `elc-updater-start` / `elc-updater-stop` — manage a sidecar `lcp elc-updater server` (sqlite-backed at `$ELC_UPDATER_DB`, default `/tmp/elc-updater.db`) on `localhost:50061` that pre-feeds ELC updates; toggled by `--elc_updater`.
+- **`cases/tm2eth/configs/`** — `path.json` defines the IBC path (`ibc0` ↔ `ibc1`, port `mockapp`, version `mockapp-1`, unordered, naive strategy). `templates/ibc-{0,1}.json.tpl` and `ibc-{0,1}-zkdcap.json.tpl` are rendered into `configs/demo/ibc-{0,1}.json` by `scripts/gen_rly_config.sh` using `jq -n`, substituting `LCP_MRENCLAVE`, `LCP_KEY_EXPIRATION`, `IBC_ADDRESS` (read from `tests/e2e/chains/ethereum/contracts/addresses/IBCHandler`), `LC_ADDRESS` (`.../LCPClient`), and (for zkDCAP) `LCP_RISC0_IMAGE_ID` and `LCP_ZKDCAP_RISC0_MOCK`.
+- The handshake/test scripts share env-var knobs — most notably `DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1` and `DEBUG_RELAYER_SHFU_WAIT_ibc0`, which are toggled by `USE_FAKELOST_TEST=yes` to simulate sync-committee finality update loss.
+
+### `tests/e2e/scripts/` — top-level orchestration & utilities
+
+These scripts wire everything together; they are called from the root `Makefile` (`e2e-test`) or from CI.
+
+- **`run_e2e_test.sh`** — the canonical entry called by `make e2e-test`. Parses `E2E_OPTIONS`, optionally invokes `init_lcp.sh` and starts the LCP service (`lcp service start --address=127.0.0.1:50051 --threads=2`), exports `LCP_MRENCLAVE` from `lcp enclave metadata`, brings up the local networks (`make -C cases/tm2eth network`), runs `gen_rly_config.sh`, waits for the first beacon `light_client/finality_update` (`http://localhost:19596/eth/v1/beacon/light_client/finality_update`), then runs `setup → handshake → [test-channel-upgrade] → restart-LCP+restore → test → [elc-updater-start + test + elc-updater-stop] → test-operators → network-down`. The LCP restart in the middle exists specifically to exercise the `restore` flow.
+- **`init_lcp.sh`** — wipes `~/.lcp` and re-runs LCP attestation in the right mode for the env: `attestation ias` for SGX HW, `attestation simulate` (using `tests/certs/`) for SGX SW, or `attestation zkdcap` / `zkdcap-sim` (modes `dev` / `bonsai` / `local`) when `ZKDCAP=true`. Generates the enclave key inline via `lcp enclave generate-key --target_qe={qe,qe3,qe3sim}`.
+- **`util`** — sourced helpers: `retry <max> <cmd...>` (used throughout) and `createDockerImageCacheKey` (escapes `/` in image names for cache file keys).
+- **`wait-for-launch <max-attempts> <container>`** — polls `docker inspect` for `Health.Status == healthy`.
+- **`save_docker_images <dir> <image...>`** / **`load_docker_images`** — `docker save` / `docker load` helpers, used to cache built images between CI steps.
 
 ## Notes for Modifications
 
