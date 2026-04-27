@@ -1,11 +1,13 @@
 #!/bin/bash
 set -eux
 
+source $(dirname $0)/utils
 RLY="${RLY_BIN} --debug"
 
 # XXX set proper value
 PATH_NAME=ibc01
 TX_INTERVAL=120
+ETH_TX_INTERVAL=300
 TM_USER_ADDRESS=$(${RLY} tendermint keys show ibc0 testkey)
 
 retry() {
@@ -31,7 +33,7 @@ TMPFILE=/tmp/tm2eth-test-tx-timeout.log
 echo "!!! ibc0 -> ibc1 !!!"
 
 docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send --packet-timeout-height 0-1 mockapp channel-0 'mock packet data' --yes"
-sleep ${TX_INTERVAL}
+waitUnrelayedCount "unrelayed-packets" "src" 1 ${TX_INTERVAL}
 retry 10 ${RLY} tx relay ${PATH_NAME} 2>&1 | tee $TMPFILE
 if grep -i 'Error' $TMPFILE; then exit 1; fi
 grep -e 'core\.(\*RelayMsgs)\.Send' $TMPFILE | grep ProofUnreceived
@@ -58,8 +60,7 @@ cast send \
      $CHANNEL_B \
      '(0,100000)' \
      $(date -d 1sec +%s%N)
-sleep ${TX_INTERVAL}
-sleep ${TX_INTERVAL}
+waitUnrelayedCount "unrelayed-packets" "dst" 1 ${ETH_TX_INTERVAL}
 cast block-number --rpc-url $RPC_ADDRESS_B
 ${RLY} tx relay $PATH_NAME 2>&1 | tee $TMPFILE
 
