@@ -46,13 +46,11 @@ waitUnrelayedCount "unrelayed-packets" "dst" 1 300
 waitUnrelayedCount "unrelayed-packets" "src" 1 300
 
 retry 10 ${RLY} tx relay --do-refresh ibc01
-sleep ${TX_INTERNAL}
 
 waitUnrelayedCount "unrelayed-acknowledgements" "dst" 1 300
 waitUnrelayedCount "unrelayed-acknowledgements" "src" 1 300
 
 retry 10 ${RLY} tx acks --do-refresh ibc01
-sleep ${TX_INTERNAL}
 
 waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 300
 waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 300

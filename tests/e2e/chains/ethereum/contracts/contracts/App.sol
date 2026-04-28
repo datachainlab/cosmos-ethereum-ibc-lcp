@@ -10,6 +10,7 @@ contract AppV1 is IBCContractUpgradableUUPSMockApp {
 
     function __AppV1_init(string memory initialVersion) public initializer {
         __IBCContractUpgradableUUPSMockApp_init(initialVersion);
+        allowCloseChannel(true);
     }
 }
 
