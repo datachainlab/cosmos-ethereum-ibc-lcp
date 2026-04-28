@@ -4,15 +4,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Cross-chain messaging demo between Cosmos (Tendermint) and Ethereum using IBC + LCP (Light Client Proxy). LCP runs Tendermint and Ethereum light clients (ELCs) inside an Intel SGX enclave so that Ethereum-side proof verification is cheap, and is fronted by a Go relayer (`yrly`).
+Cross-chain messaging demo between Cosmos (Tendermint) and Ethereum using IBC + LCP (Light Client Proxy). LCP runs Tendermint and Ethereum light clients (ELCs) inside an Intel SGX enclave so that Ethereum-side proof verification is cheap, and is fronted by a Go relayer (`yrly`). A second target chain — Polygon PoS — is wired in alongside Ethereum (Phase 1 scaffolding only — see "Polygon (tm2pol)" below).
+
+### Sibling-checkout requirement
+
+`enclave/Cargo.toml` and `go.mod` use **path / replace** dependencies into two sibling repos that aren't tagged or publicly fetchable:
+
+- `../polygon-elc/` (Rust crate, registered in the enclave)
+- `../polygon-ibc-relay-prover/` (Go module, registered in the relayer)
+
+Builds of `make` (enclave) and `make yrly` (relayer) will fail unless both are checked out at the parent of this repo. CLAUDE: assume they exist; warn the user if they don't.
 
 ## Key Components
 
-- **`enclave/`** — Rust `no_std` SGX enclave (built as static lib, signed into `bin/enclave.signed.so`). `enclave/src/lib.rs` registers light clients via `tendermint_lc` and `ethereum_elc` against the LCP `enclave-runtime`. The `PRESET` constant decides Ethereum spec (`preset::minimal` for the local devnet — must be switched to `preset::mainnet` for goerli/sepolia/holesky/mainnet builds).
-- **`relayer/main.go`** — Builds `yrly`: a thin `cmd.Execute(...)` wiring of yui-relayer modules. Brings together tendermint chain, ethereum chain, ethereum LC prover (`ethereum-ibc-relay-prover`), LCP relay module (`lcp-go`), LCP-tendermint prover, HD signer, raw signer, and debug chain/prover. It contains no relay logic itself; behavior changes go upstream into those modules. Versions are pinned in `go.mod` and listed in README.md "Supported Versions".
-- **`lcp/`** — Git submodule of the LCP service. The `lcp` binary used for `enclave generate-key`, `service start`, and remote attestation is built here (`make -C lcp`). E2E uses `lcp/bin/lcp`.
+- **`enclave/`** — Rust `no_std` SGX enclave (built as static lib, signed into `bin/enclave.signed.so`). `enclave/src/lib.rs` registers light clients via `tendermint_lc`, `ethereum_elc`, and `polygon_elc` against the LCP `enclave-runtime`. The `PRESET` constant decides Ethereum spec (`preset::minimal` for the local devnet — must be switched to `preset::mainnet` for goerli/sepolia/holesky/mainnet builds).
+- **`relayer/main.go`** — Builds `yrly`: a thin `cmd.Execute(...)` wiring of yui-relayer modules. Brings together tendermint chain, ethereum chain, ethereum LC prover (`ethereum-ibc-relay-prover`), Polygon LC prover (`polygon-ibc-relay-prover`, registered as `polygonlc`), LCP relay module (`lcp-go`), LCP-tendermint prover, HD signer, raw signer, and debug chain/prover. It contains no relay logic itself; behavior changes go upstream into those modules. Versions are pinned in `go.mod` and listed in README.md "Supported Versions". `go.mod` carries `replace github.com/cometbft/cometbft => github.com/0xPolygon/cometbft v0.3.3-polygon` (the heimdall-v2 secp256k1-eth fork; superset of vanilla cometbft, so the existing tendermint chain still works) and a path replace for the sibling `polygon-ibc-relay-prover` repo.
+- **`lcp/`** — Git submodule of the LCP service. The `lcp` binary used for `enclave generate-key`, `service start`, and remote attestation is built here (`make -C lcp`). E2E uses `lcp/bin/lcp`. Pinned to `v0.2.17`; the enclave `Cargo.toml` revs must match.
 - **`tests/e2e/`** — End-to-end harness, split into three subdirectories described in detail in [Test Harness Layout](#test-harness-layout) below.
-- **`enclave/Cargo.toml`** pins `enclave-runtime`, `tendermint-lc`, and `ethereum-elc` to specific git revs. Bumps to LCP/ELC versions happen here and must stay in sync with the Go-side `lcp-go` / `ethereum-ibc-relay-prover` versions in `go.mod`. Rust toolchain is pinned by `rust-toolchain` (currently `nightly-2024-09-05`).
+- **`enclave/Cargo.toml`** pins `enclave-runtime` + `tendermint-lc` (lcp `v0.2.17`), `ethereum-elc` (`v0.1.0`), and `polygon-elc` (path dep into `../../polygon-elc/light-client`). Bumps to LCP/ELC versions happen here and must stay in sync with the Go-side `lcp-go` / `ethereum-ibc-relay-prover` / `polygon-ibc-relay-prover` versions in `go.mod`. Rust toolchain is pinned by `rust-toolchain` (currently `nightly-2024-09-05`). Note: `polygon-elc` pulls a forked `tendermint-rs` (`polygon-heimdall-support` branch, secp256k1-eth feature) at version 0.40, which Cargo resolves alongside `tendermint-lc`'s 0.29 — both versions coexist in the dep tree.
 
 ## Build
 
@@ -58,10 +67,11 @@ Each subdirectory builds the docker image(s) and `compose` services for one chai
 
 - **`chains/tendermint/`** — Cosmos chain. The `simapp/` directory contains a custom SDK app (`app.go`, `ibc.go`, `genesis.go`, `ante.go`, `upgrades.go`, plus the `simd` and `tm-chain` binaries) with a `mockapp` IBC module used as the test app. `make image` builds `tendermint-chain:latest` from the `Dockerfile`. `docker-compose.yml` runs a single `tendermint-chain` container exposing 26656/26657/9090 with `IBC_CHANNEL_UPGRADE_TIMEOUT=480000000000` and the `LCP_RA_ROOT_CERT_HEX` / `LCP_DCAP_RA_ROOT_CERT_HEX` env vars used to inject the LCP attestation root cert in SW mode. `proto/` + `scripts/protocgen.sh` regenerate Go protobuf bindings via `make proto-gen`.
 - **`chains/ethereum/`** — Ethereum execution + consensus stack. `compose.yaml` defines four runtime services (`geth`, `lodestar`, `deposit`, `lodestar-validator`) plus a build-only `contracts` service. `make build-images` (`build-geth-image` / `build-lodestar-image` / `build-deposit-image` / `build-contract-image`) builds the four images from `Dockerfile.geth`, `Dockerfile.lodestar`, `Dockerfile.deposit`, `Dockerfile.npm`. `make network` brings the stack up with `EPOCH_LATEST_HF=0` and a genesis timestamp 10s in the future; lodestar runs in `dev` mode with all forks (Altair → Electra) at epoch 0 and Fulu at `EPOCH_LATEST_HF`. Validator keys live under `consensus/validator_keys/` (regenerable via `setup-validator-key`) and the JWT secret used between geth and lodestar is in `config/jwtsecret`. `make deploy` runs `npx hardhat run ./scripts/deploy.js --network eth_local` inside the `contracts` service to deploy `contracts/contracts/App.sol` (the mockapp) and `Dependencies.sol`; `make extract-abi` then dumps ABIs and addresses. `make rm-oz-upgrades` clears the OpenZeppelin upgrade manifest under `.openzeppelin/` (called by the root `e2e-clean` target). `lib/forge-std` and `lib/risc0-ethereum` are git submodules pulled in for Foundry/zkDCAP support.
+- **`chains/polygon/`** — thin wrapper around the [`kurtosis-pos`](https://github.com/0xPolygon/kurtosis-pos) Kurtosis package. `make network` runs `kurtosis run --enclave pos github.com/0xPolygon/kurtosis-pos`, which spins up an L1 (geth + lighthouse) plus the Polygon PoS L2 (one heimdall-v2 validator + one bor execution node). `make network-down` runs `kurtosis enclave rm --force pos`. Helpers `make {bor-rpc-url,heimdall-cometbft-url,heimdall-rest-url,heimdall-grpc-url}` shell out to `kurtosis port print` for the matching service. Default service names: `l2-el-1-bor-heimdall-v2-validator` (port id `rpc` = bor JSON-RPC) and `l2-cl-1-heimdall-v2-bor-validator` (port ids `rpc` / `http` / `grpc` = CometBFT 26657 / REST 1317 / gRPC 3132). Default L2 EL chain id is `4927`, CL chain id `heimdall-4927`. No Solidity contracts are deployed in Phase 1 — the test config uses placeholder `ibc_address` `0xFF…0`.
 
 ### `tests/e2e/cases/` — test scenarios
 
-Currently only `cases/tm2eth/` exists; the directory structure is set up so that other (chain-pair, scenario) combinations can be added as siblings.
+`cases/tm2eth/` is the full Cosmos↔Ethereum scenario; `cases/tm2pol/` is a Phase 1 smoke harness for Polygon PoS that only exercises ELC create/update.
 
 - **`cases/tm2eth/Makefile`** — orchestration entry. Targets compose chain bring-up + relayer setup + scenarios:
   - `network` / `network-down` — bring both `chains/tendermint` and `chains/ethereum` up/down, then `deploy` and `extract-abi` on Ethereum.
@@ -74,6 +84,14 @@ Currently only `cases/tm2eth/` exists; the directory structure is set up so that
   - `elc-updater-start` / `elc-updater-stop` — manage a sidecar `lcp elc-updater server` (sqlite-backed at `$ELC_UPDATER_DB`, default `/tmp/elc-updater.db`) on `localhost:50061` that pre-feeds ELC updates; toggled by `--elc_updater`.
 - **`cases/tm2eth/configs/`** — `path.json` defines the IBC path (`ibc0` ↔ `ibc1`, port `mockapp`, version `mockapp-1`, unordered, naive strategy). `templates/ibc-{0,1}.json.tpl` and `ibc-{0,1}-zkdcap.json.tpl` are rendered into `configs/demo/ibc-{0,1}.json` by `scripts/gen_rly_config.sh` using `jq -n`, substituting `LCP_MRENCLAVE`, `LCP_KEY_EXPIRATION`, `IBC_ADDRESS` (read from `tests/e2e/chains/ethereum/contracts/addresses/IBCHandler`), `LC_ADDRESS` (`.../LCPClient`), and (for zkDCAP) `LCP_RISC0_IMAGE_ID` and `LCP_ZKDCAP_RISC0_MOCK`.
 - The handshake/test scripts share env-var knobs — most notably `DEBUG_RELAYER_PRUNE_AFTER_BLOCKS_PROVER_ibc1` and `DEBUG_RELAYER_SHFU_WAIT_ibc0`, which are toggled by `USE_FAKELOST_TEST=yes` to simulate sync-committee finality update loss.
+
+#### Polygon (tm2pol) — Phase 1 smoke
+
+`cases/tm2pol/` is intentionally minimal: it only exercises `lcp create-elc` + `lcp update-elc` against a Polygon-side ELC, mirroring the smoke harness already in `polygon-elc/tests/`. There is no handshake, no packet relay, and no Solidity contract deployment.
+
+- **`cases/tm2pol/Makefile`** — three targets: `network` / `network-down` (delegate to `chains/polygon`), `setup` (run `gen_rly_config.sh` then `init-rly` to import the rendered `configs/demo/ibc-0.json` into `~/.yui-relayer`), and `test` (run `scripts/test-elc`, which calls `lcp create-elc`/`lcp update-elc` for `polygon-0` and `polygon-1` ELCs).
+- **`cases/tm2pol/configs/`** — `path.json` (placeholder `ibc0`↔`ibc1` path so `paths add` succeeds; only the src side is meaningful here) and `templates/ibc-0.json.tpl` (rendered into `configs/demo/ibc-0.json` with `BOR_ENDPOINT`, `HEIMDALL_COMETBFT_ENDPOINT`, `HEIMDALL_COSMOS_ENDPOINT`, `HEIMDALL_CHAIN_ID`, `LCP_MRENCLAVE`, `IBC_ADDRESS`). Defaults: heimdall chain id `heimdall-4927`, ibc address `0xFF00…0` placeholder, kurtosis-derived endpoints (no `localhost:...` hardcoding).
+- **`tests/e2e/scripts/run_e2e_test_pol.sh`** — top-level driver invoked by `make e2e-test-pol`. Brings up LCP (via `init_lcp.sh` + `lcp service start`), brings up the kurtosis-pos devnet (`make -C cases/tm2pol network`), waits for heimdall RPC `/status`, generates the relayer config, runs `setup → test`, then tears LCP and the devnet down. No `e2e-clean` dep (no `.openzeppelin` to wipe).
 
 ### `tests/e2e/scripts/` — top-level orchestration & utilities
 
@@ -88,6 +106,8 @@ These scripts wire everything together; they are called from the root `Makefile`
 ## Notes for Modifications
 
 - Editing `relayer/main.go` is rarely the right fix; relay behavior almost always lives in the imported modules pinned in `go.mod`.
-- After bumping `enclave/Cargo.toml` revs, also bump the matching Go modules in `go.mod` and the version table in README.md — they are expected to track together.
+- After bumping `enclave/Cargo.toml` revs, also bump the matching Go modules in `go.mod` and the version table in README.md — they are expected to track together. The `polygon-elc` (Rust) / `polygon-ibc-relay-prover` (Go) pair must move together.
 - Switching from devnet to a real Ethereum network requires changing `PRESET` in `enclave/src/lib.rs` from `preset::minimal` to `preset::mainnet`.
 - `make e2e-test` first runs `e2e-clean` which removes `.openzeppelin` upgrade manifests via the `contracts` docker service; expect contract addresses to differ across runs.
+- `make e2e-test-pol` is the Polygon Phase 1 smoke driver; it does **not** run `e2e-clean` (no Solidity deploy involved). It needs the `kurtosis` CLI in `$PATH` and Docker running.
+- The `replace github.com/cometbft/cometbft => github.com/0xPolygon/cometbft v0.3.3-polygon` line in `go.mod` is load-bearing for the heimdall-v2 prover. Don't drop it. The fork is a superset of vanilla cometbft — the existing tendermint chain still verifies its ed25519 validator set under it.

@@ -1,0 +1,18 @@
+#!/bin/bash
+set -eux
+
+RLY="${RLY_BIN} --debug"
+PATH_NAME=ibc01
+
+# Smoke test: create + update an ELC. Mirrors polygon-elc/tests/scripts/run_test.sh.
+${RLY} lcp create-elc ${PATH_NAME} --elc_client_id=polygon-0
+${RLY} lcp update-elc ${PATH_NAME} --elc_client_id=polygon-0
+
+# A second ELC, with a delay between create and update, to exercise larger height gaps.
+${RLY} lcp create-elc ${PATH_NAME} --elc_client_id=polygon-1
+sleep 5
+${RLY} lcp update-elc ${PATH_NAME} --elc_client_id=polygon-1
+${RLY} lcp update-elc ${PATH_NAME} --elc_client_id=polygon-1
+sleep 5
+${RLY} lcp update-elc ${PATH_NAME} --elc_client_id=polygon-1
+${RLY} lcp update-elc ${PATH_NAME} --elc_client_id=polygon-1

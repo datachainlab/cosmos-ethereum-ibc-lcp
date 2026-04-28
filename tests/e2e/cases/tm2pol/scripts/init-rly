@@ -1,0 +1,16 @@
+#!/bin/bash
+set -eux
+
+RLY_HOME="$HOME/.yui-relayer"
+RLY="${RLY_BIN} --debug"
+
+if ! [ -x ${RLY_BIN} ]; then
+  echo "Error: ${RLY_BIN} is not installed." >&2
+  exit 1
+fi
+
+rm -rf ${RLY_HOME}
+
+${RLY} config init
+${RLY} chains add-dir configs/demo/
+${RLY} paths add ibc0 ibc1 ibc01 --file=./configs/path.json
