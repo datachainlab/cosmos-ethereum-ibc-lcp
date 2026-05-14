@@ -36,11 +36,14 @@ fi
 
 make -C ${E2E_TEST_DIR} network
 
-# wait for first heimdall block (CometBFT RPC reachable + height > 0)
+# wait for first heimdall block (CometBFT RPC reachable + height > 0).
+# Pass curl args individually — `retry` joins $@ with $IFS and re-word-splits,
+# so any quoted "sh -c ..." form gets shredded.
 HEIMDALL_RPC=$(make -s -C ./tests/e2e/chains/polygon heimdall-cometbft-url)
-retry 60 sh -c "curl -fsL ${HEIMDALL_RPC}/status -o /dev/null"
+retry 60 curl -fsL "${HEIMDALL_RPC}/status" -o /dev/null
 
-E2E_TEST_DIR=${E2E_TEST_DIR} ${E2E_TEST_DIR}/scripts/gen_rly_config.sh
+# `setup` runs gen_rly_config.sh internally (the script is self-locating, so
+# it works regardless of cwd).
 make -C ${E2E_TEST_DIR} setup test
 
 if [ "$NO_RUN_LCP" = "false" ]; then

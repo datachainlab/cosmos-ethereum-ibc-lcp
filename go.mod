@@ -4,14 +4,12 @@ go 1.24.6
 
 replace github.com/cometbft/cometbft => github.com/0xPolygon/cometbft v0.3.3-polygon
 
-replace github.com/datachainlab/polygon-ibc-relay-prover => ../polygon-ibc-relay-prover
-
 require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.21
 	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.16
 	github.com/datachainlab/ibc-hd-signer v0.1.3
 	github.com/datachainlab/lcp-go v0.2.24
-	github.com/datachainlab/polygon-ibc-relay-prover v0.0.0-00010101000000-000000000000
+	github.com/datachainlab/polygon-ibc-relay-prover v0.0.0-20260421004653-71412c419289
 	github.com/hyperledger-labs/yui-relayer v0.5.20
 )
 

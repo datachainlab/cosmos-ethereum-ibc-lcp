@@ -1,11 +1,19 @@
 KURTOSIS         ?= kurtosis
 KURTOSIS_ENCLAVE ?= pos
-KURTOSIS_PACKAGE ?= github.com/0xPolygon/kurtosis-pos
+# Pin to a commit on main that has `el_bor_archive_mode=True` by default for the
+# 1-validator devnet (commit e3d4d1d, "align devnet config with amoy", #560).
+# We need archive mode because the polygon prover calls `eth_getProof` against
+# historical bor blocks tied to Heimdall milestones — a non-archive validator
+# only retains state for ~1024 blocks and the prover then hits "historical state
+# is not available". The trade-off is that this commit isn't tagged and the
+# service names gain a `-archive` suffix (reflected in EL_SERVICE / CL_SERVICE).
+KURTOSIS_VERSION ?= 97722d0a6dd8ebf2ca0a18b760fda45cc067336b
+KURTOSIS_PACKAGE ?= github.com/0xPolygon/kurtosis-pos@$(KURTOSIS_VERSION)
 KURTOSIS_ARGS    ?=
 
 # Default kurtosis-pos service names — see README.md.
-EL_SERVICE ?= l2-el-1-bor-heimdall-v2-validator
-CL_SERVICE ?= l2-cl-1-heimdall-v2-bor-validator
+EL_SERVICE ?= l2-el-1-bor-heimdall-v2-validator-archive
+CL_SERVICE ?= l2-cl-1-heimdall-v2-bor-validator-archive
 
 EL_RPC_PORT_ID  ?= rpc   # bor JSON-RPC
 CL_RPC_PORT_ID  ?= rpc   # heimdall cometbft RPC (26657)

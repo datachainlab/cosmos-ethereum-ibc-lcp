@@ -437,6 +437,8 @@ github.com/datachainlab/ibc-mock-client v0.4.3 h1:vFl8P4lx0aAgvnZIMfmwhDcj8atps1
 github.com/datachainlab/ibc-mock-client v0.4.3/go.mod h1:Fn37FzeevLp5gmla4TSoDY56Jm2tBcqz+p0lIyRCOsg=
 github.com/datachainlab/lcp-go v0.2.24 h1:6yN9+8wE3xRdhgikJGPI/080PKh81VMXPvsFn9W+o5o=
 github.com/datachainlab/lcp-go v0.2.24/go.mod h1:XDAvfz0ae04fcvl9cReNgivAhk7WwewuaXMw4fjspMo=
+github.com/datachainlab/polygon-ibc-relay-prover v0.0.0-20260421004653-71412c419289 h1:B0c4vMBzr5zABLnW84GN++Iygug2cQaMzN2E0alpQ3Q=
+github.com/datachainlab/polygon-ibc-relay-prover v0.0.0-20260421004653-71412c419289/go.mod h1:5id54CB58bIawRfQa7Rma7G9i2GcGbj961z9kTUUXG8=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

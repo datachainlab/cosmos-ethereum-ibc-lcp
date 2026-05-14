@@ -6,22 +6,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Cross-chain messaging demo between Cosmos (Tendermint) and Ethereum using IBC + LCP (Light Client Proxy). LCP runs Tendermint and Ethereum light clients (ELCs) inside an Intel SGX enclave so that Ethereum-side proof verification is cheap, and is fronted by a Go relayer (`yrly`). A second target chain — Polygon PoS — is wired in alongside Ethereum (Phase 1 scaffolding only — see "Polygon (tm2pol)" below).
 
-### Sibling-checkout requirement
+### Private polygon dependencies
 
-`enclave/Cargo.toml` and `go.mod` use **path / replace** dependencies into two sibling repos that aren't tagged or publicly fetchable:
+`polygon-elc` (Rust, enclave) and `polygon-ibc-relay-prover` (Go, relayer) are pulled by **git rev** from `github.com/datachainlab/...`. Both repos are private; the public Go proxy / sumdb 404s on them, so `go build`/`go mod tidy` need:
 
-- `../polygon-elc/` (Rust crate, registered in the enclave)
-- `../polygon-ibc-relay-prover/` (Go module, registered in the relayer)
+```
+export GOPRIVATE='github.com/datachainlab/polygon-ibc-relay-prover,github.com/datachainlab/polygon-elc'
+```
 
-Builds of `make` (enclave) and `make yrly` (relayer) will fail unless both are checked out at the parent of this repo. CLAUDE: assume they exist; warn the user if they don't.
+(or the same value in `~/.netrc` / `go env -w`). For Rust, Cargo just clones the repo using local git credentials; no extra config needed. Setting `GOPRIVATE` is the developer's responsibility — `make yrly` does not set it.
 
 ## Key Components
 
 - **`enclave/`** — Rust `no_std` SGX enclave (built as static lib, signed into `bin/enclave.signed.so`). `enclave/src/lib.rs` registers light clients via `tendermint_lc`, `ethereum_elc`, and `polygon_elc` against the LCP `enclave-runtime`. The `PRESET` constant decides Ethereum spec (`preset::minimal` for the local devnet — must be switched to `preset::mainnet` for goerli/sepolia/holesky/mainnet builds).
-- **`relayer/main.go`** — Builds `yrly`: a thin `cmd.Execute(...)` wiring of yui-relayer modules. Brings together tendermint chain, ethereum chain, ethereum LC prover (`ethereum-ibc-relay-prover`), Polygon LC prover (`polygon-ibc-relay-prover`, registered as `polygonlc`), LCP relay module (`lcp-go`), LCP-tendermint prover, HD signer, raw signer, and debug chain/prover. It contains no relay logic itself; behavior changes go upstream into those modules. Versions are pinned in `go.mod` and listed in README.md "Supported Versions". `go.mod` carries `replace github.com/cometbft/cometbft => github.com/0xPolygon/cometbft v0.3.3-polygon` (the heimdall-v2 secp256k1-eth fork; superset of vanilla cometbft, so the existing tendermint chain still works) and a path replace for the sibling `polygon-ibc-relay-prover` repo.
+- **`relayer/main.go`** — Builds `yrly`: a thin `cmd.Execute(...)` wiring of yui-relayer modules. Brings together tendermint chain, ethereum chain, ethereum LC prover (`ethereum-ibc-relay-prover`), Polygon LC prover (`polygon-ibc-relay-prover`, registered as `polygonlc`), LCP relay module (`lcp-go`), LCP-tendermint prover, HD signer, raw signer, and debug chain/prover. It contains no relay logic itself; behavior changes go upstream into those modules. Versions are pinned in `go.mod` and listed in README.md "Supported Versions". `go.mod` carries `replace github.com/cometbft/cometbft => github.com/0xPolygon/cometbft v0.3.3-polygon` (the heimdall-v2 secp256k1-eth fork; superset of vanilla cometbft, so the existing tendermint chain still works); `polygon-ibc-relay-prover` is pulled by git rev (no replace) and requires `GOPRIVATE` to be set — see "Private polygon dependencies" above.
 - **`lcp/`** — Git submodule of the LCP service. The `lcp` binary used for `enclave generate-key`, `service start`, and remote attestation is built here (`make -C lcp`). E2E uses `lcp/bin/lcp`. Pinned to `v0.2.17`; the enclave `Cargo.toml` revs must match.
 - **`tests/e2e/`** — End-to-end harness, split into three subdirectories described in detail in [Test Harness Layout](#test-harness-layout) below.
-- **`enclave/Cargo.toml`** pins `enclave-runtime` + `tendermint-lc` (lcp `v0.2.17`), `ethereum-elc` (`v0.1.0`), and `polygon-elc` (path dep into `../../polygon-elc/light-client`). Bumps to LCP/ELC versions happen here and must stay in sync with the Go-side `lcp-go` / `ethereum-ibc-relay-prover` / `polygon-ibc-relay-prover` versions in `go.mod`. Rust toolchain is pinned by `rust-toolchain` (currently `nightly-2024-09-05`). Note: `polygon-elc` pulls a forked `tendermint-rs` (`polygon-heimdall-support` branch, secp256k1-eth feature) at version 0.40, which Cargo resolves alongside `tendermint-lc`'s 0.29 — both versions coexist in the dep tree.
+- **`enclave/Cargo.toml`** pins `enclave-runtime` + `tendermint-lc` (lcp `v0.2.17`), `ethereum-elc` (`v0.1.0`), and `polygon-elc` (git rev — neither polygon repo has tags yet). Bumps to LCP/ELC versions happen here and must stay in sync with the Go-side `lcp-go` / `ethereum-ibc-relay-prover` / `polygon-ibc-relay-prover` versions in `go.mod`. The `[patch."https://github.com/datachainlab/lcp"]` block redirects `light-client`/`store`/`context`/`lcp-types`/`commitments`/`crypto`/`ocall-commands` to the local `lcp/` submodule — `ethereum-elc v0.1.0` was released against lcp `v0.2.14` and without the patch the graph ends up with two copies of every leaf crate, breaking the `dyn LightClientRegistry` cast. `getrandom` is pinned at `=0.2.8` so the existing `getrandom-sgx-lite` patch (only versioned for 0.2.8) actually applies — otherwise SGX linking fails on libc syscalls. Rust toolchain is pinned by `rust-toolchain` (currently `nightly-2025-08-25` — required by `base64ct 1.8.3`/edition2024 pulled in via lcp `v0.2.17`). Note: `polygon-elc` pulls a forked `tendermint-rs` (`polygon-heimdall-support` branch, secp256k1-eth feature) at version 0.40, which Cargo resolves alongside `tendermint-lc`'s 0.29 — both versions coexist in the dep tree.
 
 ## Build
 
