@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -ex
 
-# Phase 1 smoke driver for the tm2pol case.
-# Brings up the kurtosis-pos devnet, starts LCP, generates relayer config, and runs
-# `lcp create-elc` + `lcp update-elc` against the Polygon ELC. No handshake, no
-# tendermint chain, no contract deploy.
+# Phase 2a driver for the tm2pol case.
+# Brings up LCP + cosmos (ibc0) + Polygon PoS via kurtosis (ibc1), deploys
+# ibc-solidity + LCPClientIAS + AppV1 to bor, generates the relayer config,
+# and runs setup + handshake (clients + connection + channel). No packet relay
+# or test-operators in Phase 2a.
 
 source $(cd $(dirname "$0"); pwd)/util
 
@@ -17,6 +18,23 @@ export ZKDCAP=${ZKDCAP:-false}
 export LCP_ZKDCAP_RISC0_MOCK=${LCP_ZKDCAP_RISC0_MOCK:-false}
 
 CERTS_DIR=./tests/certs
+
+LCP_PID=
+
+# If a previous run failed mid-handshake (set -e exits before the cleanup
+# block), the lcp service process is left bound to :50051. A new `lcp service
+# start` then silently fails to bind and the next gRPC calls hit the stale
+# service holding ELC state from the previous run's chain — manifesting as
+# `no available updates` because the stale ELC is ahead of the fresh chain.
+# Reap any stragglers up-front.
+pkill -f 'lcp.*service start' 2>/dev/null || true
+
+cleanup() {
+    if [ -n "${LCP_PID}" ]; then
+        kill ${LCP_PID} 2>/dev/null || true
+    fi
+}
+trap cleanup EXIT
 
 if [ "$NO_RUN_LCP" = "false" ]; then
     LCP_BIN=${LCP_BIN:-./bin/lcp}
@@ -34,20 +52,14 @@ else
     export LCP_MRENCLAVE=0x$(echo $res | jq -r .mrenclave | base64 -d | xxd -p | tr -d $'\n')
 fi
 
+# Tendermint + kurtosis-pos devnet + polygon contract deploy + ABI extract.
 make -C ${E2E_TEST_DIR} network
 
-# wait for first heimdall block (CometBFT RPC reachable + height > 0).
-# Pass curl args individually — `retry` joins $@ with $IFS and re-word-splits,
-# so any quoted "sh -c ..." form gets shredded.
+# Wait for heimdall RPC. Pass curl args individually — `retry` joins $@ with
+# $IFS and re-word-splits, so any quoted "sh -c ..." form gets shredded.
 HEIMDALL_RPC=$(make -s -C ./tests/e2e/chains/polygon heimdall-cometbft-url)
 retry 60 curl -fsL "${HEIMDALL_RPC}/status" -o /dev/null
 
-# `setup` runs gen_rly_config.sh internally (the script is self-locating, so
-# it works regardless of cwd).
-make -C ${E2E_TEST_DIR} setup test
-
-if [ "$NO_RUN_LCP" = "false" ]; then
-    kill $LCP_PID || true
-fi
+make -C ${E2E_TEST_DIR} setup handshake
 
 make -C ${E2E_TEST_DIR} network-down

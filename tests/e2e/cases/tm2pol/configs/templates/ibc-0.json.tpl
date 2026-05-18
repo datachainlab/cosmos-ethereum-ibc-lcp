@@ -1,38 +1,20 @@
 {
   "chain": {
-    "@type": "/relayer.chains.ethereum.config.ChainConfig",
+    "@type": "/relayer.chains.tendermint.config.ChainConfig",
+    "key": "testkey",
     "chain_id": "ibc0",
-    "eth_chain_id": 4927,
-    "rpc_addr": $BOR_ENDPOINT,
-    "signer": {
-      "@type": "/relayer.signers.hd.SignerConfig",
-      "mnemonic": "math razor capable expose worth grape metal sunset metal sudden usage scheme",
-      "path": "m/44'/60'/0'/0/0"
-    },
-    "ibc_address": $IBC_ADDRESS,
-    "initial_send_checkpoint": 0,
-    "initial_recv_checkpoint": 0,
-    "enable_debug_trace": true,
+    "rpc_addr": "http://localhost:26657",
+    "account_prefix": "cosmos",
+    "gas_adjustment": 1.5,
+    "gas_prices": "0.025stake",
     "average_block_time_msec": 1000,
-    "max_retry_for_inclusion": 5,
-    "gas_estimate_rate": {
-      "numerator": 3,
-      "denominator": 2
-    },
-    "max_gas_limit": 10000000,
-    "tx_type": "auto",
-    "blocks_per_event_query": 1000,
-    "abi_paths": []
+    "max_retry_for_commit": 5
   },
   "prover": {
     "@type": "/relayer.provers.lcp.config.ProverConfig",
     "origin_prover": {
-      "@type": "/relayer.provers.polygon.config.ProverConfig",
-      "heimdall_cometbft_endpoint": $HEIMDALL_COMETBFT_ENDPOINT,
-      "heimdall_cosmos_endpoint": $HEIMDALL_COSMOS_ENDPOINT,
-      "heimdall_chain_id": $HEIMDALL_CHAIN_ID,
-      "trusting_period": "24h",
-      "max_clock_drift": "0",
+      "@type": "/relayer.chains.tendermint.config.ProverConfig",
+      "trusting_period": "336h",
       "refresh_threshold_rate": {
         "numerator": 2,
         "denominator": 3
@@ -40,12 +22,23 @@
     },
     "lcp_service_address": "localhost:50051",
     "mrenclave": $MRENCLAVE,
-    "allowed_quote_statuses": ["GROUP_OUT_OF_DATE"],
+    "allowed_quote_statuses": ["SW_HARDENING_NEEDED", "GROUP_OUT_OF_DATE"],
     "allowed_advisory_ids": ["INTEL-SA-00219","INTEL-SA-00289","INTEL-SA-00334","INTEL-SA-00477","INTEL-SA-00614","INTEL-SA-00615","INTEL-SA-00617", "INTEL-SA-00828"],
-    "key_expiration": 604800,
+    "key_expiration": $LCP_KEY_EXPIRATION,
     "key_update_buffer_time": 3600,
-    "elc_client_id": "polygon-0",
+    "elc_client_id": "07-tendermint-1",
     "message_aggregation": true,
-    "is_debug_enclave": true
+    "is_debug_enclave": $IS_DEBUG_ENCLAVE,
+    "operators": [
+      "0xcb96F8d6C2d543102184d679D7829b39434E4EEc"
+    ],
+    "operator_signer": {
+      "@type": "/relayer.provers.lcp.signers.raw.SignerConfig",
+      "private_key": "0x99b107441d0bce8e5b0078450f10f309910d8c0a2cc91671bd6cc1a284809642"
+    },
+    "operators_eip712_evm_chain_params": {
+      "chain_id": 4927,
+      "verifying_contract_address": $LC_ADDRESS
+    }
   }
 }

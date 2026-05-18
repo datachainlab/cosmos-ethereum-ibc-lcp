@@ -20,9 +20,34 @@ CL_RPC_PORT_ID  ?= rpc   # heimdall cometbft RPC (26657)
 CL_REST_PORT_ID ?= http  # heimdall cosmos REST  (1317)
 CL_GRPC_PORT_ID ?= grpc  # heimdall cosmos gRPC  (3132)
 
+DOCKER_COMPOSE ?= docker compose
+HARDHAT        ?= npx hardhat
+
 .PHONY: image build-images
-image build-images:
-	@echo "kurtosis pulls images on demand; nothing to build."
+image: build-images
+build-images:
+	$(DOCKER_COMPOSE) build --no-cache contracts
+
+.PHONY: dep
+dep:
+	$(DOCKER_COMPOSE) run --rm contracts npm install
+
+.PHONY: deploy
+deploy:
+	BOR_RPC_URL=$$($(MAKE) -s bor-rpc-url) \
+	$(DOCKER_COMPOSE) run --rm contracts $(HARDHAT) run ./scripts/deploy.js --network bor_local
+
+.PHONY: extract-abi
+extract-abi:
+	./scripts/extract-abi.sh
+
+.PHONY: rm-oz-upgrades
+rm-oz-upgrades:
+	$(DOCKER_COMPOSE) run --rm contracts sh -c 'rm -rf .openzeppelin'
+
+.PHONY: clean-contracts
+clean-contracts:
+	$(DOCKER_COMPOSE) run --rm contracts sh -c '$(HARDHAT) clean && rm -rf node_modules && rm -f package-lock.json'
 
 .PHONY: network
 network:

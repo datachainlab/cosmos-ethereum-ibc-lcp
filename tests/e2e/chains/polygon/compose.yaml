@@ -1,0 +1,18 @@
+services:
+  # Deploy contracts via hardhat. The kurtosis-pos enclave exposes bor's JSON-RPC
+  # on a dynamic 127.0.0.1:NNNNN host port; `network_mode: host` lets hardhat
+  # reach it via the BOR_RPC_URL env var the Makefile injects.
+  contracts:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.npm
+    network_mode: host
+    volumes:
+      - "./contracts:/app/contracts"
+      - "./config:/app/config"
+    working_dir: "/app/contracts"
+    environment:
+      - BOR_RPC_URL=${BOR_RPC_URL}
+      - SGX_MODE=${SGX_MODE}
+      - NO_RUN_LCP=${NO_RUN_LCP}
+      - LCP_ENCLAVE_DEBUG=${LCP_ENCLAVE_DEBUG}

@@ -1,8 +1,11 @@
 #!/bin/bash
 set -eux
 
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+
 RLY_HOME="$HOME/.yui-relayer"
 RLY="${RLY_BIN} --debug"
+FIXTURES_DIR=${SCRIPT_DIR}/../fixtures
 
 if ! [ -x ${RLY_BIN} ]; then
   echo "Error: ${RLY_BIN} is not installed." >&2
@@ -13,4 +16,7 @@ rm -rf ${RLY_HOME}
 
 ${RLY} config init
 ${RLY} chains add-dir configs/demo/
-${RLY} paths add ibc0 ibc1 ibc01 --file=./configs/path.json
+
+# setup key for tendermint client
+SEED0=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc0/key_seed.json)
+echo "Key $(${RLY} tendermint keys restore ibc0 testkey "$SEED0") imported from ibc0 to relayer..."

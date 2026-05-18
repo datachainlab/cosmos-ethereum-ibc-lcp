@@ -161,19 +161,34 @@ $(LCP_BIN):
 prepare-contracts:
 	$(MAKE) -C ./tests/e2e/chains/ethereum dep
 
+.PHONY: prepare-contracts-pol
+prepare-contracts-pol:
+	$(MAKE) -C ./tests/e2e/chains/polygon dep
+
 .PHONY: build-images
 build-images:
 	$(MAKE) -C ./tests/e2e/chains/tendermint image
 	$(MAKE) -C ./tests/e2e/chains/ethereum build-images
+
+.PHONY: build-images-pol
+build-images-pol:
+	$(MAKE) -C ./tests/e2e/chains/tendermint image
+	$(MAKE) -C ./tests/e2e/chains/polygon build-images
 
 .PHONY: e2e-test
 e2e-test: e2e-clean $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
 	LCP_BIN=$(LCP_BIN) ./tests/e2e/scripts/run_e2e_test.sh $(E2E_OPTIONS)
 
 .PHONY: e2e-test-pol
-e2e-test-pol: $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
+e2e-test-pol: e2e-clean-pol $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
 	LCP_BIN=$(LCP_BIN) ./tests/e2e/scripts/run_e2e_test_pol.sh
 
 .PHONY: e2e-clean
 e2e-clean:
 	$(MAKE) -C ./tests/e2e/chains/ethereum rm-oz-upgrades
+
+.PHONY: e2e-clean-pol
+e2e-clean-pol:
+	$(MAKE) -C ./tests/e2e/chains/polygon rm-oz-upgrades
+	$(MAKE) -C ./tests/e2e/chains/polygon network-down
+	$(MAKE) -C ./tests/e2e/chains/tendermint network-down
