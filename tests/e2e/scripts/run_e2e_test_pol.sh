@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -ex
 
-# Phase 2a driver for the tm2pol case.
+# Phase 2b driver for the tm2pol case.
 # Brings up LCP + cosmos (ibc0) + Polygon PoS via kurtosis (ibc1), deploys
 # ibc-solidity + LCPClientIAS + AppV1 to bor, generates the relayer config,
-# and runs setup + handshake (clients + connection + channel). No packet relay
-# or test-operators in Phase 2a.
+# runs handshake (clients + connection + channel), then exercises bidirectional
+# packet relay (test-tx + test-service). test-operators / channel upgrade are
+# deferred to Phase 2c.
 
 source $(cd $(dirname "$0"); pwd)/util
 
@@ -60,6 +61,6 @@ make -C ${E2E_TEST_DIR} network
 HEIMDALL_RPC=$(make -s -C ./tests/e2e/chains/polygon heimdall-cometbft-url)
 retry 60 curl -fsL "${HEIMDALL_RPC}/status" -o /dev/null
 
-make -C ${E2E_TEST_DIR} setup handshake
+make -C ${E2E_TEST_DIR} setup handshake test
 
 make -C ${E2E_TEST_DIR} network-down

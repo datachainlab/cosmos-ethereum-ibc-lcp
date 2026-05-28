@@ -20,3 +20,8 @@ setup:
 .PHONY: handshake
 handshake:
 	RLY_BIN=$(RLY_BIN) ./scripts/handshake
+
+.PHONY: test
+test:
+	RLY_BIN=$(RLY_BIN) ./scripts/test-tx
+	RLY_BIN=$(RLY_BIN) ./scripts/test-service
