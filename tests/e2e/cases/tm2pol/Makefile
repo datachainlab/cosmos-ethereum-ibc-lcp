@@ -25,3 +25,7 @@ handshake:
 test:
 	RLY_BIN=$(RLY_BIN) ./scripts/test-tx
 	RLY_BIN=$(RLY_BIN) ./scripts/test-service
+
+.PHONY: test-operators
+test-operators:
+	RLY_BIN=$(RLY_BIN) ./scripts/test-operators
