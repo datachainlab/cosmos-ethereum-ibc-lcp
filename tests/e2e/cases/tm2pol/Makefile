@@ -33,3 +33,7 @@ test-operators:
 .PHONY: test-channel-upgrade
 test-channel-upgrade:
 	RLY_BIN=$(RLY_BIN) ./scripts/test-channel-upgrade
+
+.PHONY: test-timeout
+test-timeout:
+	RLY_BIN=$(RLY_BIN) ./scripts/test-tx-timeout

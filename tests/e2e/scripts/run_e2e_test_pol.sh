@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -ex
 
-# Phase 2d driver for the tm2pol case.
+# Phase 2e driver for the tm2pol case.
 # Brings up LCP + cosmos (ibc0) + Polygon PoS via kurtosis (ibc1), deploys
 # ibc-solidity + LCPClientIAS + AppV1 (+ AppV2-V7 under --upgrade_test) to
 # bor, generates the relayer config, runs handshake, then (optionally)
-# channel upgrade, then bidirectional packet relay and test-operators.
+# channel upgrade, then bidirectional packet relay, test-operators, and
+# packet-timeout test.
 #
 # Usage: run_e2e_test_pol.sh [--upgrade_test]
 
@@ -93,6 +94,6 @@ if [ "$USE_UPGRADE_TEST" = "yes" ]; then
     make -C ${E2E_TEST_DIR} test-channel-upgrade
 fi
 
-make -C ${E2E_TEST_DIR} test test-operators
+make -C ${E2E_TEST_DIR} test test-operators test-timeout
 
 make -C ${E2E_TEST_DIR} network-down
