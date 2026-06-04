@@ -29,3 +29,7 @@ test:
 .PHONY: test-operators
 test-operators:
 	RLY_BIN=$(RLY_BIN) ./scripts/test-operators
+
+.PHONY: test-channel-upgrade
+test-channel-upgrade:
+	RLY_BIN=$(RLY_BIN) ./scripts/test-channel-upgrade

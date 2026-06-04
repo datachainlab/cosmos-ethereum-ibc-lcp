@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -ex
 
-# Phase 2c driver for the tm2pol case.
+# Phase 2d driver for the tm2pol case.
 # Brings up LCP + cosmos (ibc0) + Polygon PoS via kurtosis (ibc1), deploys
-# ibc-solidity + LCPClientIAS + AppV1 to bor, generates the relayer config,
-# runs handshake (clients + connection + channel), exercises bidirectional
-# packet relay (test-tx + test-service), then runs test-operators (lcp
-# update-operators nonce semantics). Channel upgrade is deferred to a
-# future phase.
+# ibc-solidity + LCPClientIAS + AppV1 (+ AppV2-V7 under --upgrade_test) to
+# bor, generates the relayer config, runs handshake, then (optionally)
+# channel upgrade, then bidirectional packet relay and test-operators.
+#
+# Usage: run_e2e_test_pol.sh [--upgrade_test]
 
 source $(cd $(dirname "$0"); pwd)/util
 
@@ -18,6 +18,31 @@ export LCP_ENCLAVE_DEBUG=${LCP_ENCLAVE_DEBUG:-1}
 export LCP_KEY_EXPIRATION=${LCP_KEY_EXPIRATION:-86400}
 export ZKDCAP=${ZKDCAP:-false}
 export LCP_ZKDCAP_RISC0_MOCK=${LCP_ZKDCAP_RISC0_MOCK:-false}
+export USE_UPGRADE_TEST=${USE_UPGRADE_TEST:-no}
+# Heimdall milestones come every few seconds, so the 8-min upgrade-timeout
+# window tm2eth needs (sized for ethereum's sync-committee finality) is wildly
+# excessive here. Override to 60s so the test-channel-upgrade timeout cases
+# complete in ~90s rather than ~8min each.
+export IBC_CHANNEL_UPGRADE_TIMEOUT=${IBC_CHANNEL_UPGRADE_TIMEOUT:-60000000000}
+
+ARGS=$(getopt -o '' --long upgrade_test -- "$@")
+eval set -- "$ARGS"
+while true; do
+    case "$1" in
+        --upgrade_test)
+            export USE_UPGRADE_TEST=yes
+            shift
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "Internal error: unexpected arg '$1'" >&2
+            exit 1
+            ;;
+    esac
+done
 
 CERTS_DIR=./tests/certs
 
@@ -62,6 +87,12 @@ make -C ${E2E_TEST_DIR} network
 HEIMDALL_RPC=$(make -s -C ./tests/e2e/chains/polygon heimdall-cometbft-url)
 retry 60 curl -fsL "${HEIMDALL_RPC}/status" -o /dev/null
 
-make -C ${E2E_TEST_DIR} setup handshake test test-operators
+make -C ${E2E_TEST_DIR} setup handshake
+
+if [ "$USE_UPGRADE_TEST" = "yes" ]; then
+    make -C ${E2E_TEST_DIR} test-channel-upgrade
+fi
+
+make -C ${E2E_TEST_DIR} test test-operators
 
 make -C ${E2E_TEST_DIR} network-down

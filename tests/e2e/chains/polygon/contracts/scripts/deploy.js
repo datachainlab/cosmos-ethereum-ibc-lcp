@@ -5,12 +5,10 @@ const portMock = "mockapp";
 // here causes MsgCreateClient to revert with IBCClientUnregisteredClientType.
 const lcpClientType = "lcp-client-zkdcap";
 
-// The relayer's HD signer (configs/templates/ibc-1.json.tpl) derives this
-// address from `math razor capable expose worth grape metal sunset metal sudden
-// usage scheme` at m/44'/60'/0'/0/0. Kurtosis-pos only prefunds its admin
-// account; we fund the relayer EOA out of the admin so HD-signer txs can pay
-// gas.
-const relayerEoa = "0xa89F47C6b463f74d87572b058427dA0A13ec5425";
+// How much ETH the admin transfers to the deployer/relayer EOA so HD-signer
+// txs can pay gas. The relayer's HD signer (configs/templates/ibc-1.json.tpl)
+// derives its EOA from the same mnemonic + path as hardhat.config.js's second
+// account, so the addresses match.
 const relayerFundingEth = "100";
 
 function saveAddress(contractName, contract) {
@@ -93,6 +91,22 @@ async function deployProxy(deployer, contractName, constructorArgs, unsafeAllow,
   return proxyContract.connect(deployer);
 }
 
+async function prepareImplementation(deployer, proxy, contractName, constructorArgs, unsafeAllow) {
+  const factory = await hre.ethers.getContractFactory(contractName).then(f => f.connect(deployer));
+  const implOptions = {
+    constructorArgs,
+    txOverrides: {},
+    unsafeAllow: unsafeAllow ?? [],
+    redeployImplementation: 'always',
+    timeout: 600000,
+    getTxResponse: true
+  };
+  const tx = await hre.upgrades.prepareUpgrade(proxy, factory, implOptions);
+  const receipt = await tx.wait(3);
+  const implContract = await hre.ethers.getContractAt(contractName, receipt.contractAddress);
+  return implContract.connect(deployer);
+}
+
 async function deployApp(deployer, ibcHandler) {
   const unsafeAllow = [
     "constructor",
@@ -101,21 +115,43 @@ async function deployApp(deployer, ibcHandler) {
   ];
   const proxyV1 = await deployProxy(deployer, "AppV1", [ibcHandler.target], unsafeAllow, "__AppV1_init(string)", ["mockapp-1"]);
   saveAddress("AppV1", proxyV1);
+
+  if (process.env.USE_UPGRADE_TEST === 'yes') {
+    for (let i = 2; i <= 7; i++) {
+      const contractName = `AppV${i}`;
+      const impl = await prepareImplementation(deployer, proxyV1, contractName, [ibcHandler.target], unsafeAllow);
+      saveAddress(contractName, impl);
+
+      // ethereum-ibc-relay-chain v0.3.21 (commit d83238e4) takes the
+      // implementation and initialCalldata as separate args; the struct
+      // form some older commits accept is gone. tm2eth's deploy.js still
+      // uses the struct form because its package-lock pinned a pre-tag
+      // commit (b2579e90) — a latent bug that surfaces on fresh installs.
+      await proxyV1.proposeAppVersion(
+        `mockapp-${i}`,
+        impl.target,
+        impl.interface.encodeFunctionData(`__${contractName}_init(string)`, [contractName])
+      ).then(tx => tx.wait());
+    }
+  } else {
+    console.log(`Skipping AppV2-V7 deployment (USE_UPGRADE_TEST=${process.env.USE_UPGRADE_TEST})`);
+  }
+
   return proxyV1;
 }
 
-async function fundRelayer(deployer) {
-  const balance = await hre.ethers.provider.getBalance(relayerEoa);
+async function fundRelayer(admin, target) {
+  const balance = await hre.ethers.provider.getBalance(target);
   if (balance >= hre.ethers.parseEther(relayerFundingEth)) {
-    console.log(`Relayer EOA ${relayerEoa} already funded:`, balance.toString());
+    console.log(`Deployer ${target} already funded:`, balance.toString());
     return;
   }
-  const tx = await deployer.sendTransaction({
-    to: relayerEoa,
+  const tx = await admin.sendTransaction({
+    to: target,
     value: hre.ethers.parseEther(relayerFundingEth)
   });
   await tx.wait();
-  console.log(`Funded relayer EOA ${relayerEoa} with ${relayerFundingEth} ETH`);
+  console.log(`Funded deployer ${target} with ${relayerFundingEth} ETH from admin`);
 }
 
 async function main() {
@@ -140,11 +176,19 @@ async function main() {
   const developMode = process.env.LCP_ENCLAVE_DEBUG === "1";
   console.log("Develop mode:", developMode);
 
-  const [deployer] = await hre.ethers.getSigners();
-  console.log("Deploying contracts with the account:", await deployer.getAddress());
-  console.log("Account balance:", (await hre.ethers.provider.getBalance(deployer.getAddress())).toString());
+  // signers[0] is the kurtosis admin (only L2-prefunded account), used purely
+  // to fund the relayer EOA on first deploy. signers[1] is the relayer EOA
+  // (same private key the HD signer derives) — AppV1 records its address as
+  // `_deployer`, which is the only address allowed to call `eth upgrade propose`
+  // (see IBCContractUpgradableUUPSMockApp._isContractUpgrader). Without this,
+  // upgrade-test reverts with IBCChannelUpgradableModuleUnauthorizedUpgrader.
+  const [admin, deployer] = await hre.ethers.getSigners();
+  const deployerAddr = await deployer.getAddress();
+  console.log("Admin (funding only):", await admin.getAddress());
+  console.log("Deployer (contract owner):", deployerAddr);
 
-  await fundRelayer(deployer);
+  await fundRelayer(admin, deployerAddr);
+  console.log("Deployer balance:", (await hre.ethers.provider.getBalance(deployerAddr)).toString());
 
   const ibcHandler = await deployIBC(deployer);
   saveAddress("IBCHandler", ibcHandler);

@@ -38,9 +38,10 @@ $RLY paths add $CHAINID_ONE $CHAINID_TWO $PATH_NAME --file=./configs/path.json
 retry 5 $RLY tx clients $PATH_NAME
 sleep 3
 retry 5 $RLY lcp activate-client $PATH_NAME --src=true
-# heimdall checkpoint cadence on the kurtosis devnet — give the prover room to
-# produce a finalized header before activating the polygon-side client
-sleep 60
+# heimdall milestones come every few seconds in kurtosis-pos; this only needs
+# to be long enough for the polygon prover to produce a finalized cosmos
+# header. tm2eth waits 60s here for ethereum sync-committee finality.
+sleep 10
 retry 20 $RLY lcp activate-client $PATH_NAME --src=false
 
 retry 20 $RLY tx connection $PATH_NAME -o 20s

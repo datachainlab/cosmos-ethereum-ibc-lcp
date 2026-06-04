@@ -181,7 +181,7 @@ e2e-test: e2e-clean $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
 
 .PHONY: e2e-test-pol
 e2e-test-pol: e2e-clean-pol $(LCP_BIN) $(Signed_RustEnclave_Name) yrly
-	LCP_BIN=$(LCP_BIN) ./tests/e2e/scripts/run_e2e_test_pol.sh
+	LCP_BIN=$(LCP_BIN) ./tests/e2e/scripts/run_e2e_test_pol.sh $(E2E_OPTIONS)
 
 .PHONY: e2e-clean
 e2e-clean:
