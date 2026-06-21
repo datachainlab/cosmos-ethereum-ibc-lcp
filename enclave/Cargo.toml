@@ -11,7 +11,7 @@ crate-type = ["staticlib"]
 [dependencies]
 enclave-runtime = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.17" }
 tendermint-lc = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.17", default-features = false }
-ethereum-elc = { git = "https://github.com/yoshidan/ethereum-elc", rev = "95573cc53084800384b42481c7de4b4db7e3d49e", default-features = false }
+ethereum-elc = { git = "https://github.com/yoshidan/ethereum-elc", rev = "14af322c989739ea1a371feab30a1d3613612918", default-features = false }
 
 [patch."crates-io"]
 getrandom = { git = "https://github.com/datachainlab/getrandom-sgx-lite" }
