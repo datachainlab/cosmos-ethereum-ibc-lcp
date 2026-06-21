@@ -647,7 +647,7 @@ dependencies = [
 [[package]]
 name = "ethereum-elc"
 version = "0.1.0"
-source = "git+https://github.com/yoshidan/ethereum-elc?rev=14af322c989739ea1a371feab30a1d3613612918#14af322c989739ea1a371feab30a1d3613612918"
+source = "git+https://github.com/yoshidan/ethereum-elc?rev=47fbd9805f8d234487d842daadc90eb4c4df7b2e#47fbd9805f8d234487d842daadc90eb4c4df7b2e"
 dependencies = [
  "bytes",
  "ethereum-consensus",
@@ -665,7 +665,7 @@ dependencies = [
 [[package]]
 name = "ethereum-elc-proto"
 version = "0.1.0"
-source = "git+https://github.com/yoshidan/ethereum-elc?rev=14af322c989739ea1a371feab30a1d3613612918#14af322c989739ea1a371feab30a1d3613612918"
+source = "git+https://github.com/yoshidan/ethereum-elc?rev=47fbd9805f8d234487d842daadc90eb4c4df7b2e#47fbd9805f8d234487d842daadc90eb4c4df7b2e"
 dependencies = [
  "ethereum-light-client-proto",
  "ibc-proto",
