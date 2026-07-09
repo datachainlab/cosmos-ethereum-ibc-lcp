@@ -1,0 +1,47 @@
+#!/bin/bash
+set -eux
+
+source $(dirname $0)/utils
+RLY="${RLY_BIN} --debug"
+
+TX_INTERNAL=120
+TM_USER_ADDRESS=$(${RLY} tendermint keys show ibc0 testkey)
+
+retry() {
+    local -r -i max_attempts="$1"; shift
+    local -r cmd="$@"
+    local -i attempt_num=1
+
+    until $cmd
+    do
+        if (( attempt_num == max_attempts ))
+        then
+            echo "Attempt $attempt_num failed and there are no more attempts left!"
+            return 1
+        else
+            echo "Attempt $attempt_num failed! Trying again in $attempt_num seconds..."
+            sleep $(( attempt_num++ ))
+        fi
+    done
+}
+
+echo "!!! ibc0 <-> ibc1 !!!"
+
+docker exec tendermint-chain sh -c "simd --home /root/data/ibc0 tx --keyring-backend=test --from ${TM_USER_ADDRESS} --chain-id ibc0 mockapp send mockapp channel-0 'mock packet data' --yes --packet-timeout-timestamp 0"
+
+sendPacketOnPol
+
+waitUnrelayedCount "unrelayed-packets" "dst" 1 300
+waitUnrelayedCount "unrelayed-packets" "src" 1 300
+
+retry 10 ${RLY} tx relay --do-refresh ibc01
+
+waitUnrelayedCount "unrelayed-acknowledgements" "dst" 1 300
+waitUnrelayedCount "unrelayed-acknowledgements" "src" 1 300
+
+retry 10 ${RLY} tx acks --do-refresh ibc01
+
+waitUnrelayedCount "unrelayed-acknowledgements" "dst" 0 300
+waitUnrelayedCount "unrelayed-acknowledgements" "src" 0 300
+
+echo "$0 Finished"

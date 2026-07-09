@@ -13,6 +13,16 @@ jobs:
     env:
       SGX_MODE: SW
     steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.DATACHAIN_CI_APP_ID }}
+          private-key: ${{ secrets.DATACHAIN_CI_GITHUB_APP_PRIVATE_KEY }}
+          owner: datachainlab
+      - name: Configure git auth
+        run: |
+          git config --global url."https://x-access-token:${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
       - uses: actions/checkout@v4
         with:
           submodules: recursive
