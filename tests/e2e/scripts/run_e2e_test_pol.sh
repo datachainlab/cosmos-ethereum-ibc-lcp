@@ -1,24 +1,29 @@
 #!/usr/bin/env bash
 set -ex
 
-# Phase 2e driver for the tm2pol case.
+# Phase 2f driver for the tm2pol case.
 # Brings up LCP + cosmos (ibc0) + Polygon PoS via kurtosis (ibc1), deploys
-# ibc-solidity + LCPClientIAS + AppV1 (+ AppV2-V7 under --upgrade_test) to
-# bor, generates the relayer config, runs handshake, then (optionally)
+# ibc-solidity + LCPClient(IAS|ZKDCAP) + AppV1 (+ AppV2-V7 under --upgrade_test)
+# to bor, generates the relayer config, runs handshake, then (optionally)
 # channel upgrade, then bidirectional packet relay, test-operators, and
 # packet-timeout test.
 #
-# Usage: run_e2e_test_pol.sh [--upgrade_test]
+# Usage: run_e2e_test_pol.sh [--zkdcap|--mock_zkdcap] [--upgrade_test]
 
 source $(cd $(dirname "$0"); pwd)/util
 
 E2E_TEST_DIR=./tests/e2e/cases/tm2pol
+
+# LCP_RISC0_IMAGE_ID must be set to the same value as in the LCP service.
+# ref. https://github.com/datachainlab/zkdcap/blob/fd44cfc9718a0bd4a58f5dbf2b0b89c25144893d/zkvm/risc0/src/methods.rs#L3
+LCP_RISC0_IMAGE_ID=${LCP_RISC0_IMAGE_ID:-0xe5056aa7a8064abeb648b31d5efa8697a79d416b937cb917d1428cec91a56c67}
 
 export NO_RUN_LCP=${NO_RUN_LCP:-false}
 export LCP_ENCLAVE_DEBUG=${LCP_ENCLAVE_DEBUG:-1}
 export LCP_KEY_EXPIRATION=${LCP_KEY_EXPIRATION:-86400}
 export ZKDCAP=${ZKDCAP:-false}
 export LCP_ZKDCAP_RISC0_MOCK=${LCP_ZKDCAP_RISC0_MOCK:-false}
+export LCP_RISC0_IMAGE_ID
 export USE_UPGRADE_TEST=${USE_UPGRADE_TEST:-no}
 # Heimdall milestones come every few seconds, so the 8-min upgrade-timeout
 # window tm2eth needs (sized for ethereum's sync-committee finality) is wildly
@@ -26,10 +31,22 @@ export USE_UPGRADE_TEST=${USE_UPGRADE_TEST:-no}
 # complete in ~90s rather than ~8min each.
 export IBC_CHANNEL_UPGRADE_TIMEOUT=${IBC_CHANNEL_UPGRADE_TIMEOUT:-60000000000}
 
-ARGS=$(getopt -o '' --long upgrade_test -- "$@")
+ARGS=$(getopt -o '' --long zkdcap,mock_zkdcap,upgrade_test -- "$@")
 eval set -- "$ARGS"
 while true; do
     case "$1" in
+        --zkdcap)
+            echo "ZKDCAP enabled"
+            export ZKDCAP=true
+            export LCP_ZKDCAP_RISC0_MOCK=false
+            shift
+            ;;
+        --mock_zkdcap)
+            echo "Mock ZKDCAP enabled"
+            export ZKDCAP=true
+            export LCP_ZKDCAP_RISC0_MOCK=true
+            shift
+            ;;
         --upgrade_test)
             export USE_UPGRADE_TEST=yes
             shift

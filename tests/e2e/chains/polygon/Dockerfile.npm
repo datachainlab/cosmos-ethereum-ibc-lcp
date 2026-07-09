@@ -1,1 +1,7 @@
 FROM node:20
+
+# hardhat-foundry (enabled under --zkdcap / --mock_zkdcap so risc0-ethereum's
+# Foundry-style imports resolve) shells out to `forge` for the remappings.
+RUN curl -L https://foundry.paradigm.xyz | bash
+RUN . /root/.bashrc && foundryup
+ENV PATH /root/.foundry/bin:$PATH

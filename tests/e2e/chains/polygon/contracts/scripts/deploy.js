@@ -55,6 +55,37 @@ async function deployLCPClientIAS(deployer, ibcHandler, developMode, rootCert) {
   return lcpClient;
 }
 
+async function deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert, isMock) {
+  var riscZeroVerifier;
+  if (isMock) {
+    console.log("Deploying RiscZeroMockVerifier");
+    riscZeroVerifier = await deploy(deployer, "RiscZeroMockVerifier", [
+      // Selector
+      "0x00000000"
+    ]);
+  } else {
+    console.log("Deploying RiscZeroGroth16Verifier");
+    // CONTROL_ROOT and BN254_CONTROL_ROOT must match the version of risc0 utilized by the LCP.
+    // ref. https://github.com/risc0/risc0-ethereum/blob/v3.0.1/contracts/src/groth16/ControlID.sol
+    riscZeroVerifier = await deploy(deployer, "RiscZeroGroth16Verifier", [
+      // CONTROL_ROOT
+      "0xa54dc85ac99f851c92d7c96d7318af41dbe7c0194edfcc37eb4d422a998c1f56",
+      // BN254_CONTROL_ROOT
+      "0x04446e66d300eb7fb45c9726bb53c793dda407a62e9601618bb43c5c14657ac0"
+    ]);
+  }
+  const lcpProtoMarshaler = await deploy(deployer, "LCPProtoMarshaler");
+  saveAddress("LCPProtoMarshaler", lcpProtoMarshaler);
+  const dcapValidator = await deploy(deployer, "DCAPValidator");
+  saveAddress("DCAPValidator", dcapValidator);
+  const lcpClient = await deployAndLink(deployer, "LCPClientZKDCAP", {
+    LCPProtoMarshaler: lcpProtoMarshaler.target,
+    DCAPValidator: dcapValidator.target
+  }, [ibcHandler.target, developMode, rootCert, riscZeroVerifier.target]);
+  saveAddress("LCPClient", lcpClient);
+  return lcpClient;
+}
+
 async function deployIBC(deployer) {
   const logicNames = [
     "IBCClient",
@@ -166,11 +197,21 @@ async function main() {
   const fs = require('fs');
   let rootCert;
   if (process.env.NO_RUN_LCP === "false" && process.env.SGX_MODE === "SW") {
-    console.log("RA simulation is enabled");
-    rootCert = fs.readFileSync("../config/simulation_rootca.der");
+    if (process.env.ZKDCAP === "true") {
+      console.log("zkDCAP RA simulation is enabled");
+      rootCert = fs.readFileSync("../config/simulation_dcap_rootca.der");
+    } else {
+      console.log("RA simulation is enabled");
+      rootCert = fs.readFileSync("../config/simulation_rootca.der");
+    }
   } else {
-    console.log("RA simulation is disabled");
-    rootCert = fs.readFileSync("../config/Intel_SGX_Attestation_RootCA.der");
+    if (process.env.ZKDCAP === "true") {
+      console.log("ZKDCAP is enabled");
+      rootCert = fs.readFileSync("../config/Intel_SGX_Provisioning_Certification_RootCA.der");
+    } else {
+      console.log("RA simulation is disabled");
+      rootCert = fs.readFileSync("../config/Intel_SGX_Attestation_RootCA.der");
+    }
   }
 
   const developMode = process.env.LCP_ENCLAVE_DEBUG === "1";
@@ -193,8 +234,14 @@ async function main() {
   const ibcHandler = await deployIBC(deployer);
   saveAddress("IBCHandler", ibcHandler);
 
-  console.log("Deploying LCPClientIAS");
-  const lcpClient = await deployLCPClientIAS(deployer, ibcHandler, developMode, rootCert);
+  let lcpClient;
+  if (process.env.ZKDCAP === "true") {
+    console.log("Deploying LCPClientZKDCAP");
+    lcpClient = await deployLCPClientZKDCAP(deployer, ibcHandler, developMode, rootCert, process.env.LCP_ZKDCAP_RISC0_MOCK === "true");
+  } else {
+    console.log("Deploying LCPClientIAS");
+    lcpClient = await deployLCPClientIAS(deployer, ibcHandler, developMode, rootCert);
+  }
   await ibcHandler.registerClient(lcpClientType, lcpClient.target).then(tx => tx.wait());
 
   const app = await deployApp(deployer, ibcHandler);
