@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/datachainlab/ethereum-ibc-relay-chain v0.3.21
-	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.16
+	github.com/datachainlab/ethereum-ibc-relay-prover v0.3.17
 	github.com/datachainlab/ibc-hd-signer v0.1.2
 	github.com/datachainlab/lcp-go v0.2.24
 	github.com/hyperledger-labs/yui-relayer v0.5.20
@@ -73,6 +73,7 @@ require (
 	github.com/crate-crypto/go-ipa v0.0.0-20240724233137-53bbb0ceb27a // indirect
 	github.com/crate-crypto/go-kzg-4844 v1.1.0 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
+	github.com/datachainlab/ethereum-light-client-types v0.2.3 // indirect
 	github.com/datachainlab/go-risc0-verifier v0.1.3 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/deckarep/golang-set/v2 v2.6.0 // indirect
@@ -99,8 +100,6 @@ require (
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
-	github.com/gobwas/httphead v0.1.0 // indirect
-	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/godbus/dbus v0.0.0-20190726142602-4481cbc300e2 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
