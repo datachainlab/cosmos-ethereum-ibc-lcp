@@ -1,5 +1,6 @@
+ARG GETH_IMAGE=ethpandaops/geth
 ARG VERSION=latest
-FROM ethereum/client-go:${VERSION}
+FROM ${GETH_IMAGE}:${VERSION}
 
 # For health check
 RUN apk add --no-cache bash curl jq sed
