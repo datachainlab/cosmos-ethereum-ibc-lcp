@@ -425,8 +425,8 @@ github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuA
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.3.21 h1:vbTDtACccXprQAjpYrFWwdROyO5nS+lmnwPUt7/ZN/s=
 github.com/datachainlab/ethereum-ibc-relay-chain v0.3.21/go.mod h1:GT1LRgak5RWkyvyzgptmcWgxD3lz3bD0pI4736vROew=
-github.com/datachainlab/ethereum-light-client-types v0.3.0-rc3 h1:hxrLpW3FAUJRzJugS1f3AYEEMJzF9tZLTnOY+7yAKBw=
-github.com/datachainlab/ethereum-light-client-types v0.3.0-rc3/go.mod h1:kiG87OmoYZZMnOPHk/ZKls2Z5hzb47+w3xpzJakZYCI=
+github.com/datachainlab/ethereum-light-client-types v0.3.0-rc4 h1:vrYMXl+9Cs8PDRD59El6euNClMHWMNwXokVns8sVV8M=
+github.com/datachainlab/ethereum-light-client-types v0.3.0-rc4/go.mod h1:kiG87OmoYZZMnOPHk/ZKls2Z5hzb47+w3xpzJakZYCI=
 github.com/datachainlab/go-risc0-verifier v0.1.3 h1:iEIVqGzLK1+AdZCfNqSxXJhMLDg7lEzbAfOZ8b/stRM=
 github.com/datachainlab/go-risc0-verifier v0.1.3/go.mod h1:O+uLSIdkN9rvqDXuZCnAOSPf/IT5SVjK/PxxJP3sPPU=
 github.com/datachainlab/ibc-hd-signer v0.1.2 h1:fWAYjMBVyM390OllX/l58mZYA7we0spEBFLYKWYTwfw=
