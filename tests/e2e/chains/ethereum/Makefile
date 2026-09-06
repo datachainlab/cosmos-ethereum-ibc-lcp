@@ -5,8 +5,15 @@ BEACON_HTTP_PORT ?= 19596
 # lodestar: build of ChainSafe/lodestar unstable + the archive fix (see fix/archive-prunes-canonical-gloas-data).
 GETH_IMAGE ?= ethpandaops/geth
 GETH_VERSION ?= glamsterdam-devnet-8
-LODESTAR_IMAGE ?= ghcr.io/yoshidan/lodestar
-LODESTAR_VERSION ?= glamsterdam-archive-fix-c270be3e
+# TEMPORARY: running the control to confirm CI really fails without the archive fix.
+# chainsafe/lodestar:next is v1.47.0/6eb37b3, exactly the commit the fix branch is
+# based on, so it is the fix image (v1.47.0/c270be3) minus the fix and nothing else.
+# `next` is a rolling tag; it was sha256:53536243b092870262e3bd719309c9a395c345a1bff5d5e8e8a542e903ed34b5
+# when this was set. Revert both lines to restore the fixed build:
+#   LODESTAR_IMAGE ?= ghcr.io/yoshidan/lodestar
+#   LODESTAR_VERSION ?= glamsterdam-archive-fix-c270be3e
+LODESTAR_IMAGE ?= chainsafe/lodestar
+LODESTAR_VERSION ?= next
 DOCKER_COMPOSE ?= docker compose
 COMPOSE_UP_OPTS ?= -d
 # Gloas cannot be enabled at genesis: the parent block has no payload bid, so
