@@ -1,5 +1,6 @@
+ARG LODESTAR_IMAGE=chainsafe/lodestar
 ARG VERSION=latest
-FROM chainsafe/lodestar:${VERSION}
+FROM ${LODESTAR_IMAGE}:${VERSION}
 
 # Install package of jq
 RUN apt-get update && \

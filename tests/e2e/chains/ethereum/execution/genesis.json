@@ -19,6 +19,7 @@
     "cancunTime": 0,
     "pragueTime": 0,
     "osakaTime": 0,
+    "amsterdamTime": 0,
     "terminalTotalDifficulty": 0,
     "terminalTotalDifficultyPassed": true,
     "depositContractAddress": "0x4242424242424242424242424242424242424242",
@@ -38,10 +39,15 @@
         "target": 6,
         "max": 9,
         "baseFeeUpdateFraction": 5007716
+      },
+      "amsterdam": {
+        "target": 6,
+        "max": 9,
+        "baseFeeUpdateFraction": 5007716
       }
     }
   },
-  "nonce":"0x42",
+  "nonce": "0x42",
   "timestamp": "0x0",
   "difficulty": "0x1",
   "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",

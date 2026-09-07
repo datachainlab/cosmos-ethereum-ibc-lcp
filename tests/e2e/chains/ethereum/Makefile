@@ -1,9 +1,17 @@
 GETH_HTTP_PORT ?= 8546
 BEACON_HTTP_PORT ?= 19596
-GETH_VERSION ?= v1.17.2
-LODESTAR_VERSION ?= v1.41.1
+# Glamsterdam (gloas/amsterdam) capable images.
+# geth: official ethereum/client-go has no amsterdam support yet, use the ethpandaops build.
+# lodestar: build of ChainSafe/lodestar unstable + the archive fix (see fix/archive-prunes-canonical-gloas-data).
+GETH_IMAGE ?= ethpandaops/geth
+GETH_VERSION ?= glamsterdam-devnet-8
+LODESTAR_IMAGE ?= ghcr.io/yoshidan/lodestar
+LODESTAR_VERSION ?= glamsterdam-archive-fix-c270be3e
 DOCKER_COMPOSE ?= docker compose
 COMPOSE_UP_OPTS ?= -d
+# Gloas cannot be enabled at genesis: the parent block has no payload bid, so
+# `prepare payload` fails and no block is ever produced. Start on fulu and fork later.
+EPOCH_LATEST_HF ?= 1
 HARDHAT ?= npx hardhat
 
 STAKING-CLI=docker run -it --rm -v $(shell pwd)/consensus/validator_keys:/app/validator_keys ethereum/staking-deposit-cli
@@ -14,10 +22,10 @@ STAKING-CLI=docker run -it --rm -v $(shell pwd)/consensus/validator_keys:/app/va
 # Run geth lodestar deposit lodestar-validator
 .PHONY:network
 network:
-	EPOCH_LATEST_HF=0 \
+	EPOCH_LATEST_HF=$(EPOCH_LATEST_HF) \
 	GENESIS_TIMESTAMP=$(shell date -d'+10second' +%s 2>/dev/null || date -v+10S +%s) \
-	GETH_VERSION=$(GETH_VERSION) GETH_HTTP_PORT=$(GETH_HTTP_PORT) \
-	LODESTAR_VERSION=$(LODESTAR_VERSION) BEACON_HTTP_PORT=$(BEACON_HTTP_PORT) \
+	GETH_IMAGE=$(GETH_IMAGE) GETH_VERSION=$(GETH_VERSION) GETH_HTTP_PORT=$(GETH_HTTP_PORT) \
+	LODESTAR_IMAGE=$(LODESTAR_IMAGE) LODESTAR_VERSION=$(LODESTAR_VERSION) BEACON_HTTP_PORT=$(BEACON_HTTP_PORT) \
 	$(DOCKER_COMPOSE) up $(COMPOSE_UP_OPTS) geth lodestar deposit lodestar-validator
 
 .PHONY:network-down
@@ -32,12 +40,12 @@ build-images: build-geth-image build-lodestar-image build-deposit-image build-co
 
 .PHONY:build-geth-image
 build-geth-image:
-	GETH_VERSION=$(GETH_VERSION) GETH_HTTP_PORT=$(GETH_HTTP_PORT) \
+	GETH_IMAGE=$(GETH_IMAGE) GETH_VERSION=$(GETH_VERSION) GETH_HTTP_PORT=$(GETH_HTTP_PORT) \
 	docker compose build --no-cache geth
 
 .PHONY:build-lodestar-image
 build-lodestar-image:
-	LODESTAR_VERSION=$(LODESTAR_VERSION) GETH_HTTP_PORT=$(GETH_HTTP_PORT) BEACON_HTTP_PORT=$(BEACON_HTTP_PORT) \
+	LODESTAR_IMAGE=$(LODESTAR_IMAGE) LODESTAR_VERSION=$(LODESTAR_VERSION) GETH_HTTP_PORT=$(GETH_HTTP_PORT) BEACON_HTTP_PORT=$(BEACON_HTTP_PORT) \
 	docker compose build --no-cache lodestar
 
 .PHONY:build-deposit-image
@@ -98,23 +106,23 @@ check-health-log:
 
 .PHONY:geth-help
 geth-help:
-	docker run --rm ethereum/client-go:$(GETH_VERSION) --help
+	docker run --rm $(GETH_IMAGE):$(GETH_VERSION) --help
 
 .PHONY:lodestar-help
 lodestar-help:
-	docker run --rm chainsafe/lodestar:$(LODESTAR_VERSION) --help
+	docker run --rm $(LODESTAR_IMAGE):$(LODESTAR_VERSION) --help
 
 .PHONY:lodestar-dev-help
 lodestar-dev-help:
-	docker run --rm chainsafe/lodestar:$(LODESTAR_VERSION) dev --help
+	docker run --rm $(LODESTAR_IMAGE):$(LODESTAR_VERSION) dev --help
 
 .PHONY:lodestar-beacon-help
 lodestar-beacon-help:
-	docker run --rm chainsafe/lodestar:$(LODESTAR_VERSION) beacon --help
+	docker run --rm $(LODESTAR_IMAGE):$(LODESTAR_VERSION) beacon --help
 
 .PHONY:lodestar-validator-help
 lodestar-validator-help:
-	docker run --rm chainsafe/lodestar:$(LODESTAR_VERSION) validator --help
+	docker run --rm $(LODESTAR_IMAGE):$(LODESTAR_VERSION) validator --help
 
 .PHONY:shfmt
 shfmt:

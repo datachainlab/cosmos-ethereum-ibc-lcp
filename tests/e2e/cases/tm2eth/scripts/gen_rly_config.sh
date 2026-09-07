@@ -5,6 +5,11 @@ IS_DEBUG_ENCLAVE=false
 if [ "$LCP_ENCLAVE_DEBUG" = "1" ]; then
     IS_DEBUG_ENCLAVE=true
 fi
+# Epoch the latest hard fork (gloas) activates at. Must match the beacon chain, otherwise
+# the prover computes the wrong fork version and signature verification fails.
+if [ -z "$EPOCH_LATEST_HF" ]; then
+    EPOCH_LATEST_HF=1
+fi
 if [ -z "$LCP_KEY_EXPIRATION" ]; then
     echo "LCP_KEY_EXPIRATION is not set"
     exit 1
@@ -46,6 +51,7 @@ if [ "$ZKDCAP" = true ]; then
         --arg LC_ADDRESS ${LC_ADDRESS} \
         --arg RISC0_IMAGE_ID ${LCP_RISC0_IMAGE_ID} \
         --argjson LCP_ZKDCAP_RISC0_MOCK ${LCP_ZKDCAP_RISC0_MOCK} \
+        --argjson EPOCH_LATEST_HF ${EPOCH_LATEST_HF} \
         -f ${TEMPLATE_DIR}/ibc-1-zkdcap.json.tpl > ${CONFIG_DIR}/ibc-1.json
 else
     jq -n \
@@ -61,5 +67,6 @@ else
         --argjson LCP_KEY_EXPIRATION ${LCP_KEY_EXPIRATION} \
         --arg IBC_ADDRESS ${IBC_ADDRESS} \
         --arg LC_ADDRESS ${LC_ADDRESS} \
+        --argjson EPOCH_LATEST_HF ${EPOCH_LATEST_HF} \
         -f ${TEMPLATE_DIR}/ibc-1.json.tpl > ${CONFIG_DIR}/ibc-1.json
 fi

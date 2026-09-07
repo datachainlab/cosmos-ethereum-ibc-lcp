@@ -13,6 +13,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.geth
       args:
+        - GETH_IMAGE=${GETH_IMAGE:-ethpandaops/geth}
         - VERSION=${GETH_VERSION:-latest}
     container_name: geth
     ports:
@@ -43,14 +44,9 @@ services:
       - --authrpc.vhosts=*
       - --authrpc.addr=0.0.0.0
       - --authrpc.jwtsecret=/secret/jwtsecret
-      - --allow-insecure-unlock
-      - --unlock=0xa89F47C6b463f74d87572b058427dA0A13ec5425,0xcBED645B1C1a6254f1149Df51d3591c6B3803007
-      - --password=/dev/null
       - --gcmode=archive
       - --syncmode=full
       - --nodiscover
-      - --mine
-      - --miner.etherbase=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --miner.gasprice=0
     networks:
       eth-localnet:
@@ -61,6 +57,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.lodestar
       args:
+        - LODESTAR_IMAGE=${LODESTAR_IMAGE:-chainsafe/lodestar}
         - VERSION=${LODESTAR_VERSION:-latest}
     container_name: lodestar
     volumes:
@@ -86,8 +83,10 @@ services:
       - dev
       - --dataDir=/data
       - --jwt-secret=/secret/jwtsecret
-      - --genesisValidators=4    # required when run validator
-      - --startValidators=0..3   # required when run validator
+      # Gloas needs a non-empty beacon committee in every slot to draw the PTC from,
+      # so keep at least SLOTS_PER_EPOCH (8 on the minimal preset) validators.
+      - --genesisValidators=64    # required when run validator
+      - --startValidators=0..63   # required when run validator
       - --genesisTime=$${timestamp}        # genesis_time to initialize interop genesis state
       - --genesisEth1Hash=$${genesisHash}  # If present it will create genesis with this eth1 hash
       - --enr.ip=127.0.0.1
@@ -104,7 +103,8 @@ services:
       - --params.CAPELLA_FORK_EPOCH=0
       - --params.DENEB_FORK_EPOCH=0
       - --params.ELECTRA_FORK_EPOCH=0
-      - --params.FULU_FORK_EPOCH=${EPOCH_LATEST_HF}
+      - --params.FULU_FORK_EPOCH=0
+      - --params.GLOAS_FORK_EPOCH=${EPOCH_LATEST_HF}
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --beaconNodes=http://127.0.0.1:${BEACON_HTTP_PORT}
@@ -160,7 +160,8 @@ services:
       - --params.CAPELLA_FORK_EPOCH=0
       - --params.DENEB_FORK_EPOCH=0
       - --params.ELECTRA_FORK_EPOCH=0
-      - --params.FULU_FORK_EPOCH=${EPOCH_LATEST_HF}
+      - --params.FULU_FORK_EPOCH=0
+      - --params.GLOAS_FORK_EPOCH=${EPOCH_LATEST_HF}
       - --params.DEPOSIT_CONTRACT_ADDRESS=0x4242424242424242424242424242424242424242
       - --suggestedFeeRecipient=0xa89F47C6b463f74d87572b058427dA0A13ec5425
       - --beaconNodes=http://lodestar:${BEACON_HTTP_PORT}
