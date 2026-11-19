@@ -9,15 +9,18 @@ name = "proxy_enclave"
 crate-type = ["staticlib"]
 
 [dependencies]
-enclave-runtime = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.12" }
-tendermint-lc = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.12", default-features = false }
-ethereum-elc = { git = "https://github.com/datachainlab/ethereum-elc", rev = "v0.1.0", default-features = false }
+enclave-runtime = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.18" }
+tendermint-lc = { git = "https://github.com/datachainlab/lcp", rev = "v0.2.18", default-features = false }
+ethereum-elc = { git = "https://github.com/datachainlab/ethereum-elc", rev = "v0.2.2", default-features = false }
+
+[build-dependencies]
+sgx-build = { tag = "v0.1.0", git = "https://github.com/datachainlab/sgx-sdk-rs" }
+
+[patch."https://github.com/bluele/ssz_rs"]
+ssz-rs = { git = "https://github.com/yoshidan/ssz_rs", branch = "remove-unused-thiserror" }
+ssz-rs-derive = { git = "https://github.com/yoshidan/ssz_rs", branch = "remove-unused-thiserror" }
 
 [patch."crates-io"]
-getrandom = { git = "https://github.com/datachainlab/getrandom-sgx-lite" }
-# TODO these patches would be better as optional
-sha2-0108 = { git = "https://github.com/bluele/hashes", branch = "0.10.8-sha256-hwa-disabled", package = "sha2" }
-sha2-099 = { git = "https://github.com/bluele/hashes", branch = "0.9.9-sha256-hwa-disabled", package = "sha2" }
 ibc = { git = "https://github.com/datachainlab/ibc-rs", rev = "v0.29.0-channel-upgrade-path" }
 
 [profile.release]
