@@ -43,6 +43,15 @@
         "@type": "/relayer.provers.ethereum_light_client.config.ProverConfig",
         "beacon_endpoint": "http://localhost:19596",
         "network": "minimal",
+        "minimal_fork_sched": {
+          "altair": 0,
+          "bellatrix": 0,
+          "capella": 0,
+          "deneb": 0,
+          "electra": 0,
+          "fulu": 0,
+          "gloas": $EPOCH_LATEST_HF
+        },
         "trusting_period": "168h",
         "max_clock_drift": "0",
         "refresh_threshold_rate": {

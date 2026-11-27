@@ -3,7 +3,7 @@ extern crate alloc;
 
 use enclave_runtime::{setup_runtime, Environment, MapLightClientRegistry};
 // NOTE: You must use `preset::mainnet` instead of `preset::minimal` in testnets(goerli,sepolia,holesky) or mainnet.
-use ethereum_elc::ibc::consensus::preset::minimal::PRESET;
+use ethereum_elc::preset::minimal::PRESET;
 
 setup_runtime!({ Environment::new(build_lc_registry()) });
 
