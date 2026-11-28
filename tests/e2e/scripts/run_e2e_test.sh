@@ -11,8 +11,8 @@ export NO_RUN_LCP=false
 export LCP_ENCLAVE_DEBUG=0
 export LCP_KEY_EXPIRATION=86400
 # LCP_RISC0_IMAGE_ID must be set to the same value as in the LCP service
-# e.g. https://github.com/datachainlab/zkdcap/blob/fd44cfc9718a0bd4a58f5dbf2b0b89c25144893d/zkvm/risc0/src/methods.rs#L3
-LCP_RISC0_IMAGE_ID=${LCP_RISC0_IMAGE_ID:-0xe5056aa7a8064abeb648b31d5efa8697a79d416b937cb917d1428cec91a56c67}
+# e.g. https://github.com/datachainlab/zkdcap/blob/bf4923ba6408b6ec2682751e4500c3dbaee8e225/zkvm/risc0/src/methods.rs#L3
+LCP_RISC0_IMAGE_ID=${LCP_RISC0_IMAGE_ID:-0x0bf6ed43f15b19dafe8c256d0305270fb3ce62b3625f28afcb374f3dc4993304}
 export ZKDCAP=false
 export LCP_ZKDCAP_RISC0_MOCK=false
 export LCP_RISC0_IMAGE_ID
